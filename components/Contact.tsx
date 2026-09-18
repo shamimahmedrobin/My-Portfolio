@@ -99,29 +99,29 @@ export function Contact() {
             <div>
               <h3 className="text-2xl font-bold mb-6 text-black dark:text-white">Contact Information</h3>
               <div className="space-y-4">
-                <a href="mailto:shamimahmedrobin5@gmail.com" className="flex items-center gap-4 text-black/70 dark:text-white/70 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group">
-                  <div className="w-12 h-12 rounded-full glass flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Mail className="w-5 h-5" />
+                <a href="mailto:shamimahmedrobin5@gmail.com" className="flex items-center gap-3 sm:gap-4 text-black/70 dark:text-white/70 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-full glass flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
-                  <span className="font-medium">shamimahmedrobin5@gmail.com</span>
+                  <span className="font-medium text-sm sm:text-base break-all">shamimahmedrobin5@gmail.com</span>
                 </a>
-                <a href="tel:+8801887353914" className="flex items-center gap-4 text-black/70 dark:text-white/70 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group">
-                  <div className="w-12 h-12 rounded-full glass flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Phone className="w-5 h-5" />
+                <a href="tel:+8801887353914" className="flex items-center gap-3 sm:gap-4 text-black/70 dark:text-white/70 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-full glass flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
-                  <span className="font-medium">+8801887-353914</span>
+                  <span className="font-medium text-sm sm:text-base">+8801887-353914</span>
                 </a>
-                <div className="flex items-center gap-4 text-black/70 dark:text-white/70">
-                  <div className="w-12 h-12 rounded-full glass flex items-center justify-center">
-                    <MapPin className="w-5 h-5" />
+                <div className="flex items-center gap-3 sm:gap-4 text-black/70 dark:text-white/70">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-full glass flex items-center justify-center">
+                    <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
-                  <span className="font-medium">Sylhet, Bangladesh</span>
+                  <span className="font-medium text-sm sm:text-base">Sylhet, Bangladesh</span>
                 </div>
-                <div className="flex items-center gap-4 text-black/70 dark:text-white/70">
-                  <div className="w-12 h-12 rounded-full glass flex items-center justify-center">
-                    <Clock className="w-5 h-5" />
+                <div className="flex items-center gap-3 sm:gap-4 text-black/70 dark:text-white/70">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-full glass flex items-center justify-center">
+                    <Clock className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
-                  <span className="font-medium">
+                  <span className="font-medium text-sm sm:text-base">
                     {dhakaTime ? (
                       <>
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-500 font-bold tracking-wide">
@@ -167,41 +167,41 @@ export function Contact() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="md:col-span-3 glass p-8 rounded-3xl"
+            className="md:col-span-3 glass p-5 sm:p-8 rounded-2xl sm:rounded-3xl"
           >
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid sm:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label htmlFor="name" className="text-sm font-medium text-black/80 dark:text-white/80">Your Name</label>
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+              <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
+                <div className="space-y-1.5 sm:space-y-2">
+                  <label htmlFor="name" className="text-xs sm:text-sm font-medium text-black/80 dark:text-white/80">Your Name</label>
                   <input
                     type="text"
                     id="name"
                     name="name"
                     required
-                    className="w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-black dark:text-white transition-all"
+                    className="w-full px-4 py-2.5 sm:py-3 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-black dark:text-white text-base sm:text-sm transition-all"
                     placeholder="e.g. Shamim Ahmed Robin"
                   />
                 </div>
-                <div className="space-y-2">
-                  <label htmlFor="email" className="text-sm font-medium text-black/80 dark:text-white/80">Email Address</label>
+                <div className="space-y-1.5 sm:space-y-2">
+                  <label htmlFor="email" className="text-xs sm:text-sm font-medium text-black/80 dark:text-white/80">Email Address</label>
                   <input
                     type="email"
                     id="email"
                     name="email"
                     required
-                    className="w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-black dark:text-white transition-all"
+                    className="w-full px-4 py-2.5 sm:py-3 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-black dark:text-white text-base sm:text-sm transition-all"
                     placeholder="youremail@example.com"
                   />
                 </div>
               </div>
-              <div className="space-y-2">
-                <label htmlFor="message" className="text-sm font-medium text-black/80 dark:text-white/80">Message</label>
+              <div className="space-y-1.5 sm:space-y-2">
+                <label htmlFor="message" className="text-xs sm:text-sm font-medium text-black/80 dark:text-white/80">Message</label>
                 <textarea
                   id="message"
                   name="message"
                   required
-                  rows={5}
-                  className="w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-black dark:text-white resize-none transition-all"
+                  rows={4}
+                  className="w-full px-4 py-2.5 sm:py-3 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-black dark:text-white text-base sm:text-sm resize-none transition-all"
                   placeholder="How can I help you?"
                 ></textarea>
               </div>
@@ -213,7 +213,7 @@ export function Contact() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-4 rounded-xl bg-black dark:bg-white text-white dark:text-black font-semibold flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
+                className="w-full py-3.5 sm:py-4 rounded-xl bg-black dark:bg-white text-white dark:text-black font-semibold flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer text-sm sm:text-base"
               >
                 {isSubmitting ? (
                   <Loader2 className="w-5 h-5 animate-spin" />

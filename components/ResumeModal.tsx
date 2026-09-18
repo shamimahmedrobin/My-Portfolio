@@ -79,7 +79,7 @@ export function ResumeModal() {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-6 overflow-y-auto">
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -96,20 +96,20 @@ export function ResumeModal() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="relative w-full max-w-4xl max-h-[90vh] bg-white dark:bg-[#0f1117] rounded-3xl shadow-2xl border border-black/10 dark:border-white/10 flex flex-col z-10 overflow-hidden"
+            className="relative w-full max-w-4xl max-h-[92vh] sm:max-h-[90vh] bg-white dark:bg-[#0f1117] rounded-2xl sm:rounded-3xl shadow-2xl border border-black/10 dark:border-white/10 flex flex-col z-10 overflow-hidden"
           >
             {/* Modal Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02]">
+            <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02]">
               <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span className="text-sm font-semibold text-black/70 dark:text-white/70">Resume Preview</span>
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span className="text-xs sm:text-sm font-semibold text-black/70 dark:text-white/70">Resume Preview</span>
               </div>
 
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   disabled
-                  className="p-2 rounded-xl text-black/40 dark:text-white/40 cursor-not-allowed flex items-center gap-1.5 text-xs font-medium select-none opacity-60"
+                  className="p-1.5 sm:p-2 rounded-xl text-black/40 dark:text-white/40 cursor-not-allowed flex items-center gap-1.5 text-xs font-medium select-none opacity-60"
                   title="Print / Save Resume is temporarily unavailable"
                 >
                   <Printer className="w-4 h-4" />
@@ -118,7 +118,7 @@ export function ResumeModal() {
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="p-2 rounded-xl text-black/70 dark:text-white/70 hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
+                  className="p-1.5 sm:p-2 rounded-xl text-black/70 dark:text-white/70 hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
                   aria-label="Close modal"
                 >
                   <X className="w-5 h-5" />
@@ -127,21 +127,21 @@ export function ResumeModal() {
             </div>
 
             {/* Resume Content (Scrollable) */}
-            <div className="p-6 sm:p-10 overflow-y-auto space-y-8 text-black dark:text-white">
+            <div className="p-4 sm:p-10 overflow-y-auto space-y-6 sm:space-y-8 text-black dark:text-white">
               {/* Header Info */}
-              <div className="border-b border-black/10 dark:border-white/10 pb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div className="border-b border-black/10 dark:border-white/10 pb-6 sm:pb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                  <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">Shamim Ahmed Robin</h1>
-                  <p className="text-lg text-blue-600 dark:text-blue-400 font-semibold mt-1">
+                  <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight">Shamim Ahmed Robin</h1>
+                  <p className="text-base sm:text-lg text-blue-600 dark:text-blue-400 font-semibold mt-1">
                     Web Developer & Digital Marketing Specialist
                   </p>
-                  <div className="flex flex-wrap gap-4 text-xs sm:text-sm text-black/70 dark:text-white/70 mt-3">
+                  <div className="flex flex-wrap gap-3 sm:gap-4 text-xs sm:text-sm text-black/70 dark:text-white/70 mt-3">
                     <span className="flex items-center gap-1.5">
-                      <MapPin className="w-4 h-4 text-blue-500" />
+                      <MapPin className="w-4 h-4 text-blue-500 shrink-0" />
                       Sylhet, Bangladesh
                     </span>
-                    <span className="flex items-center gap-1.5">
-                      <Mail className="w-4 h-4 text-emerald-500" />
+                    <span className="flex items-center gap-1.5 break-all">
+                      <Mail className="w-4 h-4 text-emerald-500 shrink-0" />
                       shamimahmedrobin5@gmail.com
                     </span>
                   </div>
@@ -161,7 +161,7 @@ export function ResumeModal() {
                         }
                       }, 100);
                     }}
-                    className="px-5 py-2 rounded-full text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-colors cursor-pointer"
+                    className="w-full sm:w-auto px-5 py-2.5 rounded-full text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-colors cursor-pointer text-center"
                   >
                     Contact Me
                   </button>

@@ -245,13 +245,13 @@ export function HireModal() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="relative w-full max-w-lg max-h-[92vh] bg-white dark:bg-[#0e1117] rounded-3xl shadow-2xl border border-black/10 dark:border-white/10 flex flex-col z-10 overflow-hidden"
+            className="relative w-full max-w-lg max-h-[90vh] sm:max-h-[92vh] bg-white dark:bg-[#0e1117] rounded-2xl sm:rounded-3xl shadow-2xl border border-black/10 dark:border-white/10 flex flex-col z-10 overflow-hidden"
           >
             {/* Modal Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02]">
+            <div className="flex items-center justify-between px-4 sm:px-6 py-3.5 sm:py-4 border-b border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02]">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                <h3 className="text-base font-bold text-black dark:text-white flex items-center gap-1.5">
+                <h3 className="text-sm sm:text-base font-bold text-black dark:text-white flex items-center gap-1.5">
                   <Sparkles className="w-4 h-4 text-emerald-500" />
                   Hire Me / Project Inquiry
                 </h3>
@@ -259,7 +259,7 @@ export function HireModal() {
               <button
                 type="button"
                 onClick={closeModal}
-                className="p-2 rounded-xl text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
+                className="p-1.5 sm:p-2 rounded-xl text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
                 aria-label="Close dialog"
               >
                 <X className="w-5 h-5" />
@@ -267,51 +267,51 @@ export function HireModal() {
             </div>
 
             {/* Content Area */}
-            <div className="p-6 sm:p-8 overflow-y-auto">
+            <div className="p-4 sm:p-7 overflow-y-auto">
               {isSubmitted ? (
-                <div className="py-8 text-center space-y-4">
-                  <div className="w-16 h-16 mx-auto rounded-full bg-emerald-500/10 dark:bg-emerald-400/15 flex items-center justify-center text-emerald-500">
-                    <CheckCircle2 className="w-9 h-9" />
+                <div className="py-6 sm:py-8 text-center space-y-4">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 mx-auto rounded-full bg-emerald-500/10 dark:bg-emerald-400/15 flex items-center justify-center text-emerald-500">
+                    <CheckCircle2 className="w-8 h-8 sm:w-9 sm:h-9" />
                   </div>
-                  <h4 className="text-2xl font-bold text-black dark:text-white">Inquiry Received!</h4>
+                  <h4 className="text-xl sm:text-2xl font-bold text-black dark:text-white">Inquiry Received!</h4>
                   <p className="text-sm text-black/70 dark:text-white/70 max-w-sm mx-auto leading-relaxed">
                     Thank you, <span className="font-semibold text-black dark:text-white">{submittedName || 'Friend'}</span>! Your full project requirements have been sent to my email. I will review everything and contact you shortly.
                   </p>
-                  <div className="pt-4 flex justify-center gap-3">
+                  <div className="pt-3 sm:pt-4 flex justify-center gap-3">
                     <button
                       type="button"
                       onClick={handleReset}
-                      className="px-5 py-2.5 rounded-full text-xs font-semibold text-black/70 dark:text-white/70 hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
+                      className="px-4 sm:px-5 py-2.5 rounded-full text-xs font-semibold text-black/70 dark:text-white/70 hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
                     >
                       Send Another
                     </button>
                     <button
                       type="button"
                       onClick={closeModal}
-                      className="px-6 py-2.5 rounded-full text-xs font-semibold text-white bg-black dark:bg-white dark:text-black hover:opacity-90 transition-opacity cursor-pointer"
+                      className="px-5 sm:px-6 py-2.5 rounded-full text-xs font-semibold text-white bg-black dark:bg-white dark:text-black hover:opacity-90 transition-opacity cursor-pointer"
                     >
                       Close Window
                     </button>
                   </div>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
                   {/* Status Banner / Clear Form Bar - only shown when returning with an existing unsubmitted draft */}
                   {hasRestoredDraft && (
-                    <div className="flex items-center justify-between pb-2.5 border-b border-black/10 dark:border-white/10">
+                    <div className="flex items-center justify-between pb-2 border-b border-black/10 dark:border-white/10">
                       <div className="flex items-center gap-1.5 text-xs text-black/60 dark:text-white/60">
                         <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-                        <span>Auto-saved draft (saved for 10 mins)</span>
+                        <span className="truncate max-w-[190px] sm:max-w-none">Auto-saved draft (saved 10m)</span>
                       </div>
 
                       <button
                         type="button"
                         onClick={handleClearForm}
                         id="hire-clear-form-btn"
-                        className="inline-flex items-center gap-1.5 text-xs font-semibold text-rose-500 hover:text-rose-600 dark:text-rose-400 dark:hover:text-rose-300 px-3 py-1 rounded-lg hover:bg-rose-500/10 active:scale-95 transition-all cursor-pointer"
+                        className="inline-flex items-center gap-1 text-xs font-semibold text-rose-500 hover:text-rose-600 dark:text-rose-400 dark:hover:text-rose-300 px-2 py-0.5 rounded-lg hover:bg-rose-500/10 active:scale-95 transition-all cursor-pointer shrink-0"
                         title="Clear all fields"
                       >
-                        <RotateCcw className="w-3.5 h-3.5" />
+                        <RotateCcw className="w-3 h-3" />
                         Clear Form
                       </button>
                     </div>
@@ -326,7 +326,7 @@ export function HireModal() {
 
                   {/* Your Name */}
                   <div>
-                    <label htmlFor="hire-name" className="block text-xs font-semibold uppercase tracking-wider text-black/70 dark:text-white/70 mb-1.5">
+                    <label htmlFor="hire-name" className="block text-xs font-semibold uppercase tracking-wider text-black/70 dark:text-white/70 mb-1">
                       Your Name <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
@@ -341,14 +341,14 @@ export function HireModal() {
                         value={formData.name}
                         onChange={handleChange}
                         placeholder="e.g. Shamim Ahmed Robin"
-                        className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 text-black dark:text-white placeholder-black/40 dark:placeholder-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+                        className="w-full pl-10 pr-4 py-2 sm:py-2.5 rounded-xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 text-black dark:text-white placeholder-black/40 dark:placeholder-white/40 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
                       />
                     </div>
                   </div>
 
                   {/* Your Phone */}
                   <div>
-                    <label htmlFor="hire-phone" className="block text-xs font-semibold uppercase tracking-wider text-black/70 dark:text-white/70 mb-1.5">
+                    <label htmlFor="hire-phone" className="block text-xs font-semibold uppercase tracking-wider text-black/70 dark:text-white/70 mb-1">
                       Your Phone <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
@@ -363,14 +363,14 @@ export function HireModal() {
                         value={formData.phone}
                         onChange={handleChange}
                         placeholder="e.g. +880 1887-353914"
-                        className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 text-black dark:text-white placeholder-black/40 dark:placeholder-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+                        className="w-full pl-10 pr-4 py-2 sm:py-2.5 rounded-xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 text-black dark:text-white placeholder-black/40 dark:placeholder-white/40 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
                       />
                     </div>
                   </div>
 
                   {/* Your Email */}
                   <div>
-                    <label htmlFor="hire-email" className="block text-xs font-semibold uppercase tracking-wider text-black/70 dark:text-white/70 mb-1.5">
+                    <label htmlFor="hire-email" className="block text-xs font-semibold uppercase tracking-wider text-black/70 dark:text-white/70 mb-1">
                       Your Email <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
@@ -385,14 +385,14 @@ export function HireModal() {
                         value={formData.email}
                         onChange={handleChange}
                         placeholder="e.g. client@example.com"
-                        className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 text-black dark:text-white placeholder-black/40 dark:placeholder-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+                        className="w-full pl-10 pr-4 py-2 sm:py-2.5 rounded-xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 text-black dark:text-white placeholder-black/40 dark:placeholder-white/40 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
                       />
                     </div>
                   </div>
 
                   {/* Subject */}
                   <div>
-                    <label htmlFor="hire-subject" className="block text-xs font-semibold uppercase tracking-wider text-black/70 dark:text-white/70 mb-1.5">
+                    <label htmlFor="hire-subject" className="block text-xs font-semibold uppercase tracking-wider text-black/70 dark:text-white/70 mb-1">
                       Subject <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
@@ -407,39 +407,39 @@ export function HireModal() {
                         value={formData.subject}
                         onChange={handleChange}
                         placeholder="e.g. Full-Stack Web Application"
-                        className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 text-black dark:text-white placeholder-black/40 dark:placeholder-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+                        className="w-full pl-10 pr-4 py-2 sm:py-2.5 rounded-xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 text-black dark:text-white placeholder-black/40 dark:placeholder-white/40 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
                       />
                     </div>
                   </div>
 
                   {/* Details */}
                   <div>
-                    <label htmlFor="hire-details" className="block text-xs font-semibold uppercase tracking-wider text-black/70 dark:text-white/70 mb-1.5">
+                    <label htmlFor="hire-details" className="block text-xs font-semibold uppercase tracking-wider text-black/70 dark:text-white/70 mb-1">
                       Details <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
-                      <div className="absolute top-3 left-0 pl-3.5 pointer-events-none text-black/40 dark:text-white/40">
+                      <div className="absolute top-2.5 sm:top-3 left-0 pl-3.5 pointer-events-none text-black/40 dark:text-white/40">
                         <AlignLeft className="w-4 h-4" />
                       </div>
                       <textarea
                         id="hire-details"
                         name="details"
                         required
-                        rows={4}
+                        rows={3}
                         value={formData.details}
                         onChange={handleChange}
                         placeholder="Briefly describe your project requirements, goals, budget, or timeline..."
-                        className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 text-black dark:text-white placeholder-black/40 dark:placeholder-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all resize-none"
+                        className="w-full pl-10 pr-4 py-2 sm:py-2.5 rounded-xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 text-black dark:text-white placeholder-black/40 dark:placeholder-white/40 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all resize-none"
                       />
                     </div>
                   </div>
 
                   {/* Send Button */}
-                  <div className="pt-2">
+                  <div className="pt-1 sm:pt-2">
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full py-3.5 px-6 rounded-full text-base font-semibold text-white bg-gradient-to-r from-blue-600 via-teal-500 to-emerald-500 hover:from-emerald-500 hover:via-teal-500 hover:to-blue-600 shadow-md shadow-blue-500/20 hover:shadow-emerald-500/30 transition-all duration-300 cursor-pointer flex items-center justify-center gap-2 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
+                      className="w-full py-3 sm:py-3.5 px-6 rounded-full text-sm sm:text-base font-semibold text-white bg-gradient-to-r from-blue-600 via-teal-500 to-emerald-500 hover:from-emerald-500 hover:via-teal-500 hover:to-blue-600 shadow-md shadow-blue-500/20 hover:shadow-emerald-500/30 transition-all duration-300 cursor-pointer flex items-center justify-center gap-2 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
                     >
                       {isSubmitting ? (
                         <>
