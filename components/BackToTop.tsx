@@ -43,7 +43,7 @@ export function BackToTop() {
           exit={{ opacity: 0, scale: 0.8, y: 20 }}
           transition={{ duration: 0.25, ease: 'easeOut' }}
           aria-label="Back to Top"
-          className="fixed bottom-6 right-6 z-40 p-3.5 rounded-full glass border border-black/10 dark:border-white/15 bg-white/70 dark:bg-black/70 text-black dark:text-white shadow-xl backdrop-blur-md hover:scale-110 active:scale-95 hover:bg-gradient-to-r hover:from-blue-600 hover:to-emerald-500 hover:text-white hover:border-transparent transition-all group focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-black"
+          className="fixed bottom-6 right-6 z-40 p-3.5 rounded-full glass border border-black/10 dark:border-white/15 bg-white/70 dark:bg-black/70 text-black dark:text-white shadow-xl backdrop-blur-md hover:scale-110 active:scale-95 hover:bg-gradient-to-r hover:from-blue-600 hover:to-emerald-500 hover:text-white hover:border-transparent transition-all group focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-black cursor-pointer"
         >
           <ArrowUp className="w-5 h-5 transition-transform group-hover:-translate-y-0.5" />
           <span className="sr-only">Back to Top</span>

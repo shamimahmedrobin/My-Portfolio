@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'motion/react';
-import { ArrowRight, Mail } from 'lucide-react';
+import { ArrowRight, Mail, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 
 export function Hero() {
@@ -64,22 +64,34 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4, ease: 'easeOut' }}
-            className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
+            className="w-full md:w-auto flex flex-col md:flex-row md:items-center gap-3 md:gap-4"
           >
-            <a
-              href="#projects"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-black dark:bg-white text-white dark:text-black rounded-full font-medium hover:scale-105 active:scale-95 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black dark:focus:ring-white dark:focus:ring-offset-black"
+            {/* View Projects & Contact Me (Side-by-side on mobile, inline on desktop) */}
+            <div className="grid grid-cols-2 gap-3 md:contents w-full">
+              <a
+                href="#projects"
+                className="inline-flex items-center justify-center gap-1.5 sm:gap-2 px-4 sm:px-6 md:px-7 py-3.5 sm:py-4 bg-black dark:bg-white text-white dark:text-black rounded-full text-sm sm:text-base font-medium hover:scale-105 active:scale-95 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black dark:focus:ring-white dark:focus:ring-offset-black cursor-pointer shadow-sm text-center whitespace-nowrap"
+              >
+                View Projects
+                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
+              </a>
+              <a
+                href="#contact"
+                className="inline-flex items-center justify-center gap-1.5 sm:gap-2 px-4 sm:px-6 md:px-7 py-3.5 sm:py-4 bg-transparent border border-black/20 dark:border-white/20 text-black dark:text-white rounded-full text-sm sm:text-base font-medium hover:bg-black/5 dark:hover:bg-white/5 hover:scale-105 active:scale-95 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black dark:focus:ring-white dark:focus:ring-offset-black cursor-pointer shadow-sm text-center whitespace-nowrap"
+              >
+                <Mail className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
+                Contact Me
+              </a>
+            </div>
+
+            {/* Hire Me Button (Full width on mobile below the two buttons, side-by-side on desktop) */}
+            <button
+              type="button"
+              className="w-full md:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full text-sm sm:text-base font-semibold text-white bg-gradient-to-r from-blue-600 via-teal-500 to-emerald-500 hover:from-emerald-500 hover:via-teal-500 hover:to-blue-600 shadow-md shadow-blue-500/20 hover:shadow-emerald-500/30 hover:scale-105 active:scale-95 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-black cursor-pointer whitespace-nowrap"
             >
-              View Projects
-              <ArrowRight className="w-5 h-5" />
-            </a>
-            <a
-              href="#contact"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent border border-black/20 dark:border-white/20 text-black dark:text-white rounded-full font-medium hover:bg-black/5 dark:hover:bg-white/5 hover:scale-105 active:scale-95 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black dark:focus:ring-white dark:focus:ring-offset-black"
-            >
-              <Mail className="w-5 h-5" />
-              Contact Me
-            </a>
+              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-300 animate-pulse" />
+              Hire Me
+            </button>
           </motion.div>
         </div>
 
@@ -96,11 +108,11 @@ export function Hero() {
           {/* Image Container */}
           <div className="relative w-full h-full rounded-[2rem] overflow-hidden glass border-[4px] border-white/50 dark:border-white/10 shadow-2xl">
             <Image
-              src="https://i.ibb.co/YFV88ZK6/profile.jpg"
+              src="/profile.jpg"
               alt="Shamim Ahmed Robin"
               fill
               priority
-              referrerPolicy="no-referrer"
+              sizes="(max-width: 768px) 300px, 340px"
               className="object-cover hover:scale-105 transition-transform duration-700"
             />
             

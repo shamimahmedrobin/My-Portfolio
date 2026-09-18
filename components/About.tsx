@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'motion/react';
-import { Code2, Megaphone, Lightbulb } from 'lucide-react';
+import { Code2, Megaphone, Lightbulb, FileText, ArrowUpRight } from 'lucide-react';
 
 export function About() {
   return (
@@ -60,6 +60,27 @@ export function About() {
             </div>
           </motion.div>
         </div>
+
+        {/* View Resume Button under About Me Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="mt-14 flex justify-center"
+        >
+          <button
+            type="button"
+            onClick={() => {
+              window.dispatchEvent(new CustomEvent('open-resume-modal'));
+            }}
+            className="inline-flex items-center gap-2.5 px-8 py-4 rounded-full text-base font-semibold text-black dark:text-white bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 border border-black/10 dark:border-white/15 hover:scale-105 active:scale-95 transition-all duration-300 shadow-sm cursor-pointer group"
+          >
+            <FileText className="w-5 h-5 text-blue-600 dark:text-blue-400 group-hover:rotate-6 transition-transform" />
+            <span>View Resume</span>
+            <ArrowUpRight className="w-4 h-4 text-black/50 dark:text-white/50 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </button>
+        </motion.div>
       </div>
     </section>
   );

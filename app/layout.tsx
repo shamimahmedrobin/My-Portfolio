@@ -40,9 +40,9 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: 'https://i.ibb.co/pjyc3JTC/IMG-20260918-155445.jpg',
-    shortcut: 'https://i.ibb.co/pjyc3JTC/IMG-20260918-155445.jpg',
-    apple: 'https://i.ibb.co/pjyc3JTC/IMG-20260918-155445.jpg',
+    icon: '/favicon.jpg',
+    shortcut: '/favicon.jpg',
+    apple: '/favicon.jpg',
   },
   openGraph: {
     title: 'Shamim Ahmed Robin',
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     siteName: 'Shamim Ahmed Robin',
     images: [
       {
-        url: 'https://i.ibb.co/YFV88ZK6/profile.jpg',
+        url: `${siteUrl}/profile.jpg`,
         width: 800,
         height: 1000,
         alt: 'Shamim Ahmed Robin - Web Developer and Social Media Manager',
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     title: 'Shamim Ahmed Robin',
     description: 'Shamim Ahmed Robin is a passionate Web Developer and Social Media Manager specializing in high-performance web apps and brand growth.',
     creator: '@ShamimRobin10',
-    images: ['https://i.ibb.co/YFV88ZK6/profile.jpg'],
+    images: [`${siteUrl}/profile.jpg`],
   },
   verification: {
     google: 'hFFhFaZW2On7_i9Jni_sMqIqs4Fh0Fw1EQzHu7rc4Q0',
@@ -154,7 +154,7 @@ const jsonLd = {
       alternateName: ['Shamim Robin', 'Shamim Ahmed'],
       jobTitle: 'Web Developer & Social Media Manager',
       description: 'Professional Web Developer and Social Media Manager bridging technical architecture and high-converting marketing strategies.',
-      image: 'https://i.ibb.co/YFV88ZK6/profile.jpg',
+      image: `${siteUrl}/profile.jpg`,
       url: siteUrl,
       email: 'mailto:shamimahmedrobin5@gmail.com',
       telephone: '+8801887353914',
@@ -189,8 +189,8 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
       <head>
         <meta name="google-site-verification" content="hFFhFaZW2On7_i9Jni_sMqIqs4Fh0Fw1EQzHu7rc4Q0" />
         <meta name="google-site-verification" content="tnZQpj_TOyPq9gguuHLmJL1D_2iiMPOXVzWTBupOHAo" />
-        <link rel="icon" href="https://i.ibb.co/pjyc3JTC/IMG-20260918-155445.jpg" />
-        <link rel="apple-touch-icon" href="https://i.ibb.co/pjyc3JTC/IMG-20260918-155445.jpg" />
+        <link rel="icon" href="/favicon.jpg" />
+        <link rel="apple-touch-icon" href="/favicon.jpg" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

@@ -23,6 +23,20 @@ body {
 }
 
 /* Glassmorphism utilities */
+button,
+[role="button"],
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  cursor: pointer;
+}
+
+button:disabled,
+[role="button"][aria-disabled="true"],
+input[type="submit"]:disabled {
+  cursor: not-allowed;
+}
+
 .glass {
   @apply bg-white/70 backdrop-blur-xl border border-black/5 shadow-[0_4px_30px_rgba(0,0,0,0.1)];
 }

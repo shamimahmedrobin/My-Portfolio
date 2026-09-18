@@ -3,13 +3,14 @@
 import * as React from 'react';
 import { flushSync } from 'react-dom';
 import { useTheme } from 'next-themes';
-import { Moon, Sun, Menu, X, Github, Linkedin, Facebook, Twitter } from 'lucide-react';
+import { Moon, Sun, Menu, X, Github, Linkedin, Facebook, Twitter, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 const navLinks = [
   { name: 'About', href: '#about' },
   { name: 'Skills', href: '#skills' },
   { name: 'Projects', href: '#projects' },
+  { name: 'Resume', href: '#resume' },
   { name: 'Contact', href: '#contact' },
 ];
 
@@ -92,21 +93,36 @@ export function Navbar() {
         </a>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-7">
           {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
-              className="text-sm font-medium text-black/70 hover:text-black dark:text-white/70 dark:hover:text-white transition-colors"
+              onClick={(e) => {
+                if (link.href === '#resume') {
+                  e.preventDefault();
+                  window.dispatchEvent(new CustomEvent('open-resume-modal'));
+                }
+              }}
+              className="text-sm font-medium text-black/70 hover:text-black dark:text-white/70 dark:hover:text-white transition-colors cursor-pointer"
             >
               {link.name}
             </a>
           ))}
 
+          {/* Desktop Hire Me CTA */}
+          <button
+            type="button"
+            className="inline-flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-blue-600 via-teal-500 to-emerald-500 hover:from-emerald-500 hover:via-teal-500 hover:to-blue-600 shadow-sm shadow-blue-500/20 hover:shadow-emerald-500/30 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-yellow-300 animate-pulse" />
+            Hire Me
+          </button>
+
           {mounted && (
             <button
               onClick={handleThemeToggle}
-              className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500/50 cursor-pointer"
               aria-label="Toggle theme"
             >
               {theme === 'dark' ? (
@@ -123,7 +139,7 @@ export function Navbar() {
           {mounted && (
             <button
               onClick={handleThemeToggle}
-              className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+              className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
             >
               {theme === 'dark' ? (
                 <Sun className="w-5 h-5 text-yellow-300" />
@@ -134,7 +150,7 @@ export function Navbar() {
           )}
           <button
             onClick={() => setMobileMenuOpen(true)}
-            className={`p-2 text-black dark:text-white focus:outline-none transition-opacity ${mobileMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+            className={`p-2 text-black dark:text-white focus:outline-none transition-opacity cursor-pointer ${mobileMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
           >
             <Menu className="w-6 h-6" />
           </button>
@@ -150,7 +166,7 @@ export function Navbar() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={() => setMobileMenuOpen(false)}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden cursor-pointer"
             aria-hidden="true"
           />
         )}
@@ -172,29 +188,51 @@ export function Navbar() {
                 setMobileMenuOpen(false);
               }
             }}
-            className="fixed top-0 right-0 h-screen w-[80vw] max-w-sm bg-white dark:bg-black/95 backdrop-blur-3xl border-l border-black/5 dark:border-white/10 flex flex-col items-end pt-24 pr-8 gap-8 md:hidden shadow-2xl z-50 text-right touch-none"
+            className="fixed top-0 right-0 h-screen w-[85vw] max-w-sm bg-white dark:bg-black/95 backdrop-blur-3xl border-l border-black/5 dark:border-white/10 flex flex-col pt-20 px-6 gap-3 md:hidden shadow-2xl z-50 touch-none overflow-y-auto"
           >
             {/* Close Button inside Sidebar */}
             <button
               onClick={() => setMobileMenuOpen(false)}
-              className="absolute top-5 right-5 p-2 text-black/70 dark:text-white/70 hover:text-black dark:hover:text-white transition-colors focus:outline-none"
+              className="absolute top-5 right-5 p-2 text-black/70 dark:text-white/70 hover:text-black dark:hover:text-white transition-colors focus:outline-none cursor-pointer"
               aria-label="Close menu"
             >
               <X className="w-7 h-7" />
             </button>
 
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
+            {/* Hire Me CTA at top of Mobile Menu - Full Width */}
+            <div className="w-full mb-1">
+              <button
+                type="button"
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-xl sm:text-2xl font-bold text-black/80 dark:text-white/80 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+                className="w-full py-3.5 px-6 rounded-full text-base font-semibold text-white bg-gradient-to-r from-blue-600 via-teal-500 to-emerald-500 hover:from-emerald-500 hover:via-teal-500 hover:to-blue-600 shadow-md shadow-blue-500/20 hover:shadow-emerald-500/30 transition-all duration-300 cursor-pointer flex items-center justify-center gap-2 active:scale-[0.98]"
               >
-                {link.name}
-              </a>
-            ))}
+                <Sparkles className="w-4 h-4 text-yellow-300 animate-pulse" />
+                Hire Me
+              </button>
+            </div>
 
-            <div className="mt-auto mb-8 flex gap-4">
+            {/* Navigation Links - Full Width */}
+            <div className="w-full flex flex-col gap-2.5">
+              {navLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  onClick={(e) => {
+                    setMobileMenuOpen(false);
+                    if (link.href === '#resume') {
+                      e.preventDefault();
+                      window.dispatchEvent(new CustomEvent('open-resume-modal'));
+                    }
+                  }}
+                  className="w-full py-3 px-6 rounded-full text-base font-semibold text-black/80 dark:text-white/80 bg-black/[0.04] dark:bg-white/[0.06] hover:bg-black/10 dark:hover:bg-white/15 hover:text-blue-600 dark:hover:text-blue-400 border border-black/5 dark:border-white/5 active:scale-[0.98] transition-all duration-200 text-center flex items-center justify-center cursor-pointer"
+                >
+                  {link.name}
+                </a>
+              ))}
+            </div>
+
+            {/* Social Icons at the bottom */}
+            <div className="mt-auto pt-6 mb-6 flex justify-center gap-3 w-full border-t border-black/5 dark:border-white/10">
               {[
                 { icon: Github, href: 'https://github.com/shamimahmedrobin', label: 'GitHub' },
                 { icon: Linkedin, href: 'https://www.linkedin.com/in/shamimahmedrobin', label: 'LinkedIn' },
@@ -207,7 +245,7 @@ export function Navbar() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="w-10 h-10 rounded-full bg-black/5 dark:bg-white/10 flex items-center justify-center text-black/70 dark:text-white/70 hover:text-blue-600 dark:hover:text-blue-400 hover:scale-110 transition-all"
+                  className="w-10 h-10 rounded-full bg-black/5 dark:bg-white/10 flex items-center justify-center text-black/70 dark:text-white/70 hover:text-blue-600 dark:hover:text-blue-400 hover:scale-110 transition-all cursor-pointer"
                 >
                   <social.icon className="w-5 h-5" />
                 </a>
