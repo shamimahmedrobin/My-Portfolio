@@ -1,23 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
-// Persistent pooled transporter for fast connection reuse
-let cachedTransporter: ReturnType<typeof nodemailer.createTransport> | null = null;
-
-function getTransporter(emailUser: string, emailPass: string) {
-  if (!cachedTransporter) {
-    cachedTransporter = nodemailer.createTransport({
-      service: 'gmail',
-      pool: true,
-      maxConnections: 3,
-      maxMessages: 100,
-      auth: {
-        user: emailUser,
-        pass: emailPass,
-      },
-    });
-  }
-  return cachedTransporter;
+// Mail Transporter using direct SSL (port 465) for fast, reliable delivery
+function createMailTransporter(emailUser: string, emailPass: string) {
+  const cleanPass = emailPass.trim().replace(/\s+/g, '');
+  return nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true, // Direct SSL handshake (faster than STARTTLS)
+    auth: {
+      user: emailUser.trim(),
+      pass: cleanPass,
+    },
+    tls: {
+      rejectUnauthorized: true,
+    },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 15000,
+  });
 }
 
 export async function POST(req: NextRequest) {
@@ -56,24 +57,14 @@ export async function POST(req: NextRequest) {
     const emailPass = process.env.EMAIL_APP_PASSWORD;
 
     if (!emailUser || !emailPass) {
-      console.warn('EMAIL_USER or EMAIL_APP_PASSWORD not set. Logging submission:');
-      console.log({
-        type: isHireMe ? 'Hire Me' : 'Contact Form',
-        fullName,
-        userEmail,
-        userPhone,
-        userSubject,
-        content,
-        timestamp: formattedTimestamp,
-      });
-
+      console.error('EMAIL_USER or EMAIL_APP_PASSWORD is not configured in environment variables.');
       return NextResponse.json(
-        { message: 'Inquiry received successfully (development log mode)' },
-        { status: 200 }
+        { error: 'Email service credentials not configured. Please check EMAIL_USER and EMAIL_APP_PASSWORD in settings.' },
+        { status: 500 }
       );
     }
 
-    const transporter = getTransporter(emailUser, emailPass);
+    const transporter = createMailTransporter(emailUser, emailPass);
 
     const mailOptions = {
       from: `"${fullName}" <${emailUser}>`,
@@ -255,25 +246,19 @@ ${content}
       `,
     };
 
-    // Fire email sending asynchronously in the background so the user gets an instant response (<100ms)
-    // while the persistent Node.js container process handles SMTP delivery reliably.
-    transporter
-      .sendMail(mailOptions)
-      .then((info) => {
-        console.log('Hire inquiry email sent successfully:', info.messageId);
-      })
-      .catch((err) => {
-        console.error('Background sendMail failed:', err);
-      });
+    // Send email via Gmail SMTP and await delivery confirmation
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Email sent successfully via Gmail SMTP:', info.messageId, info.response);
 
     return NextResponse.json(
-      { success: true, message: 'Inquiry sent successfully' },
+      { success: true, message: 'Inquiry sent successfully', id: info.messageId },
       { status: 200 }
     );
-  } catch (error) {
+  } catch (error: unknown) {
+    const errorMsg = error instanceof Error ? error.message : 'Failed to process inquiry';
     console.error('Error in /api/contact:', error);
     return NextResponse.json(
-      { error: 'Failed to process inquiry. Please try again later.' },
+      { error: `Email delivery failed: ${errorMsg}. Please try again or email directly.` },
       { status: 500 }
     );
   }
