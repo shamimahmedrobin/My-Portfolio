@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
     const userEmail = (email || '').trim();
     const userPhone = (phone || '').trim();
     const userSubject = (subject || '').trim();
-    const isHireMe = type === 'hire' || Boolean(phone || subject || details);
+    const isHireMe = type === 'hire';
 
     if (!fullName || !userEmail || !content) {
       return NextResponse.json(
@@ -49,8 +49,8 @@ export async function POST(req: NextRequest) {
     }).format(new Date());
 
     const emailSubject = isHireMe
-      ? `[Hire Me Inquiry] ${fullName} - ${userSubject || 'New Project Request'}`
-      : `[Portfolio Contact] Message from ${fullName}`;
+      ? `💼 [Hire Me Inquiry] ${fullName} - ${userSubject || 'New Project Request'}`
+      : `💬 [New Message] ${fullName} - ${userSubject || 'Portfolio Message'}`;
 
     // Verify if email service is configured
     const emailUser = process.env.EMAIL_USER;
