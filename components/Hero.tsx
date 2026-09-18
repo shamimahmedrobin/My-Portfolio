@@ -36,7 +36,7 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
             className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-black dark:text-white mb-4 leading-[1.1]"
           >
-            Hello, I'm <br className="hidden sm:block" />
+            Hello, I&apos;m <br className="hidden sm:block" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-500 dark:from-blue-400 dark:to-emerald-400">
               Shamim Ahmed Robin
             </span>
@@ -87,6 +87,9 @@ export function Hero() {
             {/* Hire Me Button (Full width on mobile below the two buttons, side-by-side on desktop) */}
             <button
               type="button"
+              onClick={() => {
+                window.dispatchEvent(new CustomEvent('open-hire-modal'));
+              }}
               className="w-full md:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full text-sm sm:text-base font-semibold text-white bg-gradient-to-r from-blue-600 via-teal-500 to-emerald-500 hover:from-emerald-500 hover:via-teal-500 hover:to-blue-600 shadow-md shadow-blue-500/20 hover:shadow-emerald-500/30 hover:scale-105 active:scale-95 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-black cursor-pointer whitespace-nowrap"
             >
               <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-300 animate-pulse" />

@@ -2,16 +2,37 @@
 
 import * as React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Download, Printer, ExternalLink, Mail, MapPin, Briefcase, GraduationCap, Code, CheckCircle } from 'lucide-react';
+import { X, Download, Printer, ExternalLink, Mail, MapPin, Briefcase, GraduationCap, Code, CheckCircle, Award, Compass, BookOpen, Terminal, Heart } from 'lucide-react';
 
 export function ResumeModal() {
   const [isOpen, setIsOpen] = React.useState(false);
 
+  // Close modal and cleanly remove #resume from URL
+  const closeModal = React.useCallback(() => {
+    setIsOpen(false);
+    if (typeof window !== 'undefined' && window.location.hash === '#resume') {
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+  }, []);
+
+  // Open modal and push #resume to URL
+  const openModal = React.useCallback(() => {
+    setIsOpen(true);
+    if (typeof window !== 'undefined' && window.location.hash !== '#resume') {
+      window.history.pushState(null, '', '#resume');
+    }
+  }, []);
+
   React.useEffect(() => {
-    const handleOpen = () => setIsOpen(true);
+    const handleOpen = () => {
+      openModal();
+    };
+
     const handleHash = () => {
       if (window.location.hash === '#resume') {
         setIsOpen(true);
+      } else {
+        setIsOpen(false);
       }
     };
 
@@ -19,14 +40,25 @@ export function ResumeModal() {
     window.addEventListener('hashchange', handleHash);
 
     if (window.location.hash === '#resume') {
-      setIsOpen(true);
+      setTimeout(() => setIsOpen(true), 0);
     }
 
     return () => {
       window.removeEventListener('open-resume-modal', handleOpen);
       window.removeEventListener('hashchange', handleHash);
     };
-  }, []);
+  }, [openModal]);
+
+  // Handle ESC key to close modal
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        closeModal();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, closeModal]);
 
   // Lock scroll when open
   React.useEffect(() => {
@@ -53,7 +85,7 @@ export function ResumeModal() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setIsOpen(false)}
+            onClick={closeModal}
             className="fixed inset-0 bg-black/70 backdrop-blur-sm cursor-pointer"
             aria-hidden="true"
           />
@@ -76,16 +108,16 @@ export function ResumeModal() {
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  onClick={handlePrint}
-                  className="p-2 rounded-xl text-black/70 dark:text-white/70 hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer flex items-center gap-1.5 text-xs font-medium"
-                  title="Print / Save as PDF"
+                  disabled
+                  className="p-2 rounded-xl text-black/40 dark:text-white/40 cursor-not-allowed flex items-center gap-1.5 text-xs font-medium select-none opacity-60"
+                  title="Print / Save Resume is temporarily unavailable"
                 >
                   <Printer className="w-4 h-4" />
                   <span className="hidden sm:inline">Print / Save PDF</span>
                 </button>
                 <button
                   type="button"
-                  onClick={() => setIsOpen(false)}
+                  onClick={closeModal}
                   className="p-2 rounded-xl text-black/70 dark:text-white/70 hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
                   aria-label="Close modal"
                 >
@@ -106,7 +138,7 @@ export function ResumeModal() {
                   <div className="flex flex-wrap gap-4 text-xs sm:text-sm text-black/70 dark:text-white/70 mt-3">
                     <span className="flex items-center gap-1.5">
                       <MapPin className="w-4 h-4 text-blue-500" />
-                      Dhaka, Bangladesh
+                      Sylhet, Bangladesh
                     </span>
                     <span className="flex items-center gap-1.5">
                       <Mail className="w-4 h-4 text-emerald-500" />
@@ -116,12 +148,23 @@ export function ResumeModal() {
                 </div>
 
                 <div className="flex flex-wrap gap-2">
-                  <a
-                    href="mailto:shamimahmedrobin5@gmail.com"
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsOpen(false);
+                      setTimeout(() => {
+                        const contactSection = document.getElementById('contact');
+                        if (contactSection) {
+                          contactSection.scrollIntoView({ behavior: 'smooth' });
+                        } else {
+                          window.location.hash = '#contact';
+                        }
+                      }, 100);
+                    }}
                     className="px-5 py-2 rounded-full text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-colors cursor-pointer"
                   >
                     Contact Me
-                  </a>
+                  </button>
                 </div>
               </div>
 
@@ -192,17 +235,177 @@ export function ResumeModal() {
                 </div>
               </div>
 
-              {/* Education */}
+              {/* Technical Qualifications */}
               <div>
-                <h2 className="text-xl font-bold mb-3 flex items-center gap-2 text-black dark:text-white">
-                  <GraduationCap className="w-5 h-5 text-amber-500" />
-                  Education & Training
+                <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-black dark:text-white">
+                  <Award className="w-5 h-5 text-blue-500" />
+                  Technical Qualifications
                 </h2>
-                <div className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5">
-                  <h3 className="font-bold text-base">Web Development & Digital Marketing</h3>
-                  <p className="text-xs sm:text-sm text-black/60 dark:text-white/60">
-                    Comprehensive modern front-end engineering & performance marketing specialization.
-                  </p>
+                <div className="space-y-3">
+                  {/* Full Stack Web Developer Course */}
+                  <div className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:border-blue-500/30 transition-colors">
+                    <div>
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2.5">
+                        <h3 className="font-bold text-base text-blue-600 dark:text-blue-400">
+                          Full Stack Web Developer Course
+                        </h3>
+                        <span className="w-fit text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                          Completed
+                        </span>
+                      </div>
+                      <p className="text-xs sm:text-sm text-black/70 dark:text-white/70 mt-1">
+                        From <span className="font-semibold text-black dark:text-white">Programming Hero</span>
+                      </p>
+                    </div>
+                    <div className="text-xs sm:text-sm font-medium text-black/60 dark:text-white/60 self-start sm:self-auto whitespace-nowrap">
+                      2025
+                    </div>
+                  </div>
+
+                  {/* UI/UX Course */}
+                  <div className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:border-purple-500/30 transition-colors">
+                    <div>
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2.5">
+                        <h3 className="font-bold text-base text-blue-600 dark:text-blue-400">
+                          UI/UX Course
+                        </h3>
+                        <span className="w-fit text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                          Completed
+                        </span>
+                      </div>
+                      <p className="text-xs sm:text-sm text-black/70 dark:text-white/70 mt-1">
+                        From <span className="font-semibold text-black dark:text-white">Bangladesh Government</span>
+                      </p>
+                    </div>
+                    <div className="text-xs sm:text-sm font-medium text-black/60 dark:text-white/60 self-start sm:self-auto whitespace-nowrap">
+                      2024
+                    </div>
+                  </div>
+
+                  {/* E-commerce Training */}
+                  <div className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:border-emerald-500/30 transition-colors">
+                    <div>
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2.5">
+                        <h3 className="font-bold text-base text-blue-600 dark:text-blue-400">
+                          E-commerce Training
+                        </h3>
+                        <span className="w-fit text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                          Completed
+                        </span>
+                      </div>
+                      <p className="text-xs sm:text-sm text-black/70 dark:text-white/70 mt-1">
+                        From <span className="font-semibold text-black dark:text-white">e-CAB</span>
+                      </p>
+                    </div>
+                    <div className="text-xs sm:text-sm font-medium text-black/60 dark:text-white/60 self-start sm:self-auto whitespace-nowrap">
+                      2022
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Educational Qualifications */}
+              <div>
+                <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-black dark:text-white">
+                  <GraduationCap className="w-5 h-5 text-amber-500" />
+                  Educational Qualifications
+                </h2>
+                <div className="space-y-3">
+                  {/* BA (Honours) */}
+                  <div className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:border-blue-500/30 transition-colors">
+                    <div>
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2.5">
+                        <h3 className="font-bold text-base text-black dark:text-white">BA (Honours)</h3>
+                        <span className="w-fit text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">
+                          Running
+                        </span>
+                      </div>
+                      <p className="text-xs sm:text-sm text-black/70 dark:text-white/70 mt-1 font-medium">
+                        Murarichand College, Sylhet
+                      </p>
+                    </div>
+                    <div className="text-xs sm:text-sm font-medium text-black/60 dark:text-white/60 self-start sm:self-auto whitespace-nowrap">
+                      2024 - Running
+                    </div>
+                  </div>
+
+                  {/* HSC */}
+                  <div className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:border-emerald-500/30 transition-colors">
+                    <div>
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2.5">
+                        <h3 className="font-bold text-base text-black dark:text-white">HSC (Higher Secondary Certificate)</h3>
+                        <span className="w-fit text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                          Completed
+                        </span>
+                      </div>
+                      <p className="text-xs sm:text-sm text-black/70 dark:text-white/70 mt-1 font-medium">
+                        Sunamganj Poura College
+                      </p>
+                    </div>
+                    <div className="text-xs sm:text-sm font-medium text-black/60 dark:text-white/60 self-start sm:self-auto whitespace-nowrap">
+                      2020 - 2023
+                    </div>
+                  </div>
+
+                  {/* SSC */}
+                  <div className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:border-emerald-500/30 transition-colors">
+                    <div>
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2.5">
+                        <h3 className="font-bold text-base text-black dark:text-white">SSC (Secondary School Certificate)</h3>
+                        <span className="w-fit text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                          Completed
+                        </span>
+                      </div>
+                      <p className="text-xs sm:text-sm text-black/70 dark:text-white/70 mt-1 font-medium">
+                        Joynagor Bazar Hazi Goni Baksh High School
+                      </p>
+                    </div>
+                    <div className="text-xs sm:text-sm font-medium text-black/60 dark:text-white/60 self-start sm:self-auto whitespace-nowrap">
+                      2016 - 2020
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Hobbies & Interests */}
+              <div>
+                <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-black dark:text-white">
+                  <Heart className="w-5 h-5 text-rose-500" />
+                  Hobbies & Interests
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  {/* Travelling */}
+                  <div className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 hover:border-blue-500/30 transition-colors">
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <Compass className="w-4 h-4 text-blue-500" />
+                      <h3 className="font-bold text-sm text-black dark:text-white">1. Travelling</h3>
+                    </div>
+                    <p className="text-xs text-black/65 dark:text-white/65 leading-relaxed">
+                      Exploring diverse places and landscapes inspires fresh perspectives, fuels creative problem-solving, and keeps the mind refreshed.
+                    </p>
+                  </div>
+
+                  {/* Reading */}
+                  <div className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 hover:border-amber-500/30 transition-colors">
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <BookOpen className="w-4 h-4 text-amber-500" />
+                      <h3 className="font-bold text-sm text-black dark:text-white">2. Reading</h3>
+                    </div>
+                    <p className="text-xs text-black/65 dark:text-white/65 leading-relaxed">
+                      Passionate about reading tech literature, UI/UX design articles, and self-growth books to continuously expand depth of knowledge.
+                    </p>
+                  </div>
+
+                  {/* Coding */}
+                  <div className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 hover:border-emerald-500/30 transition-colors">
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <Terminal className="w-4 h-4 text-emerald-500" />
+                      <h3 className="font-bold text-sm text-black dark:text-white">3. Coding</h3>
+                    </div>
+                    <p className="text-xs text-black/65 dark:text-white/65 leading-relaxed">
+                      Tinkering with modern web frameworks, developing creative micro-tools, and exploring open-source software as both a craft and passion.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -211,15 +414,16 @@ export function ResumeModal() {
             <div className="px-6 py-4 border-t border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02] flex items-center justify-between">
               <button
                 type="button"
-                onClick={() => setIsOpen(false)}
+                onClick={closeModal}
                 className="px-5 py-2.5 rounded-full text-sm font-medium text-black/70 dark:text-white/70 hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
               >
                 Close
               </button>
               <button
                 type="button"
-                onClick={handlePrint}
-                className="px-6 py-2.5 rounded-full text-sm font-semibold text-white bg-black dark:bg-white dark:text-black hover:opacity-90 transition-all cursor-pointer flex items-center gap-2 shadow-sm"
+                disabled
+                className="px-6 py-2.5 rounded-full text-sm font-semibold text-white/50 bg-black/40 dark:bg-white/20 dark:text-black/50 cursor-not-allowed select-none flex items-center gap-2 shadow-none"
+                title="Print / Save Resume is temporarily unavailable"
               >
                 <Download className="w-4 h-4" />
                 Print / Save Resume

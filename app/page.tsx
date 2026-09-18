@@ -7,6 +7,7 @@ import { Contact } from '@/components/Contact';
 import { Footer } from '@/components/Footer';
 import { BackToTop } from '@/components/BackToTop';
 import { ResumeModal } from '@/components/ResumeModal';
+import { HireModal } from '@/components/HireModal';
 
 export default function Home() {
   return (
@@ -26,6 +27,7 @@ export default function Home() {
       <Footer />
       <BackToTop />
       <ResumeModal />
+      <HireModal />
     </main>
   );
 }

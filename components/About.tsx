@@ -30,7 +30,7 @@ export function About() {
               I am passionate about creating digital experiences that not only look visually stunning but also drive measurable results. My unique background allows me to understand both the <strong className="text-black dark:text-white">logic of code</strong> and the <strong className="text-black dark:text-white">psychology of marketing</strong>.
             </p>
             <p className="text-lg text-black/70 dark:text-white/70 leading-relaxed text-justify">
-              Whether it's developing a high-performance Next.js application, designing intuitive user interfaces, or running a data-driven Meta Ad campaign, I focus on delivering scalable and premium solutions tailored to brand growth.
+              Whether it&apos;s developing a high-performance Next.js application, designing intuitive user interfaces, or running a data-driven Meta Ad campaign, I focus on delivering scalable and premium solutions tailored to brand growth.
             </p>
           </motion.div>
 

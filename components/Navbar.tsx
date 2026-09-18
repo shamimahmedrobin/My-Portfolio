@@ -14,14 +14,16 @@ const navLinks = [
   { name: 'Contact', href: '#contact' },
 ];
 
+const emptySubscribe = () => () => {};
+
 export function Navbar() {
   const { theme, setTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
-  const [mounted, setMounted] = React.useState(false);
-
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = React.useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
 
   // Scroll lock effect for mobile menu
   React.useEffect(() => {
@@ -113,6 +115,9 @@ export function Navbar() {
           {/* Desktop Hire Me CTA */}
           <button
             type="button"
+            onClick={() => {
+              window.dispatchEvent(new CustomEvent('open-hire-modal'));
+            }}
             className="inline-flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-blue-600 via-teal-500 to-emerald-500 hover:from-emerald-500 hover:via-teal-500 hover:to-blue-600 shadow-sm shadow-blue-500/20 hover:shadow-emerald-500/30 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
           >
             <Sparkles className="w-3.5 h-3.5 text-yellow-300 animate-pulse" />
@@ -203,7 +208,10 @@ export function Navbar() {
             <div className="w-full mb-1">
               <button
                 type="button"
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  window.dispatchEvent(new CustomEvent('open-hire-modal'));
+                }}
                 className="w-full py-3.5 px-6 rounded-full text-base font-semibold text-white bg-gradient-to-r from-blue-600 via-teal-500 to-emerald-500 hover:from-emerald-500 hover:via-teal-500 hover:to-blue-600 shadow-md shadow-blue-500/20 hover:shadow-emerald-500/30 transition-all duration-300 cursor-pointer flex items-center justify-center gap-2 active:scale-[0.98]"
               >
                 <Sparkles className="w-4 h-4 text-yellow-300 animate-pulse" />

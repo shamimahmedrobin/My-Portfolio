@@ -8,6 +8,7 @@ import { Mail, Facebook, Linkedin, Twitter, Send, Loader2, Phone, MapPin, Clock,
 export function Contact() {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [isSuccess, setIsSuccess] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
   const [dhakaTime, setDhakaTime] = React.useState<string>('');
 
   React.useEffect(() => {
@@ -33,12 +34,15 @@ export function Contact() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setErrorMessage(null);
     
-    const formData = new FormData(e.currentTarget);
+    const formElement = e.currentTarget;
+    const formData = new FormData(formElement);
     const data = {
-      name: formData.get('name'),
-      email: formData.get('email'),
-      message: formData.get('message'),
+      name: String(formData.get('name') || '').trim(),
+      email: String(formData.get('email') || '').trim(),
+      message: String(formData.get('message') || '').trim(),
+      type: 'contact',
     };
     
     try {
@@ -52,14 +56,15 @@ export function Contact() {
 
       if (response.ok) {
         setIsSuccess(true);
-        (e.target as HTMLFormElement).reset();
+        formElement.reset();
         setTimeout(() => setIsSuccess(false), 5000);
       } else {
-        alert('Failed to send message. Please try again later.');
+        const resData = await response.json().catch(() => ({}));
+        setErrorMessage(resData.error || 'Failed to send message. Please try again later.');
       }
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert('An error occurred. Please try again later.');
+      setErrorMessage('A network error occurred. Please check your connection.');
     } finally {
       setIsSubmitting(false);
     }
@@ -75,7 +80,7 @@ export function Contact() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-black dark:text-white">Let's Work Together</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-black dark:text-white">Let&apos;s Work Together</h2>
           <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-emerald-500 mx-auto rounded-full mb-6"></div>
           <p className="text-black/70 dark:text-white/70 max-w-2xl mx-auto">
             Ready to scale your brand or build your next digital product? Drop me a message below.
@@ -174,7 +179,7 @@ export function Contact() {
                     name="name"
                     required
                     className="w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-black dark:text-white transition-all"
-                    placeholder="John Doe"
+                    placeholder="e.g. Shamim Ahmed Robin"
                   />
                 </div>
                 <div className="space-y-2">
@@ -185,7 +190,7 @@ export function Contact() {
                     name="email"
                     required
                     className="w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-black dark:text-white transition-all"
-                    placeholder="john@example.com"
+                    placeholder="youremail@example.com"
                   />
                 </div>
               </div>
@@ -200,6 +205,11 @@ export function Contact() {
                   placeholder="How can I help you?"
                 ></textarea>
               </div>
+              {errorMessage && (
+                <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 text-sm">
+                  {errorMessage}
+                </div>
+              )}
               <button
                 type="submit"
                 disabled={isSubmitting}
