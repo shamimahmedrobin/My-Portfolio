@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     images: ['https://i.ibb.co/YFV88ZK6/profile.jpg'],
   },
   verification: {
-    google: 'tnZQpj_TOyPq9gguuHLmJL1D_2iiMPOXVzWTBupOHAo',
+    google: 'hFFhFaZW2On7_i9Jni_sMqIqs4Fh0Fw1EQzHu7rc4Q0',
   },
 };
 
@@ -107,6 +107,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <meta name="google-site-verification" content="hFFhFaZW2On7_i9Jni_sMqIqs4Fh0Fw1EQzHu7rc4Q0" />
         <meta name="google-site-verification" content="tnZQpj_TOyPq9gguuHLmJL1D_2iiMPOXVzWTBupOHAo" />
         <link rel="icon" href="https://i.ibb.co/pjyc3JTC/IMG-20260918-155445.jpg" />
         <link rel="apple-touch-icon" href="https://i.ibb.co/pjyc3JTC/IMG-20260918-155445.jpg" />
