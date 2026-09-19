@@ -6,6 +6,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://shamimahmedrobin.ve
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  applicationName: 'Shamim Ahmed Robin',
   title: {
     default: 'Shamim Ahmed Robin',
     template: '%s | Shamim Ahmed Robin',
@@ -28,6 +29,11 @@ export const metadata: Metadata = {
   authors: [{ name: 'Shamim Ahmed Robin', url: siteUrl }],
   creator: 'Shamim Ahmed Robin',
   publisher: 'Shamim Ahmed Robin',
+  appleWebApp: {
+    title: 'Shamim Ahmed Robin',
+    statusBarStyle: 'default',
+    capable: true,
+  },
   robots: {
     index: true,
     follow: true,
@@ -40,8 +46,12 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: '/favicon.jpg',
-    shortcut: '/favicon.jpg',
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon.jpg', type: 'image/jpeg' },
+      { url: '/icon.jpg', type: 'image/jpeg' },
+    ],
+    shortcut: '/favicon.ico',
     apple: '/favicon.jpg',
   },
   openGraph: {
@@ -187,9 +197,13 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <meta name="application-name" content="Shamim Ahmed Robin" />
+        <meta name="apple-mobile-web-app-title" content="Shamim Ahmed Robin" />
+        <meta property="og:site_name" content="Shamim Ahmed Robin" />
         <meta name="google-site-verification" content="hFFhFaZW2On7_i9Jni_sMqIqs4Fh0Fw1EQzHu7rc4Q0" />
         <meta name="google-site-verification" content="tnZQpj_TOyPq9gguuHLmJL1D_2iiMPOXVzWTBupOHAo" />
-        <link rel="icon" href="/favicon.jpg" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/favicon.jpg" type="image/jpeg" />
         <link rel="apple-touch-icon" href="/favicon.jpg" />
         <script
           type="application/ld+json"
