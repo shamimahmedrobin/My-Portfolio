@@ -79,3 +79,162 @@ html {
 .dark::view-transition-new(root) {
   z-index: 1;
 }
+
+/* Print Styles for A4 Paper Resume */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 10mm 12mm 10mm 12mm;
+  }
+
+  /* Reset global layout */
+  html, body {
+    background: #ffffff !important;
+    color: #111827 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide entire page outside ResumeModal */
+  main {
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+  }
+
+  main > *:not(.resume-modal-root) {
+    display: none !important;
+  }
+
+  /* Hide navigation, footers, and background elements */
+  header,
+  nav,
+  footer,
+  aside,
+  .no-print,
+  .print-hide,
+  .resume-modal-backdrop,
+  .resume-modal-header,
+  .resume-modal-footer {
+    display: none !important;
+  }
+
+  /* Unconstrain Resume Modal container */
+  .resume-modal-root {
+    position: static !important;
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+  }
+
+  .resume-modal-card {
+    position: static !important;
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    background: #ffffff !important;
+    color: #111827 !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  #resume-printable-area {
+    position: static !important;
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: #ffffff !important;
+    color: #111827 !important;
+  }
+
+  /* Modern 2-Column CV Grid for Print */
+  .resume-grid-container {
+    display: grid !important;
+    grid-template-columns: 240px 1fr !important;
+    width: 100% !important;
+    min-height: 100% !important;
+    background-color: #ffffff !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  /* Left Column (Deep Navy Blue Sidebar) */
+  .resume-left-col {
+    background-color: #1c355e !important;
+    color: #ffffff !important;
+    width: 240px !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    padding: 24px 18px !important;
+  }
+
+  .resume-left-col * {
+    color: #ffffff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .resume-left-col .resume-contact-sub {
+    color: #cbd5e1 !important;
+  }
+
+  /* Right Column (Crisp White Content Area) */
+  .resume-right-col {
+    background-color: #ffffff !important;
+    color: #111827 !important;
+    flex: 1 !important;
+    padding: 24px 28px !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .resume-right-col .resume-header-name {
+    color: #1e3a63 !important;
+  }
+
+  .resume-right-col .resume-divider {
+    background-color: #000000 !important;
+    height: 2.5px !important;
+    border: none !important;
+  }
+
+  .resume-right-col .resume-heading {
+    color: #000000 !important;
+  }
+
+  /* Prevent awkward page breaks */
+  .page-break-avoid,
+  .resume-section,
+  .resume-exp-item {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Show elements meant specifically for print/export */
+  .print-only {
+    display: flex !important;
+  }
+}

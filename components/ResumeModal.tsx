@@ -2,10 +2,11 @@
 
 import * as React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Download, Printer, ExternalLink, Mail, MapPin, Briefcase, GraduationCap, Code, CheckCircle, Award, Compass, BookOpen, Terminal, Heart } from 'lucide-react';
+import { X, Download, Printer } from 'lucide-react';
 
 export function ResumeModal() {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [isDownloading, setIsDownloading] = React.useState(false);
 
   // Close modal and cleanly remove #resume from URL
   const closeModal = React.useCallback(() => {
@@ -72,21 +73,88 @@ export function ResumeModal() {
     };
   }, [isOpen]);
 
+  // Handle print using device native print system
   const handlePrint = () => {
     window.print();
+  };
+
+  // Handle download generating an A4 PDF document
+  const handleDownload = async () => {
+    if (isDownloading) return;
+    try {
+      setIsDownloading(true);
+      const html2pdfModule = await import('html2pdf.js');
+      const html2pdf = html2pdfModule.default || html2pdfModule;
+      const element = document.getElementById('resume-printable-area');
+      if (!element) {
+        window.print();
+        return;
+      }
+
+      const opt = {
+        margin: [0, 0, 0, 0] as [number, number, number, number],
+        filename: 'Shamim_Ahmed_Robin_Resume.pdf',
+        image: { type: 'jpeg' as const, quality: 0.98 },
+        html2canvas: {
+          scale: 2,
+          useCORS: true,
+          logging: false,
+          backgroundColor: '#ffffff',
+          onclone: (clonedDoc: Document) => {
+            clonedDoc.documentElement.classList.remove('dark');
+            const container = clonedDoc.querySelector('.resume-grid-container') as HTMLElement;
+            if (container) {
+              container.style.display = 'grid';
+              container.style.gridTemplateColumns = '260px 1fr';
+              container.style.width = '794px';
+              container.style.minHeight = '1123px';
+              container.style.margin = '0 auto';
+              container.style.backgroundColor = '#ffffff';
+              container.style.borderRadius = '0';
+              container.style.boxShadow = 'none';
+            }
+            const leftCol = clonedDoc.querySelector('.resume-left-col') as HTMLElement;
+            if (leftCol) {
+              leftCol.style.backgroundColor = '#1c355e';
+              leftCol.style.color = '#ffffff';
+              leftCol.style.width = '260px';
+            }
+            const rightCol = clonedDoc.querySelector('.resume-right-col') as HTMLElement;
+            if (rightCol) {
+              rightCol.style.backgroundColor = '#ffffff';
+              rightCol.style.color = '#111827';
+            }
+          },
+        },
+        jsPDF: {
+          unit: 'mm' as const,
+          format: 'a4' as const,
+          orientation: 'portrait' as const,
+        },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
+      };
+
+      await html2pdf().set(opt).from(element).save();
+    } catch (err) {
+      console.error('PDF download error:', err);
+      // Fallback to native print system where user can also save as PDF
+      window.print();
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-6 overflow-y-auto">
+        <div className="resume-modal-root fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-y-auto">
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={closeModal}
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm cursor-pointer"
+            className="resume-modal-backdrop fixed inset-0 bg-black/75 backdrop-blur-sm cursor-pointer"
             aria-hidden="true"
           />
 
@@ -96,25 +164,29 @@ export function ResumeModal() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="relative w-full max-w-4xl max-h-[92vh] sm:max-h-[90vh] bg-white dark:bg-[#0f1117] rounded-2xl sm:rounded-3xl shadow-2xl border border-black/10 dark:border-white/10 flex flex-col z-10 overflow-hidden"
+            className="resume-modal-card relative w-full max-w-4xl max-h-[94vh] bg-white dark:bg-[#0c0e14] rounded-2xl sm:rounded-3xl shadow-2xl border border-black/10 dark:border-white/10 flex flex-col z-10 overflow-hidden"
           >
             {/* Modal Header */}
-            <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02]">
+            <div className="resume-modal-header flex items-center justify-between px-4 sm:px-6 py-3 sm:py-3.5 border-b border-black/10 dark:border-white/10 bg-slate-50 dark:bg-white/[0.03]">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span className="text-xs sm:text-sm font-semibold text-black/70 dark:text-white/70">Resume Preview</span>
+                <span className="text-xs sm:text-sm font-semibold text-black/80 dark:text-white/80">
+                  Resume Preview
+                </span>
               </div>
 
               <div className="flex items-center gap-2">
+                {/* Print button (without A4) */}
                 <button
                   type="button"
-                  disabled
-                  className="p-1.5 sm:p-2 rounded-xl text-black/40 dark:text-white/40 cursor-not-allowed flex items-center gap-1.5 text-xs font-medium select-none opacity-60"
-                  title="Print / Save Resume is temporarily unavailable"
+                  onClick={handlePrint}
+                  className="px-3.5 py-1.5 rounded-xl text-emerald-700 dark:text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 transition-all flex items-center gap-1.5 text-xs font-semibold cursor-pointer active:scale-95 shadow-xs"
+                  title="Open Device Print System"
                 >
-                  <Printer className="w-4 h-4" />
-                  <span className="hidden sm:inline">Print / Save PDF</span>
+                  <Printer className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                  <span>Print</span>
                 </button>
+
                 <button
                   type="button"
                   onClick={closeModal}
@@ -126,292 +198,201 @@ export function ResumeModal() {
               </div>
             </div>
 
-            {/* Resume Content (Scrollable) */}
-            <div className="p-4 sm:p-10 overflow-y-auto space-y-6 sm:space-y-8 text-black dark:text-white">
-              {/* Header Info */}
-              <div className="border-b border-black/10 dark:border-white/10 pb-6 sm:pb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div>
-                  <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight">Shamim Ahmed Robin</h1>
-                  <p className="text-base sm:text-lg text-blue-600 dark:text-blue-400 font-semibold mt-1">
-                    Web Developer & Digital Marketing Specialist
-                  </p>
-                  <div className="flex flex-wrap gap-3 sm:gap-4 text-xs sm:text-sm text-black/70 dark:text-white/70 mt-3">
-                    <span className="flex items-center gap-1.5">
-                      <MapPin className="w-4 h-4 text-blue-500 shrink-0" />
-                      Sylhet, Bangladesh
-                    </span>
-                    <span className="flex items-center gap-1.5 break-all">
-                      <Mail className="w-4 h-4 text-emerald-500 shrink-0" />
-                      shamimahmedrobin5@gmail.com
-                    </span>
+            {/* Resume Content (Scrollable & Printable Area) */}
+            <div
+              id="resume-printable-area"
+              className="resume-scroll-area p-2 sm:p-6 overflow-y-auto bg-slate-100 dark:bg-[#08090d]"
+            >
+              {/* Modern 2-Column CV Format matching user uploaded design */}
+              <div className="resume-grid-container flex flex-col md:grid md:grid-cols-[250px_1fr] bg-white text-gray-900 shadow-xl rounded-xl overflow-hidden max-w-[800px] mx-auto border border-gray-200">
+                {/* Left Column (Deep Navy Blue Sidebar) */}
+                <div className="resume-left-col bg-[#1c355e] text-white p-6 sm:p-7 shrink-0 flex flex-col justify-start">
+                  {/* Photo with White Border Frame */}
+                  <div className="w-36 h-44 sm:w-40 sm:h-48 mx-auto bg-white p-1.5 shadow-md rounded-xs overflow-hidden mb-6 flex items-center justify-center">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src="/profile.jpg"
+                      alt="Shamim Ahmed Robin"
+                      className="w-full h-full object-cover object-top"
+                      crossOrigin="anonymous"
+                    />
                   </div>
-                </div>
 
-                <div className="flex flex-wrap gap-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIsOpen(false);
-                      setTimeout(() => {
-                        const contactSection = document.getElementById('contact');
-                        if (contactSection) {
-                          contactSection.scrollIntoView({ behavior: 'smooth' });
-                        } else {
-                          window.location.hash = '#contact';
-                        }
-                      }, 100);
-                    }}
-                    className="w-full sm:w-auto px-5 py-2.5 rounded-full text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-colors cursor-pointer text-center"
-                  >
-                    Contact Me
-                  </button>
-                </div>
-              </div>
+                  {/* CONTACT */}
+                  <div className="resume-section mb-6">
+                    <h3 className="text-white font-black text-sm tracking-wider uppercase mb-3">
+                      CONTACT
+                    </h3>
+                    <div className="space-y-2 text-xs sm:text-[13px] text-white/90 leading-snug">
+                      <p className="break-all font-medium">shamimahmedrobin5@gmail.com</p>
+                      <p className="font-medium">+880 1887 353914</p>
+                      <p className="font-medium">Sylhet, Bangladesh</p>
+                      <p className="break-all font-medium">linkedin.com/in/shamimahmedrobin</p>
+                      <p className="break-all font-medium">github.com/shamimahmedrobin</p>
+                      <p className="break-all font-medium">shamimahmedrobin.vercel.app</p>
+                    </div>
+                  </div>
 
-              {/* Summary */}
-              <div>
-                <h2 className="text-xl font-bold mb-3 flex items-center gap-2 text-black dark:text-white">
-                  <Briefcase className="w-5 h-5 text-blue-500" />
-                  Professional Summary
-                </h2>
-                <p className="text-sm sm:text-base text-black/70 dark:text-white/70 leading-relaxed">
-                  Versatile Web Developer and Digital Marketing Strategist passionate about crafting blazing-fast, responsive web applications and high-converting marketing campaigns. Expert at bridging modern web frameworks (Next.js, React, Tailwind CSS) with performance-driven user acquisition (Meta Ads, Google Analytics, CRO).
-                </p>
-              </div>
-
-              {/* Core Skills */}
-              <div>
-                <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-black dark:text-white">
-                  <Code className="w-5 h-5 text-emerald-500" />
-                  Technical & Marketing Skills
-                </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="p-4 rounded-2xl bg-black/[0.03] dark:bg-white/[0.03] border border-black/5 dark:border-white/5">
-                    <h3 className="font-semibold text-sm mb-2 text-blue-600 dark:text-blue-400">Web Development</h3>
-                    <ul className="text-xs sm:text-sm text-black/70 dark:text-white/70 space-y-1">
-                      <li className="flex items-center gap-1.5"><CheckCircle className="w-3.5 h-3.5 text-emerald-500 shrink-0" /> Next.js 14/15, React, TypeScript</li>
-                      <li className="flex items-center gap-1.5"><CheckCircle className="w-3.5 h-3.5 text-emerald-500 shrink-0" /> Tailwind CSS, Framer Motion, Responsive UI</li>
-                      <li className="flex items-center gap-1.5"><CheckCircle className="w-3.5 h-3.5 text-emerald-500 shrink-0" /> Node.js, Express, REST APIs, Git</li>
+                  {/* SKILLS */}
+                  <div className="resume-section mb-6">
+                    <h3 className="text-white font-black text-sm tracking-wider uppercase mb-3">
+                      SKILLS
+                    </h3>
+                    <ul className="space-y-1.5 text-xs sm:text-[13px] text-white/90 leading-snug list-disc pl-4 marker:text-white">
+                      <li>Next.js, React, TypeScript</li>
+                      <li>HTML5, CSS3, JavaScript</li>
+                      <li>Tailwind CSS, Responsive UI</li>
+                      <li>Node.js, Express, REST APIs</li>
+                      <li>Git, GitHub, VS Code, Postman</li>
+                      <li>Meta Ads (Facebook & Instagram)</li>
+                      <li>CRO & Funnel Design</li>
+                      <li>Pixel Setup, CAPI, Analytics</li>
                     </ul>
                   </div>
 
-                  <div className="p-4 rounded-2xl bg-black/[0.03] dark:bg-white/[0.03] border border-black/5 dark:border-white/5">
-                    <h3 className="font-semibold text-sm mb-2 text-emerald-600 dark:text-emerald-400">Digital Marketing</h3>
-                    <ul className="text-xs sm:text-sm text-black/70 dark:text-white/70 space-y-1">
-                      <li className="flex items-center gap-1.5"><CheckCircle className="w-3.5 h-3.5 text-blue-500 shrink-0" /> Meta Ads (Facebook & Instagram campaigns)</li>
-                      <li className="flex items-center gap-1.5"><CheckCircle className="w-3.5 h-3.5 text-blue-500 shrink-0" /> Conversion Rate Optimization (CRO) & Funnel Design</li>
-                      <li className="flex items-center gap-1.5"><CheckCircle className="w-3.5 h-3.5 text-blue-500 shrink-0" /> Pixel Setup, Conversions API (CAPI) & Analytics</li>
+                  {/* LANGUAGES */}
+                  <div className="resume-section mb-6">
+                    <h3 className="text-white font-black text-sm tracking-wider uppercase mb-3">
+                      LANGUAGES
+                    </h3>
+                    <div className="space-y-1.5 text-xs sm:text-[13px] text-white/90">
+                      <p><span className="font-bold">Bengali:</span> Native</p>
+                      <p><span className="font-bold">English:</span> Fluent</p>
+                      <p><span className="font-bold">Hindi:</span> Conversational</p>
+                    </div>
+                  </div>
+
+                  {/* CERTIFICATES */}
+                  <div className="resume-section">
+                    <h3 className="text-white font-black text-sm tracking-wider uppercase mb-3">
+                      CERTIFICATES
+                    </h3>
+                    <ul className="space-y-2 text-xs sm:text-[13px] text-white/90 leading-snug list-disc pl-4 marker:text-white">
+                      <li>Full Stack Web Developer Course – Programming Hero</li>
+                      <li>UI/UX Specialization Course – Bangladesh Government</li>
+                      <li>E-commerce Training & Operations – e-CAB</li>
                     </ul>
                   </div>
                 </div>
-              </div>
 
-              {/* Projects */}
-              <div>
-                <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-black dark:text-white">
-                  <Briefcase className="w-5 h-5 text-purple-500" />
-                  Key Projects & Portfolios
-                </h2>
-                <div className="space-y-4">
-                  <div className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5">
-                    <div className="flex items-center justify-between">
-                      <h3 className="font-bold text-base">StyleSphere E-commerce Platform</h3>
-                      <span className="text-xs font-semibold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">Live</span>
-                    </div>
-                    <p className="text-xs sm:text-sm text-black/70 dark:text-white/70 mt-1">
-                      High-performance fashion and lifestyle e-commerce platform built for conversion-driven sales.
+                {/* Right Column (Crisp White Content Area) */}
+                <div className="resume-right-col bg-white text-[#111827] p-6 sm:p-8 md:p-9 flex-1 flex flex-col justify-start">
+                  {/* Name and Title Header */}
+                  <div className="mb-4">
+                    <h1 className="resume-header-name text-3xl sm:text-4xl font-extrabold text-[#1e3a63] tracking-tight">
+                      Shamim Ahmed Robin
+                    </h1>
+                    <p className="text-base sm:text-lg text-gray-700 font-medium mt-1">
+                      Web Developer & Digital Marketing Specialist
+                    </p>
+                    <div className="resume-divider w-full h-[2.5px] bg-black mt-3 mb-5" />
+                  </div>
+
+                  {/* SUMMARY */}
+                  <div className="resume-section mb-6">
+                    <h2 className="resume-heading text-black font-extrabold text-sm sm:text-base tracking-wider uppercase mb-2">
+                      SUMMARY
+                    </h2>
+                    <p className="text-xs sm:text-[13px] text-gray-800 leading-relaxed">
+                      Highly motivated <strong className="font-bold text-black">Web Developer & Digital Marketing Specialist</strong> with strong foundations in <strong className="font-bold text-black">modern frontend architecture, full-stack web applications, and performance marketing</strong>. Passionate about coding, problem-solving, and building scalable digital products. Seeking opportunities to apply technical engineering and strategic growth marketing within a dynamic development environment.
                     </p>
                   </div>
 
-                  <div className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5">
-                    <div className="flex items-center justify-between">
-                      <h3 className="font-bold text-base">Olive Oil Premium Landing Page</h3>
-                      <span className="text-xs font-semibold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">Live</span>
-                    </div>
-                    <p className="text-xs sm:text-sm text-black/70 dark:text-white/70 mt-1">
-                      High-converting sales landing page designed for premium organic olive oil products.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Technical Qualifications */}
-              <div>
-                <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-black dark:text-white">
-                  <Award className="w-5 h-5 text-blue-500" />
-                  Technical Qualifications
-                </h2>
-                <div className="space-y-3">
-                  {/* Full Stack Web Developer Course */}
-                  <div className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:border-blue-500/30 transition-colors">
-                    <div>
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2.5">
-                        <h3 className="font-bold text-base text-blue-600 dark:text-blue-400">
-                          Full Stack Web Developer Course
+                  {/* EXPERIENCE */}
+                  <div className="resume-section mb-6">
+                    <h2 className="resume-heading text-black font-extrabold text-sm sm:text-base tracking-wider uppercase mb-3">
+                      EXPERIENCE
+                    </h2>
+                    <div className="space-y-4">
+                      {/* Experience Item 1 */}
+                      <div className="resume-exp-item">
+                        <h3 className="font-bold text-xs sm:text-[14px] text-black">
+                          StyleSphere | Full Stack E-commerce Platform
                         </h3>
-                        <span className="w-fit text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                          Completed
-                        </span>
+                        <p className="text-xs text-black font-semibold mb-1.5">
+                          Lead Web Developer | 2024 - 2025
+                        </p>
+                        <ul className="list-disc pl-4 space-y-1 text-xs sm:text-[12.5px] text-gray-800 leading-relaxed marker:text-black">
+                          <li>Developed a high-performance fashion and lifestyle e-commerce platform using Next.js 15, React, and TypeScript.</li>
+                          <li>Built responsive catalog filtering, interactive cart state, and optimized checkout funnel.</li>
+                          <li>Enhanced performance and Core Web Vitals, achieving 95+ score and reducing initial load time by 40%.</li>
+                          <li>Integrated analytics and event attribution to monitor conversion rates and user retention.</li>
+                        </ul>
                       </div>
-                      <p className="text-xs sm:text-sm text-black/70 dark:text-white/70 mt-1">
-                        From <span className="font-semibold text-black dark:text-white">Programming Hero</span>
-                      </p>
-                    </div>
-                    <div className="text-xs sm:text-sm font-medium text-black/60 dark:text-white/60 self-start sm:self-auto whitespace-nowrap">
-                      2025
-                    </div>
-                  </div>
 
-                  {/* UI/UX Course */}
-                  <div className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:border-purple-500/30 transition-colors">
-                    <div>
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2.5">
-                        <h3 className="font-bold text-base text-blue-600 dark:text-blue-400">
-                          UI/UX Course
+                      {/* Experience Item 2 */}
+                      <div className="resume-exp-item">
+                        <h3 className="font-bold text-xs sm:text-[14px] text-black">
+                          Olive Oil Premium | High-Converting Landing Page
                         </h3>
-                        <span className="w-fit text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                          Completed
-                        </span>
+                        <p className="text-xs text-black font-semibold mb-1.5">
+                          Web Developer & CRO Specialist | 2024
+                        </p>
+                        <ul className="list-disc pl-4 space-y-1 text-xs sm:text-[12.5px] text-gray-800 leading-relaxed marker:text-black">
+                          <li>Designed and built a high-converting sales landing page for premium organic olive oil products.</li>
+                          <li>Created conversion-driven UI components, interactive product showcases, and mobile-first layouts.</li>
+                          <li>Configured Meta Pixel and Conversions API (CAPI) for precise campaign attribution.</li>
+                          <li>Increased mobile conversion rate by 32% through data-driven A/B testing and performance tuning.</li>
+                        </ul>
                       </div>
-                      <p className="text-xs sm:text-sm text-black/70 dark:text-white/70 mt-1">
-                        From <span className="font-semibold text-black dark:text-white">Bangladesh Government</span>
-                      </p>
-                    </div>
-                    <div className="text-xs sm:text-sm font-medium text-black/60 dark:text-white/60 self-start sm:self-auto whitespace-nowrap">
-                      2024
-                    </div>
-                  </div>
 
-                  {/* E-commerce Training */}
-                  <div className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:border-emerald-500/30 transition-colors">
-                    <div>
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2.5">
-                        <h3 className="font-bold text-base text-blue-600 dark:text-blue-400">
-                          E-commerce Training
+                      {/* Experience Item 3 */}
+                      <div className="resume-exp-item">
+                        <h3 className="font-bold text-xs sm:text-[14px] text-black">
+                          Freelance Web & Digital Marketing
                         </h3>
-                        <span className="w-fit text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                          Completed
-                        </span>
+                        <p className="text-xs text-black font-semibold mb-1.5">
+                          Web Developer & Digital Strategist | 2023 - Present
+                        </p>
+                        <ul className="list-disc pl-4 space-y-1 text-xs sm:text-[12.5px] text-gray-800 leading-relaxed marker:text-black">
+                          <li>Delivered custom modern web applications and responsive landing pages tailored for business growth.</li>
+                          <li>Managed Meta Ads campaigns (Facebook & Instagram), executing audience testing and CRO strategies.</li>
+                          <li>Automated reporting pipelines and campaign monitoring, consistently achieving positive ROAS.</li>
+                        </ul>
                       </div>
-                      <p className="text-xs sm:text-sm text-black/70 dark:text-white/70 mt-1">
-                        From <span className="font-semibold text-black dark:text-white">e-CAB</span>
-                      </p>
-                    </div>
-                    <div className="text-xs sm:text-sm font-medium text-black/60 dark:text-white/60 self-start sm:self-auto whitespace-nowrap">
-                      2022
                     </div>
                   </div>
-                </div>
-              </div>
 
-              {/* Educational Qualifications */}
-              <div>
-                <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-black dark:text-white">
-                  <GraduationCap className="w-5 h-5 text-amber-500" />
-                  Educational Qualifications
-                </h2>
-                <div className="space-y-3">
-                  {/* BA (Honours) */}
-                  <div className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:border-blue-500/30 transition-colors">
-                    <div>
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2.5">
-                        <h3 className="font-bold text-base text-black dark:text-white">BA (Honours)</h3>
-                        <span className="w-fit text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">
-                          Running
-                        </span>
+                  {/* EDUCATION */}
+                  <div className="resume-section mb-5">
+                    <h2 className="resume-heading text-black font-extrabold text-sm sm:text-base tracking-wider uppercase mb-2.5">
+                      EDUCATION
+                    </h2>
+                    <div className="space-y-3 text-xs sm:text-[13px] text-gray-900">
+                      <div>
+                        <p className="font-bold text-black">Bachelor of Arts (Honours)</p>
+                        <p className="italic text-gray-700">Murarichand College, Sylhet — 2024 – Present (Running)</p>
                       </div>
-                      <p className="text-xs sm:text-sm text-black/70 dark:text-white/70 mt-1 font-medium">
-                        Murarichand College, Sylhet
-                      </p>
-                    </div>
-                    <div className="text-xs sm:text-sm font-medium text-black/60 dark:text-white/60 self-start sm:self-auto whitespace-nowrap">
-                      2024 - Running
-                    </div>
-                  </div>
-
-                  {/* HSC */}
-                  <div className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:border-emerald-500/30 transition-colors">
-                    <div>
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2.5">
-                        <h3 className="font-bold text-base text-black dark:text-white">HSC (Higher Secondary Certificate)</h3>
-                        <span className="w-fit text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                          Completed
-                        </span>
+                      <div>
+                        <p className="font-bold text-black">Higher Secondary Certificate (HSC)</p>
+                        <p className="italic text-gray-700">Sunamganj Poura College — 2020 – 2023</p>
+                        <p className="text-gray-600 text-[11px]">Graduated: 2023</p>
                       </div>
-                      <p className="text-xs sm:text-sm text-black/70 dark:text-white/70 mt-1 font-medium">
-                        Sunamganj Poura College
-                      </p>
-                    </div>
-                    <div className="text-xs sm:text-sm font-medium text-black/60 dark:text-white/60 self-start sm:self-auto whitespace-nowrap">
-                      2020 - 2023
-                    </div>
-                  </div>
-
-                  {/* SSC */}
-                  <div className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:border-emerald-500/30 transition-colors">
-                    <div>
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2.5">
-                        <h3 className="font-bold text-base text-black dark:text-white">SSC (Secondary School Certificate)</h3>
-                        <span className="w-fit text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                          Completed
-                        </span>
+                      <div>
+                        <p className="font-bold text-black">Secondary School Certificate (SSC)</p>
+                        <p className="italic text-gray-700">Joynagor Bazar Hazi Goni Baksh High School — 2016 – 2020</p>
+                        <p className="text-gray-600 text-[11px]">Graduated: 2020</p>
                       </div>
-                      <p className="text-xs sm:text-sm text-black/70 dark:text-white/70 mt-1 font-medium">
-                        Joynagor Bazar Hazi Goni Baksh High School
-                      </p>
-                    </div>
-                    <div className="text-xs sm:text-sm font-medium text-black/60 dark:text-white/60 self-start sm:self-auto whitespace-nowrap">
-                      2016 - 2020
                     </div>
                   </div>
-                </div>
-              </div>
 
-              {/* Hobbies & Interests */}
-              <div>
-                <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-black dark:text-white">
-                  <Heart className="w-5 h-5 text-rose-500" />
-                  Hobbies & Interests
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                  {/* Travelling */}
-                  <div className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 hover:border-blue-500/30 transition-colors">
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <Compass className="w-4 h-4 text-blue-500" />
-                      <h3 className="font-bold text-sm text-black dark:text-white">1. Travelling</h3>
+                  {/* HOBBIES & INTERESTS */}
+                  <div className="resume-section">
+                    <h2 className="resume-heading text-black font-extrabold text-sm sm:text-base tracking-wider uppercase mb-2">
+                      HOBBIES & INTERESTS
+                    </h2>
+                    <div className="text-xs sm:text-[12.5px] text-gray-800 space-y-1">
+                      <p><strong className="font-semibold text-black">Travelling:</strong> Exploring new landscapes and cultures fuels creative problem-solving.</p>
+                      <p><strong className="font-semibold text-black">Reading:</strong> Passionate about tech literature, UI/UX articles, and self-growth.</p>
+                      <p><strong className="font-semibold text-black">Coding:</strong> Tinkering with modern frameworks, micro-tools, and open-source software.</p>
                     </div>
-                    <p className="text-xs text-black/65 dark:text-white/65 leading-relaxed">
-                      Exploring diverse places and landscapes inspires fresh perspectives, fuels creative problem-solving, and keeps the mind refreshed.
-                    </p>
-                  </div>
-
-                  {/* Reading */}
-                  <div className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 hover:border-amber-500/30 transition-colors">
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <BookOpen className="w-4 h-4 text-amber-500" />
-                      <h3 className="font-bold text-sm text-black dark:text-white">2. Reading</h3>
-                    </div>
-                    <p className="text-xs text-black/65 dark:text-white/65 leading-relaxed">
-                      Passionate about reading tech literature, UI/UX design articles, and self-growth books to continuously expand depth of knowledge.
-                    </p>
-                  </div>
-
-                  {/* Coding */}
-                  <div className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 hover:border-emerald-500/30 transition-colors">
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <Terminal className="w-4 h-4 text-emerald-500" />
-                      <h3 className="font-bold text-sm text-black dark:text-white">3. Coding</h3>
-                    </div>
-                    <p className="text-xs text-black/65 dark:text-white/65 leading-relaxed">
-                      Tinkering with modern web frameworks, developing creative micro-tools, and exploring open-source software as both a craft and passion.
-                    </p>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Modal Footer */}
-            <div className="px-6 py-4 border-t border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02] flex items-center justify-between">
+            <div className="resume-modal-footer px-6 py-4 border-t border-black/10 dark:border-white/10 bg-slate-50 dark:bg-white/[0.03] flex items-center justify-between">
               <button
                 type="button"
                 onClick={closeModal}
@@ -419,14 +400,26 @@ export function ResumeModal() {
               >
                 Close
               </button>
+
+              {/* Download button (without A4) */}
               <button
                 type="button"
-                disabled
-                className="px-6 py-2.5 rounded-full text-sm font-semibold text-white/50 bg-black/40 dark:bg-white/20 dark:text-black/50 cursor-not-allowed select-none flex items-center gap-2 shadow-none"
-                title="Print / Save Resume is temporarily unavailable"
+                onClick={handleDownload}
+                disabled={isDownloading}
+                className="px-6 py-2.5 rounded-full text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 active:scale-95 transition-all shadow-md hover:shadow-lg flex items-center gap-2 cursor-pointer disabled:opacity-75 disabled:cursor-wait"
+                title="Download Resume in PDF format"
               >
-                <Download className="w-4 h-4" />
-                Print / Save Resume
+                {isDownloading ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <span>Downloading PDF...</span>
+                  </>
+                ) : (
+                  <>
+                    <Download className="w-4 h-4" />
+                    <span>Download Resume</span>
+                  </>
+                )}
               </button>
             </div>
           </motion.div>

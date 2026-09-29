@@ -185,80 +185,94 @@ export function Navbar() {
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
-            transition={{ type: 'spring', bounce: 0, duration: 0.4 }}
+            transition={{ type: 'spring', bounce: 0, duration: 0.35 }}
             drag="x"
+            dragDirectionLock
             dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={{ left: 0, right: 0.5 }}
+            dragElastic={{ left: 0, right: 0.4 }}
             onDragEnd={(e, { offset, velocity }) => {
               if (offset.x > 50 || velocity.x > 200) {
                 setMobileMenuOpen(false);
               }
             }}
-            className="fixed top-0 right-0 h-screen w-[85vw] max-w-sm bg-white dark:bg-black/95 backdrop-blur-3xl border-l border-black/5 dark:border-white/10 flex flex-col pt-20 px-6 gap-3 md:hidden shadow-2xl z-50 touch-none overflow-y-auto"
+            className="fixed top-0 right-0 h-[100dvh] max-h-[100dvh] w-[85vw] max-w-sm bg-white/95 dark:bg-zinc-950/95 backdrop-blur-3xl border-l border-black/10 dark:border-white/10 flex flex-col md:hidden shadow-2xl z-50 overflow-hidden"
           >
-            {/* Close Button inside Sidebar */}
-            <button
-              onClick={() => setMobileMenuOpen(false)}
-              className="absolute top-5 right-5 p-2 text-black/70 dark:text-white/70 hover:text-black dark:hover:text-white transition-colors focus:outline-none cursor-pointer"
-              aria-label="Close menu"
-            >
-              <X className="w-7 h-7" />
-            </button>
-
-            {/* Hire Me CTA at top of Mobile Menu - Full Width */}
-            <div className="w-full mb-1">
+            {/* Top Header inside Sidebar */}
+            <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-black/5 dark:border-white/10 shrink-0">
+              <span className="text-lg font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-emerald-500 dark:from-blue-400 dark:to-emerald-300">
+                Shamim Robin
+              </span>
               <button
-                type="button"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  window.dispatchEvent(new CustomEvent('open-hire-modal'));
-                }}
-                className="w-full py-3.5 px-6 rounded-full text-base font-semibold text-white bg-gradient-to-r from-blue-600 via-teal-500 to-emerald-500 hover:from-emerald-500 hover:via-teal-500 hover:to-blue-600 shadow-md shadow-blue-500/20 hover:shadow-emerald-500/30 transition-all duration-300 cursor-pointer flex items-center justify-center gap-2 active:scale-[0.98]"
+                onClick={() => setMobileMenuOpen(false)}
+                className="p-2 -mr-2 text-black/70 dark:text-white/70 hover:text-black dark:hover:text-white transition-colors focus:outline-none cursor-pointer rounded-full hover:bg-black/5 dark:hover:bg-white/10"
+                aria-label="Close menu"
               >
-                <Sparkles className="w-4 h-4 text-yellow-300 animate-pulse" />
-                Hire Me
+                <X className="w-6 h-6" />
               </button>
             </div>
 
-            {/* Navigation Links - Full Width */}
-            <div className="w-full flex flex-col gap-2.5">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={(e) => {
+            {/* Scrollable Navigation Body */}
+            <div className="flex-1 overflow-y-auto px-6 py-4 flex flex-col gap-2.5 min-h-0 touch-pan-y overscroll-contain">
+              {/* Hire Me CTA at top of Mobile Menu - Full Width */}
+              <div className="w-full mb-1 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => {
                     setMobileMenuOpen(false);
-                    if (link.href === '#resume') {
-                      e.preventDefault();
-                      window.dispatchEvent(new CustomEvent('open-resume-modal'));
-                    }
+                    window.dispatchEvent(new CustomEvent('open-hire-modal'));
                   }}
-                  className="w-full py-3 px-6 rounded-full text-base font-semibold text-black/80 dark:text-white/80 bg-black/[0.04] dark:bg-white/[0.06] hover:bg-black/10 dark:hover:bg-white/15 hover:text-blue-600 dark:hover:text-blue-400 border border-black/5 dark:border-white/5 active:scale-[0.98] transition-all duration-200 text-center flex items-center justify-center cursor-pointer"
+                  className="w-full py-3.5 px-6 rounded-full text-base font-semibold text-white bg-gradient-to-r from-blue-600 via-teal-500 to-emerald-500 hover:from-emerald-500 hover:via-teal-500 hover:to-blue-600 shadow-md shadow-blue-500/20 hover:shadow-emerald-500/30 transition-all duration-300 cursor-pointer flex items-center justify-center gap-2 active:scale-[0.98]"
                 >
-                  {link.name}
-                </a>
-              ))}
+                  <Sparkles className="w-4 h-4 text-yellow-300 animate-pulse" />
+                  Hire Me
+                </button>
+              </div>
+
+              {/* Navigation Links - Full Width */}
+              <div className="w-full flex flex-col gap-2 shrink-0">
+                {navLinks.map((link) => (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    onClick={(e) => {
+                      setMobileMenuOpen(false);
+                      if (link.href === '#resume') {
+                        e.preventDefault();
+                        window.dispatchEvent(new CustomEvent('open-resume-modal'));
+                      }
+                    }}
+                    className="w-full py-3 px-6 rounded-full text-base font-semibold text-black/80 dark:text-white/80 bg-black/[0.04] dark:bg-white/[0.06] hover:bg-black/10 dark:hover:bg-white/15 hover:text-blue-600 dark:hover:text-blue-400 border border-black/5 dark:border-white/5 active:scale-[0.98] transition-all duration-200 text-center flex items-center justify-center cursor-pointer"
+                  >
+                    {link.name}
+                  </a>
+                ))}
+              </div>
             </div>
 
-            {/* Social Icons at the bottom */}
-            <div className="mt-auto pt-6 mb-6 flex justify-center gap-3 w-full border-t border-black/5 dark:border-white/10">
-              {[
-                { icon: Github, href: 'https://github.com/shamimahmedrobin', label: 'GitHub' },
-                { icon: Linkedin, href: 'https://www.linkedin.com/in/shamimahmedrobin', label: 'LinkedIn' },
-                { icon: Facebook, href: 'https://www.facebook.com/shamimahmedrobin2', label: 'Facebook' },
-                { icon: Twitter, href: 'https://x.com/ShamimRobin10', label: 'X (Twitter)' },
-              ].map((social, index) => (
-                <a
-                  key={index}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.label}
-                  className="w-10 h-10 rounded-full bg-black/5 dark:bg-white/10 flex items-center justify-center text-black/70 dark:text-white/70 hover:text-blue-600 dark:hover:text-blue-400 hover:scale-110 transition-all cursor-pointer"
-                >
-                  <social.icon className="w-5 h-5" />
-                </a>
-              ))}
+            {/* Social Icons Pinned at the Bottom - Always Visible */}
+            <div className="shrink-0 w-full px-6 pt-4 pb-[max(1.5rem,env(safe-area-inset-bottom))] border-t border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02]">
+              <p className="text-xs text-center font-medium text-black/50 dark:text-white/50 mb-3 uppercase tracking-wider">
+                Follow & Connect
+              </p>
+              <div className="flex justify-center items-center gap-3 w-full">
+                {[
+                  { icon: Github, href: 'https://github.com/shamimahmedrobin', label: 'GitHub' },
+                  { icon: Linkedin, href: 'https://www.linkedin.com/in/shamimahmedrobin', label: 'LinkedIn' },
+                  { icon: Facebook, href: 'https://www.facebook.com/shamimahmedrobin2', label: 'Facebook' },
+                  { icon: Twitter, href: 'https://x.com/ShamimRobin10', label: 'X (Twitter)' },
+                ].map((social, index) => (
+                  <a
+                    key={index}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.label}
+                    className="w-11 h-11 rounded-full bg-black/5 dark:bg-white/10 flex items-center justify-center text-black/80 dark:text-white/80 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-black/10 dark:hover:bg-white/20 hover:scale-110 active:scale-95 transition-all cursor-pointer shadow-sm border border-black/5 dark:border-white/5"
+                  >
+                    <social.icon className="w-5 h-5" />
+                  </a>
+                ))}
+              </div>
             </div>
           </motion.div>
         )}
