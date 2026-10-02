@@ -2,6 +2,7 @@ import { Navbar } from '@/components/Navbar';
 import { Hero } from '@/components/Hero';
 import { ProfessionalHighlights } from '@/components/ProfessionalHighlights';
 import { About } from '@/components/About';
+import { Experience } from '@/components/Experience';
 import { Skills } from '@/components/Skills';
 import { Projects } from '@/components/Projects';
 import { Contact } from '@/components/Contact';
@@ -21,6 +22,7 @@ export default function Home() {
       <Hero />
       <About />
       <ProfessionalHighlights />
+      <Experience />
       <Skills />
       <Projects />
       <Contact />
