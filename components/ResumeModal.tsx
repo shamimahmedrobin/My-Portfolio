@@ -24,8 +24,8 @@ import {
 
 export function ResumeModal() {
   const [isOpen, setIsOpen] = React.useState(false);
-  const pdfUrl = '/resume.pdf';
-  const pdfFilename = 'Shamim_Ahmed_Robin_Resume.pdf';
+  const pdfUrl = '/Shamim-Ahmed-Robin-Resume.pdf';
+  const pdfFilename = 'Shamim-Ahmed-Robin-Resume.pdf';
 
   // Close modal and cleanly remove #resume from URL
   const closeModal = React.useCallback(() => {
@@ -142,14 +142,27 @@ export function ResumeModal() {
   };
 
   // Handle direct PDF download of the set PDF
-  const handleDownload = () => {
-    const link = document.createElement('a');
-    link.href = pdfUrl;
-    link.download = pdfFilename;
-    link.target = '_blank';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const handleDownload = async () => {
+    try {
+      const response = await fetch(pdfUrl);
+      if (!response.ok) throw new Error('Fetch failed');
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = pdfFilename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(() => window.URL.revokeObjectURL(blobUrl), 2000);
+    } catch {
+      const link = document.createElement('a');
+      link.href = pdfUrl;
+      link.download = pdfFilename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   };
 
   return (

@@ -30,9 +30,9 @@ function addLinkAnnotation(pdfDoc, page, url, rect) {
 async function generateResumePdf() {
   const pdfDoc = await PDFDocument.create();
   
-  // Standard Letter dimensions (612 x 792 points)
-  const width = 612;
-  const height = 792;
+  // Standard ISO A4 dimensions: 210mm x 297mm (595.28 x 841.89 points)
+  const width = 595.28;
+  const height = 841.89;
   const page = pdfDoc.addPage([width, height]);
 
   // Load standard fonts
@@ -41,10 +41,10 @@ async function generateResumePdf() {
   const fontOblique = await pdfDoc.embedFont(StandardFonts.HelveticaOblique);
 
   // Left sidebar dimensions
-  const sidebarWidth = 195;
+  const sidebarWidth = 190;
   const sidebarColor = rgb(26 / 255, 52 / 255, 98 / 255); // Premium deep navy blue
-  const mainX = sidebarWidth + 24;
-  const mainWidth = width - mainX - 24;
+  const mainX = sidebarWidth + 22;
+  const mainWidth = width - mainX - 22;
 
   // Draw full-height sidebar background
   page.drawRectangle({
@@ -57,8 +57,13 @@ async function generateResumePdf() {
 
   // Embed profile photo
   try {
-    const photoBytes = await fs.readFile(path.join(process.cwd(), 'public', 'profile.jpg'));
-    const photoImage = await pdfDoc.embedJpg(photoBytes);
+    const rawPhoto = await fs.readFile(path.join(process.cwd(), 'public', 'profile.jpg'));
+    // Optimize photo to exact 3x retina dimensions (324x324) with standard baseline JPEG for instantaneous PDF decoding
+    const optimizedPhoto = await sharp(rawPhoto)
+      .resize(324, 324, { fit: 'cover' })
+      .jpeg({ quality: 90, progressive: false })
+      .toBuffer();
+    const photoImage = await pdfDoc.embedJpg(optimizedPhoto);
     const photoDim = 108;
     const photoX = (sidebarWidth - photoDim) / 2;
     const photoY = height - 138;
@@ -84,17 +89,20 @@ async function generateResumePdf() {
 
   // --- PREPARE HIGH-RES ICONS FOR CONTACT ITEMS ---
   const iconSvgs = {
-    mail: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>`,
-    phone: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`,
-    location: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>`,
-    linkedin: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48"><path fill="#ffffff" d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.5 1.5 0 0 0 0-3 1.5 1.5 0 0 0 0 3m1.4 9.74v-8.37H5.06v8.37h2.8z"/></svg>`,
-    github: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48"><path fill="#ffffff" fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>`,
-    globe: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48"><path fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 0a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10zM2 12h20"/></svg>`,
+    mail: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>`,
+    phone: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`,
+    location: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>`,
+    linkedin: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32"><path fill="#ffffff" d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.5 1.5 0 0 0 0-3 1.5 1.5 0 0 0 0 3m1.4 9.74v-8.37H5.06v8.37h2.8z"/></svg>`,
+    github: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32"><path fill="#ffffff" fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>`,
+    globe: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32"><path fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 0a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10zM2 12h20"/></svg>`,
   };
 
   const embeddedIcons = {};
   for (const [key, svg] of Object.entries(iconSvgs)) {
-    const pngBuf = await sharp(Buffer.from(svg)).png().toBuffer();
+    const pngBuf = await sharp(Buffer.from(svg))
+      .resize(32, 32)
+      .png({ compressionLevel: 9 })
+      .toBuffer();
     embeddedIcons[key] = await pdfDoc.embedPng(pngBuf);
   }
 
@@ -700,9 +708,18 @@ async function generateResumePdf() {
 
   console.log(`Final Positions => sideY: ${sideY.toFixed(1)}, mainY: ${mainY.toFixed(1)} (page bottom is 0)`);
 
-  const pdfBytes = await pdfDoc.save();
+  // Document metadata for fast viewer parsing
+  pdfDoc.setTitle('Shamim Ahmed Robin - Resume');
+  pdfDoc.setAuthor('Shamim Ahmed Robin');
+  pdfDoc.setSubject('Resume - Web Developer & Digital Marketing Specialist');
+  pdfDoc.setCreator('Shamim Ahmed Robin');
+  pdfDoc.setProducer('Shamim Ahmed Robin');
+
+  // useObjectStreams: false ensures standard linear cross-reference table for instant, zero-delay rendering
+  const pdfBytes = await pdfDoc.save({ useObjectStreams: false });
   await fs.writeFile(path.join(process.cwd(), 'public', 'resume.pdf'), pdfBytes);
-  console.log('Successfully regenerated public/resume.pdf! Size:', pdfBytes.length);
+  await fs.writeFile(path.join(process.cwd(), 'public', 'Shamim-Ahmed-Robin-Resume.pdf'), pdfBytes);
+  console.log('Successfully regenerated public/resume.pdf and public/Shamim-Ahmed-Robin-Resume.pdf! Size:', pdfBytes.length);
 }
 
 generateResumePdf().catch(console.error);

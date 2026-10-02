@@ -230,6 +230,23 @@ export function Navbar() {
 
             {/* Scrollable Navigation Body */}
             <div className="flex-1 overflow-y-auto px-6 py-4 flex flex-col gap-2.5 min-h-0 touch-pan-y overscroll-contain">
+              {/* Home Button above Hire Me */}
+              <div className="w-full shrink-0">
+                <Link
+                  href="/#"
+                  onClick={(e) => {
+                    setMobileMenuOpen(false);
+                    if (typeof window !== 'undefined' && window.location.pathname === '/') {
+                      e.preventDefault();
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                  }}
+                  className="w-full py-3 px-6 rounded-full text-base font-semibold text-black/80 dark:text-white/80 bg-black/[0.04] dark:bg-white/[0.06] hover:bg-black/10 dark:hover:bg-white/15 hover:text-blue-600 dark:hover:text-blue-400 border border-black/5 dark:border-white/5 active:scale-[0.98] transition-all duration-200 text-center flex items-center justify-center cursor-pointer"
+                >
+                  Home
+                </Link>
+              </div>
+
               {/* Hire Me CTA at top of Mobile Menu - Full Width */}
               <div className="w-full mb-1 shrink-0">
                 <button
