@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { flushSync } from 'react-dom';
 import { useTheme } from 'next-themes';
 import { Moon, Sun, Menu, X, Github, Linkedin, Facebook, Twitter, Sparkles } from 'lucide-react';
@@ -100,9 +101,20 @@ export function Navbar() {
     <header className="fixed top-0 w-full z-50 py-4 bg-white/70 dark:bg-black/40 backdrop-blur-xl border-b border-black/5 dark:border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
         {/* Logo */}
-        <Link href="/" className="relative group">
-          <span className="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-emerald-500 dark:from-blue-400 dark:to-emerald-300 drop-shadow-md">
-            Shamim Robin
+        <Link href="/" className="relative group flex items-center gap-2.5">
+          <div className="relative w-8 h-8 sm:w-9 sm:h-9 shrink-0">
+            <Image
+              src="/logo.png"
+              alt="Shamim Logo"
+              width={36}
+              height={36}
+              priority
+              referrerPolicy="no-referrer"
+              className="w-full h-full object-contain rounded-full shadow-md shadow-blue-500/20 group-hover:scale-105 group-hover:rotate-6 transition-all duration-300"
+            />
+          </div>
+          <span className="text-xl sm:text-2xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-emerald-500 dark:from-blue-400 dark:to-emerald-300 drop-shadow-md">
+            Shamim
           </span>
           <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-emerald-400 group-hover:w-full transition-all duration-300 ease-out"></span>
         </Link>
@@ -216,9 +228,26 @@ export function Navbar() {
           >
             {/* Top Header inside Sidebar */}
             <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-black/5 dark:border-white/10 shrink-0">
-              <span className="text-lg font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-emerald-500 dark:from-blue-400 dark:to-emerald-300">
-                Shamim Robin
-              </span>
+              <Link
+                href="/"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-2.5 group"
+              >
+                <div className="relative w-7 h-7 shrink-0">
+                  <Image
+                    src="/logo.png"
+                    alt="Shamim Logo"
+                    width={28}
+                    height={28}
+                    priority
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-contain rounded-full shadow-sm shadow-blue-500/20"
+                  />
+                </div>
+                <span className="text-lg font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-emerald-500 dark:from-blue-400 dark:to-emerald-300">
+                  Shamim
+                </span>
+              </Link>
               <button
                 onClick={() => setMobileMenuOpen(false)}
                 className="p-2 -mr-2 text-black/70 dark:text-white/70 hover:text-black dark:hover:text-white transition-colors focus:outline-none cursor-pointer rounded-full hover:bg-black/5 dark:hover:bg-white/10"
