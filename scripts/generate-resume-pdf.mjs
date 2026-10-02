@@ -59,9 +59,9 @@ async function generateResumePdf() {
   try {
     const photoBytes = await fs.readFile(path.join(process.cwd(), 'public', 'profile.jpg'));
     const photoImage = await pdfDoc.embedJpg(photoBytes);
-    const photoDim = 118;
+    const photoDim = 108;
     const photoX = (sidebarWidth - photoDim) / 2;
-    const photoY = height - 152;
+    const photoY = height - 138;
 
     // Draw white background / border for photo
     page.drawRectangle({
@@ -99,29 +99,29 @@ async function generateResumePdf() {
   }
 
   // --- LEFT SIDEBAR CONTENT ---
-  let sideY = height - 176;
+  let sideY = height - 156;
   const sideX = 18;
   const sideTextColor = rgb(1, 1, 1);
   const sideSubTextColor = rgb(220 / 255, 230 / 255, 245 / 255);
   const sideAccentColor = rgb(105 / 255, 150 / 255, 220 / 255);
 
   const drawSidebarSection = (title) => {
-    sideY -= 28;
+    sideY -= 18;
     page.drawText(title, {
       x: sideX,
       y: sideY,
-      size: 11.5,
+      size: 10.5,
       font: fontBold,
       color: sideTextColor,
     });
-    sideY -= 5;
+    sideY -= 4;
     page.drawLine({
       start: { x: sideX, y: sideY },
       end: { x: sidebarWidth - 18, y: sideY },
-      thickness: 1,
+      thickness: 0.8,
       color: sideAccentColor,
     });
-    sideY -= 16;
+    sideY -= 11;
   };
 
   // 1. CONTACT - Option 2: Sleek Clickable Icons + Short Handles
@@ -202,7 +202,7 @@ async function generateResumePdf() {
       ]);
     }
 
-    sideY -= 18;
+    sideY -= 16;
   }
 
   // 2. SKILLS
@@ -217,15 +217,15 @@ async function generateResumePdf() {
     'Pixel Setup, CAPI, Analytics',
   ];
   for (const s of skills) {
-    page.drawText('•', { x: sideX, y: sideY, size: 9, font: fontBold, color: rgb(140 / 255, 195 / 255, 255 / 255) });
+    page.drawText('•', { x: sideX, y: sideY, size: 8.5, font: fontBold, color: rgb(140 / 255, 195 / 255, 255 / 255) });
     page.drawText(s, {
       x: sideX + 9,
       y: sideY,
-      size: 8.8,
+      size: 8.6,
       font: fontRegular,
       color: sideSubTextColor,
     });
-    sideY -= 18;
+    sideY -= 15.5;
   }
 
   // 3. LANGUAGES
@@ -236,10 +236,10 @@ async function generateResumePdf() {
     { name: 'Hindi', level: 'Conversational' },
   ];
   for (const l of languages) {
-    page.drawText(`${l.name}: `, { x: sideX, y: sideY, size: 9, font: fontBold, color: sideTextColor });
-    const nameWidth = fontBold.widthOfTextAtSize(`${l.name}: `, 9);
-    page.drawText(l.level, { x: sideX + nameWidth, y: sideY, size: 9, font: fontRegular, color: sideSubTextColor });
-    sideY -= 19;
+    page.drawText(`${l.name}: `, { x: sideX, y: sideY, size: 8.8, font: fontBold, color: sideTextColor });
+    const nameWidth = fontBold.widthOfTextAtSize(`${l.name}: `, 8.8);
+    page.drawText(l.level, { x: sideX + nameWidth, y: sideY, size: 8.8, font: fontRegular, color: sideSubTextColor });
+    sideY -= 16;
   }
 
   // 4. CERTIFICATES
@@ -251,12 +251,70 @@ async function generateResumePdf() {
   ];
   for (let i = 0; i < certificates.length; i++) {
     const cert = certificates[i];
-    page.drawText('•', { x: sideX, y: sideY, size: 9, font: fontBold, color: rgb(140 / 255, 195 / 255, 255 / 255) });
-    page.drawText(cert.title, { x: sideX + 9, y: sideY, size: 8.6, font: fontBold, color: sideTextColor });
-    sideY -= 13.5;
-    page.drawText(cert.issuer, { x: sideX + 9, y: sideY, size: 8.2, font: fontRegular, color: sideSubTextColor });
+    page.drawText('•', { x: sideX, y: sideY, size: 8.5, font: fontBold, color: rgb(140 / 255, 195 / 255, 255 / 255) });
+    page.drawText(cert.title, { x: sideX + 9, y: sideY, size: 8.4, font: fontBold, color: sideTextColor });
+    sideY -= 12;
+    page.drawText(cert.issuer, { x: sideX + 9, y: sideY, size: 8, font: fontRegular, color: sideSubTextColor });
     if (i < certificates.length - 1) {
-      sideY -= 20;
+      sideY -= 16;
+    }
+  }
+  sideY -= 18; // Generous breathing space above OVERALL VERDICT
+
+  // 5. OVERALL VERDICT
+  drawSidebarSection('OVERALL VERDICT');
+  const verdicts = [
+    { label: 'Design', score: '8.5/10', val: 8.5 },
+    { label: 'Content', score: '9.5/10', val: 9.5 },
+    { label: 'Credibility/Consistency', score: '8/10', val: 8.0 },
+    { label: 'Potential after Revision', score: '9/10', val: 9.0 },
+  ];
+
+  const barWidth = sidebarWidth - sideX - 18; // 159
+
+  for (let i = 0; i < verdicts.length; i++) {
+    const v = verdicts[i];
+    // Label
+    page.drawText(v.label, {
+      x: sideX,
+      y: sideY,
+      size: 8.2,
+      font: fontBold,
+      color: sideSubTextColor,
+    });
+
+    // Score on right
+    const scoreW = fontBold.widthOfTextAtSize(v.score, 8.2);
+    page.drawText(v.score, {
+      x: sidebarWidth - 18 - scoreW,
+      y: sideY,
+      size: 8.2,
+      font: fontBold,
+      color: rgb(140 / 255, 195 / 255, 255 / 255),
+    });
+    sideY -= 6;
+
+    // Progress Bar Background
+    page.drawRectangle({
+      x: sideX,
+      y: sideY,
+      width: barWidth,
+      height: 2.5,
+      color: rgb(38 / 255, 65 / 255, 115 / 255),
+    });
+
+    // Progress Bar Fill
+    const fillWidth = barWidth * (v.val / 10);
+    page.drawRectangle({
+      x: sideX,
+      y: sideY,
+      width: fillWidth,
+      height: 2.5,
+      color: rgb(96 / 255, 165 / 255, 250 / 255),
+    });
+
+    if (i < verdicts.length - 1) {
+      sideY -= 13;
     }
   }
 
@@ -334,20 +392,65 @@ async function generateResumePdf() {
   // 1. SUMMARY
   drawMainSectionHeader('SUMMARY');
   const summaryParagraph = 
-    'Highly motivated Web Developer & Digital Marketing Specialist with strong foundations in modern frontend architecture, full-stack web applications, and performance marketing. Passionate about building fast, scalable digital products and driving high-converting customer acquisition funnels. Seeking opportunities to apply technical engineering and strategic growth marketing within a dynamic environment.';
+    'Web Developer and Digital Marketing Specialist with hands-on experience building and managing e-commerce platforms, social media campaigns, customer acquisition funnels, SEO, and performance marketing. Founder and Lead Developer of StyleSphere, where I work across product development, digital marketing, analytics, and business operations.';
 
-  const summaryLines = wrapText(summaryParagraph, mainWidth, 9.5, fontRegular);
-  for (const line of summaryLines) {
-    page.drawText(line, {
-      x: mainX,
-      y: mainY,
-      size: 9.5,
-      font: fontRegular,
-      color: grayColor,
-    });
-    mainY -= 16;
-  }
-  mainY -= 18;
+  // Draw justified paragraph
+  const drawJustifiedParagraph = (text, startX, maxWidth, size, font, color, lineHeight) => {
+    const words = text.trim().split(/\s+/);
+    const lines = [];
+    let currentWords = [words[0]];
+
+    for (let i = 1; i < words.length; i++) {
+      const word = words[i];
+      const testLine = [...currentWords, word].join(' ');
+      if (font.widthOfTextAtSize(testLine, size) <= maxWidth) {
+        currentWords.push(word);
+      } else {
+        lines.push(currentWords);
+        currentWords = [word];
+      }
+    }
+    lines.push(currentWords);
+
+    for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+      const lineWords = lines[lineIndex];
+      const isLastLine = lineIndex === lines.length - 1;
+
+      if (isLastLine || lineWords.length <= 1) {
+        // Last line left-aligned
+        page.drawText(lineWords.join(' '), {
+          x: startX,
+          y: mainY,
+          size,
+          font,
+          color,
+        });
+      } else {
+        // Justified line: calculate exact inter-word spacing
+        const totalWordsWidth = lineWords.reduce((sum, w) => sum + font.widthOfTextAtSize(w, size), 0);
+        const gaps = lineWords.length - 1;
+        const spaceWidth = (maxWidth - totalWordsWidth) / gaps;
+
+        let curX = startX;
+        for (let wIndex = 0; wIndex < lineWords.length; wIndex++) {
+          const w = lineWords[wIndex];
+          page.drawText(w, {
+            x: curX,
+            y: mainY,
+            size,
+            font,
+            color,
+          });
+          curX += font.widthOfTextAtSize(w, size) + spaceWidth;
+        }
+      }
+
+      mainY -= lineHeight;
+    }
+  };
+
+  drawJustifiedParagraph(summaryParagraph, mainX, mainWidth, 9.4, fontRegular, grayColor, 14.5);
+  mainY -= 14;
 
   // 2. EXPERIENCE
   drawMainSectionHeader('EXPERIENCE');
@@ -368,7 +471,7 @@ async function generateResumePdf() {
       company: 'TrustShopBD',
       role: 'Social Media Manager',
       date: 'Nov 2022 – Jul 2024',
-      meta: 'Part-time • Remote • 3 yrs 9 mos',
+      meta: 'Part-time • Remote',
       bullets: [
         'Managed multi-channel social media brand presence, campaign content, and promotions.',
         'Handled Customer Relationship Management (CRM) and audience interaction workflows.',

@@ -256,8 +256,8 @@ export function ResumeModal() {
                   <FileText className="w-5 h-5 text-blue-500" />
                   Professional Summary
                 </h2>
-                <p className="text-sm sm:text-base text-black/70 dark:text-white/70 leading-relaxed">
-                  Versatile Web Developer and Digital Marketing Strategist passionate about crafting blazing-fast, responsive web applications and high-converting marketing campaigns. Expert at bridging modern web frameworks (Next.js, React, Tailwind CSS) with performance-driven user acquisition (Meta Ads, Google Analytics, CRO).
+                <p className="text-sm sm:text-base text-black/70 dark:text-white/70 leading-relaxed text-justify">
+                  Web Developer and Digital Marketing Specialist with hands-on experience building and managing e-commerce platforms, social media campaigns, customer acquisition funnels, SEO, and performance marketing. Founder and Lead Developer of StyleSphere, where I work across product development, digital marketing, analytics, and business operations.
                 </p>
               </div>
 
@@ -330,8 +330,6 @@ export function ResumeModal() {
                       <span>Part-time</span>
                       <span className="text-black/30 dark:text-white/30">•</span>
                       <span>Remote</span>
-                      <span className="text-black/30 dark:text-white/30">•</span>
-                      <span>3 yrs 9 mos</span>
                     </div>
 
                     <ul className="mt-3 space-y-1.5 text-xs sm:text-sm text-black/75 dark:text-white/75">
