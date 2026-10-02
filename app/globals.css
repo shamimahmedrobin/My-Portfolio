@@ -29,6 +29,7 @@ input[type="button"],
 input[type="submit"],
 input[type="reset"] {
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 button:disabled,
@@ -57,7 +58,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/* View Transition Animations */
+/* View Transition Ripple / Wave Animations */
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation: none;
@@ -69,13 +70,43 @@ html {
 }
 
 ::view-transition-new(root) {
-  z-index: 2;
+  z-index: 99999;
 }
 
-.dark::view-transition-old(root) {
-  z-index: 2;
-}
+/* Print styles for Resume */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
 
-.dark::view-transition-new(root) {
-  z-index: 1;
+  /* Hide backdrop, modal header and footer buttons */
+  #resume-modal-backdrop,
+  #resume-modal-header,
+  #resume-modal-footer,
+  header,
+  nav,
+  footer {
+    display: none !important;
+  }
+
+  .fixed {
+    position: static !important;
+  }
+
+  #resume-modal-container {
+    border: none !important;
+    box-shadow: none !important;
+    max-height: none !important;
+    max-width: 100% !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    overflow: visible !important;
+  }
+
+  #resume-printable-area {
+    padding: 0 !important;
+    overflow: visible !important;
+    color: #000000 !important;
+  }
 }

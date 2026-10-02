@@ -2,10 +2,30 @@
 
 import * as React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Download, Printer, ExternalLink, Mail, MapPin, Briefcase, GraduationCap, Code, CheckCircle, Award, Compass, BookOpen, Terminal, Heart } from 'lucide-react';
+import { 
+  X, 
+  Download, 
+  Printer, 
+  ExternalLink, 
+  Mail, 
+  MapPin, 
+  Briefcase, 
+  GraduationCap, 
+  Code, 
+  CheckCircle, 
+  Award, 
+  Compass, 
+  BookOpen, 
+  Terminal, 
+  Heart,
+  FileText,
+  FolderGit2
+} from 'lucide-react';
 
 export function ResumeModal() {
   const [isOpen, setIsOpen] = React.useState(false);
+  const pdfUrl = '/resume.pdf';
+  const pdfFilename = 'Shamim_Ahmed_Robin_Resume.pdf';
 
   // Close modal and cleanly remove #resume from URL
   const closeModal = React.useCallback(() => {
@@ -72,8 +92,64 @@ export function ResumeModal() {
     };
   }, [isOpen]);
 
+  // Handle direct PDF print of the set PDF
   const handlePrint = () => {
-    window.print();
+    // On mobile devices (iOS / Android), hidden iframe print is often unsupported or blocked.
+    // Opening directly in a new tab lets the native mobile PDF viewer display & print reliably.
+    const isMobile = typeof navigator !== 'undefined' && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) {
+      window.open(pdfUrl, '_blank');
+      return;
+    }
+
+    const printFrame = document.createElement('iframe');
+    printFrame.style.position = 'fixed';
+    printFrame.style.right = '0';
+    printFrame.style.bottom = '0';
+    printFrame.style.width = '0';
+    printFrame.style.height = '0';
+    printFrame.style.border = '0';
+    printFrame.src = pdfUrl;
+
+    document.body.appendChild(printFrame);
+
+    let printed = false;
+    const triggerPrint = () => {
+      if (printed) return;
+      printed = true;
+      try {
+        printFrame.contentWindow?.focus();
+        printFrame.contentWindow?.print();
+      } catch {
+        window.open(pdfUrl, '_blank');
+      }
+      setTimeout(() => {
+        try {
+          document.body.removeChild(printFrame);
+        } catch {}
+      }, 60000);
+    };
+
+    printFrame.onload = () => {
+      setTimeout(triggerPrint, 300);
+    };
+
+    setTimeout(() => {
+      if (!printed) {
+        triggerPrint();
+      }
+    }, 2000);
+  };
+
+  // Handle direct PDF download of the set PDF
+  const handleDownload = () => {
+    const link = document.createElement('a');
+    link.href = pdfUrl;
+    link.download = pdfFilename;
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -82,6 +158,7 @@ export function ResumeModal() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-6 overflow-y-auto">
           {/* Backdrop */}
           <motion.div
+            id="resume-modal-backdrop"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -92,6 +169,7 @@ export function ResumeModal() {
 
           {/* Modal Card */}
           <motion.div
+            id="resume-modal-container"
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -99,26 +177,30 @@ export function ResumeModal() {
             className="relative w-full max-w-4xl max-h-[92vh] sm:max-h-[90vh] bg-white dark:bg-[#0f1117] rounded-2xl sm:rounded-3xl shadow-2xl border border-black/10 dark:border-white/10 flex flex-col z-10 overflow-hidden"
           >
             {/* Modal Header */}
-            <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02]">
+            <div id="resume-modal-header" className="flex items-center justify-between px-4 sm:px-6 py-3.5 sm:py-4 border-b border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02]">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span className="text-xs sm:text-sm font-semibold text-black/70 dark:text-white/70">Resume Preview</span>
+                <span className="text-xs sm:text-sm font-semibold text-black/80 dark:text-white/80">Resume Preview</span>
               </div>
 
-              <div className="flex items-center gap-2">
+              {/* Header Action: Only Print Icon and Close (X) */}
+              <div className="flex items-center gap-1">
+                {/* Print Icon Button */}
                 <button
                   type="button"
-                  disabled
-                  className="p-1.5 sm:p-2 rounded-xl text-black/40 dark:text-white/40 cursor-not-allowed flex items-center gap-1.5 text-xs font-medium select-none opacity-60"
-                  title="Print / Save Resume is temporarily unavailable"
+                  onClick={handlePrint}
+                  className="p-2 rounded-xl text-black/70 dark:text-white/70 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer active:scale-95"
+                  title="Print Resume"
+                  aria-label="Print Resume"
                 >
-                  <Printer className="w-4 h-4" />
-                  <span className="hidden sm:inline">Print / Save PDF</span>
+                  <Printer className="w-5 h-5" />
                 </button>
+
+                {/* Close Button */}
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="p-1.5 sm:p-2 rounded-xl text-black/70 dark:text-white/70 hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
+                  className="p-2 rounded-xl text-black/70 dark:text-white/70 hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer active:scale-95"
                   aria-label="Close modal"
                 >
                   <X className="w-5 h-5" />
@@ -126,8 +208,8 @@ export function ResumeModal() {
               </div>
             </div>
 
-            {/* Resume Content (Scrollable) */}
-            <div className="p-4 sm:p-10 overflow-y-auto space-y-6 sm:space-y-8 text-black dark:text-white">
+            {/* Resume Content (Scrollable) - Preview remains 100% untouched */}
+            <div id="resume-printable-area" className="p-4 sm:p-10 overflow-y-auto space-y-6 sm:space-y-8 text-black dark:text-white">
               {/* Header Info */}
               <div className="border-b border-black/10 dark:border-white/10 pb-6 sm:pb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
@@ -171,12 +253,138 @@ export function ResumeModal() {
               {/* Summary */}
               <div>
                 <h2 className="text-xl font-bold mb-3 flex items-center gap-2 text-black dark:text-white">
-                  <Briefcase className="w-5 h-5 text-blue-500" />
+                  <FileText className="w-5 h-5 text-blue-500" />
                   Professional Summary
                 </h2>
                 <p className="text-sm sm:text-base text-black/70 dark:text-white/70 leading-relaxed">
                   Versatile Web Developer and Digital Marketing Strategist passionate about crafting blazing-fast, responsive web applications and high-converting marketing campaigns. Expert at bridging modern web frameworks (Next.js, React, Tailwind CSS) with performance-driven user acquisition (Meta Ads, Google Analytics, CRO).
                 </p>
+              </div>
+
+              {/* Experience */}
+              <div>
+                <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-black dark:text-white">
+                  <Briefcase className="w-5 h-5 text-blue-500" />
+                  Experience
+                </h2>
+                <div className="space-y-4">
+                  {/* StyleSphere */}
+                  <div className="p-4 sm:p-5 rounded-2xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 hover:border-blue-500/30 transition-colors">
+                    <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4">
+                      <div className="flex flex-wrap items-baseline gap-1.5 sm:gap-2">
+                        <h3 className="font-bold text-base sm:text-lg text-black dark:text-white">StyleSphere</h3>
+                        <span className="text-black/30 dark:text-white/30 font-normal">|</span>
+                        <span className="font-semibold text-sm sm:text-base text-blue-600 dark:text-blue-400">Founder &amp; Lead Developer</span>
+                      </div>
+                      <div className="text-xs sm:text-sm font-medium text-black/60 dark:text-white/60 whitespace-nowrap self-start sm:self-auto">
+                        Jul 2024 – Present
+                      </div>
+                    </div>
+                    
+                    <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-black/60 dark:text-white/60 mt-1 font-medium">
+                      <span>Full-time</span>
+                      <span className="text-black/30 dark:text-white/30">•</span>
+                      <span>Sylhet, Bangladesh (Hybrid)</span>
+                      <span className="text-black/30 dark:text-white/30">•</span>
+                      <a 
+                        href="https://stylesphere.com.bd" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center gap-1 font-medium"
+                      >
+                        stylesphere.com.bd
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    </div>
+
+                    <ul className="mt-3 space-y-1.5 text-xs sm:text-sm text-black/75 dark:text-white/75">
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 shrink-0" />
+                        <span>Founded StyleSphere, a modern direct-to-consumer (D2C) fashion &amp; lifestyle brand.</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 shrink-0" />
+                        <span>Architected full-stack e-commerce web platform using Next.js, React, and TypeScript.</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 shrink-0" />
+                        <span>Leading Search Engine Optimization (SEO), customer funnels, and performance marketing.</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  {/* TrustShopBD */}
+                  <div className="p-4 sm:p-5 rounded-2xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 hover:border-emerald-500/30 transition-colors">
+                    <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4">
+                      <div className="flex flex-wrap items-baseline gap-1.5 sm:gap-2">
+                        <h3 className="font-bold text-base sm:text-lg text-black dark:text-white">TrustShopBD</h3>
+                        <span className="text-black/30 dark:text-white/30 font-normal">|</span>
+                        <span className="font-semibold text-sm sm:text-base text-emerald-600 dark:text-emerald-400">Social Media Manager</span>
+                      </div>
+                      <div className="text-xs sm:text-sm font-medium text-black/60 dark:text-white/60 whitespace-nowrap self-start sm:self-auto">
+                        Nov 2022 – Jul 2024
+                      </div>
+                    </div>
+                    
+                    <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-black/60 dark:text-white/60 mt-1 font-medium">
+                      <span>Part-time</span>
+                      <span className="text-black/30 dark:text-white/30">•</span>
+                      <span>Remote</span>
+                      <span className="text-black/30 dark:text-white/30">•</span>
+                      <span>3 yrs 9 mos</span>
+                    </div>
+
+                    <ul className="mt-3 space-y-1.5 text-xs sm:text-sm text-black/75 dark:text-white/75">
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2 shrink-0" />
+                        <span>Managed multi-channel social media brand presence, campaign content, and promotions.</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2 shrink-0" />
+                        <span>Handled Customer Relationship Management (CRM) and audience interaction workflows.</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2 shrink-0" />
+                        <span>Drove consistent digital brand growth and customer engagement across key platforms.</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  {/* Fiverr */}
+                  <div className="p-4 sm:p-5 rounded-2xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 hover:border-purple-500/30 transition-colors">
+                    <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4">
+                      <div className="flex flex-wrap items-baseline gap-1.5 sm:gap-2">
+                        <h3 className="font-bold text-base sm:text-lg text-black dark:text-white">Fiverr</h3>
+                        <span className="text-black/30 dark:text-white/30 font-normal">|</span>
+                        <span className="font-semibold text-sm sm:text-base text-purple-600 dark:text-purple-400">Freelance Graphic Designer</span>
+                      </div>
+                      <div className="text-xs sm:text-sm font-medium text-black/60 dark:text-white/60 whitespace-nowrap self-start sm:self-auto">
+                        Jan 2020 – May 2024
+                      </div>
+                    </div>
+                    
+                    <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-black/60 dark:text-white/60 mt-1 font-medium">
+                      <span>Freelance</span>
+                      <span className="text-black/30 dark:text-white/30">•</span>
+                      <span>Remote (International Clients)</span>
+                    </div>
+
+                    <ul className="mt-3 space-y-1.5 text-xs sm:text-sm text-black/75 dark:text-white/75">
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-purple-500 mt-2 shrink-0" />
+                        <span>Created high-converting marketing visuals, digital ad banners, and social creatives.</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-purple-500 mt-2 shrink-0" />
+                        <span>Designed custom brand identity assets and UI graphics using Adobe Photoshop.</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-purple-500 mt-2 shrink-0" />
+                        <span>Maintained top client satisfaction ratings through high-quality visual deliverables.</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </div>
 
               {/* Core Skills */}
@@ -209,7 +417,7 @@ export function ResumeModal() {
               {/* Projects */}
               <div>
                 <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-black dark:text-white">
-                  <Briefcase className="w-5 h-5 text-purple-500" />
+                  <FolderGit2 className="w-5 h-5 text-purple-500" />
                   Key Projects & Portfolios
                 </h2>
                 <div className="space-y-4">
@@ -411,22 +619,25 @@ export function ResumeModal() {
             </div>
 
             {/* Modal Footer */}
-            <div className="px-6 py-4 border-t border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02] flex items-center justify-between">
+            <div id="resume-modal-footer" className="px-4 sm:px-6 py-3.5 sm:py-4 border-t border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02] flex items-center justify-between">
+              {/* Close Button on the Left */}
               <button
                 type="button"
                 onClick={closeModal}
-                className="px-5 py-2.5 rounded-full text-sm font-medium text-black/70 dark:text-white/70 hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
+                className="px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold text-black/70 dark:text-white/70 hover:bg-black/5 dark:hover:bg-white/10 border border-black/10 dark:border-white/10 transition-all cursor-pointer active:scale-95"
               >
                 Close
               </button>
+
+              {/* Download Button on the Right */}
               <button
                 type="button"
-                disabled
-                className="px-6 py-2.5 rounded-full text-sm font-semibold text-white/50 bg-black/40 dark:bg-white/20 dark:text-black/50 cursor-not-allowed select-none flex items-center gap-2 shadow-none"
-                title="Print / Save Resume is temporarily unavailable"
+                onClick={handleDownload}
+                className="px-6 py-2.5 rounded-full text-xs sm:text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 active:scale-95 transition-all cursor-pointer flex items-center gap-2 shadow-sm"
+                title="Download PDF"
               >
                 <Download className="w-4 h-4" />
-                Print / Save Resume
+                <span>Download</span>
               </button>
             </div>
           </motion.div>

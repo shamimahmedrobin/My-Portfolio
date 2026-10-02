@@ -1,18 +1,19 @@
 'use client';
 
 import * as React from 'react';
+import Link from 'next/link';
 import { flushSync } from 'react-dom';
 import { useTheme } from 'next-themes';
 import { Moon, Sun, Menu, X, Github, Linkedin, Facebook, Twitter, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 const navLinks = [
-  { name: 'About', href: '#about' },
-  { name: 'Highlights', href: '#highlights' },
-  { name: 'Skills', href: '#skills' },
-  { name: 'Projects', href: '#projects' },
+  { name: 'About', href: '/#about' },
+  { name: 'Highlights', href: '/#highlights' },
+  { name: 'Skills', href: '/#skills' },
+  { name: 'Projects', href: '/#projects' },
   { name: 'Resume', href: '#resume' },
-  { name: 'Contact', href: '#contact' },
+  { name: 'Contact', href: '/#contact' },
 ];
 
 const emptySubscribe = () => () => {};
@@ -39,23 +40,36 @@ export function Navbar() {
     };
   }, [mobileMenuOpen]);
 
-  const handleThemeToggle = () => {
+  const handleThemeToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
+    // Immediately blur the button so no focus circle/ring remains visible after click
+    e.currentTarget.blur();
+
     const isDark = theme === 'dark';
     const nextTheme = isDark ? 'light' : 'dark';
 
-    if (!document.startViewTransition) {
-      setTheme(nextTheme);
-      return;
-    }
+    // Get exact center coordinates of the clicked theme toggle button
+    const target = e.currentTarget;
+    const rect = target?.getBoundingClientRect?.() ?? {
+      left: window.innerWidth - 60,
+      top: 30,
+      width: 40,
+      height: 40,
+    };
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
 
-    // Coordinates for the middle of the screen
-    const x = window.innerWidth / 2;
-    const y = window.innerHeight / 2;
-
+    // Radius needed to reach the furthest corner of the viewport
     const endRadius = Math.hypot(
       Math.max(x, window.innerWidth - x),
       Math.max(y, window.innerHeight - y)
     );
+
+    const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReducedMotion || !document.startViewTransition) {
+      setTheme(nextTheme);
+      return;
+    }
 
     const transition = document.startViewTransition(() => {
       flushSync(() => {
@@ -64,21 +78,18 @@ export function Navbar() {
     });
 
     transition.ready.then(() => {
-      const clipPath = [
-        `circle(0px at ${x}px ${y}px)`,
-        `circle(${endRadius}px at ${x}px ${y}px)`,
-      ];
-
+      // Create a smooth circular wave ripple expanding outward from the theme toggle button across the entire website
       document.documentElement.animate(
         {
-          clipPath: isDark ? [...clipPath].reverse() : clipPath,
+          clipPath: [
+            `circle(0px at ${x}px ${y}px)`,
+            `circle(${endRadius}px at ${x}px ${y}px)`,
+          ],
         },
         {
-          duration: 500,
-          easing: 'ease-out',
-          pseudoElement: isDark
-            ? '::view-transition-old(root)'
-            : '::view-transition-new(root)',
+          duration: 650,
+          easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
+          pseudoElement: '::view-transition-new(root)',
         }
       );
     });
@@ -88,12 +99,12 @@ export function Navbar() {
     <header className="fixed top-0 w-full z-50 py-4 bg-white/70 dark:bg-black/40 backdrop-blur-xl border-b border-black/5 dark:border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
         {/* Logo */}
-        <a href="#" className="relative group">
+        <Link href="/" className="relative group">
           <span className="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-emerald-500 dark:from-blue-400 dark:to-emerald-300 drop-shadow-md">
             Shamim Robin
           </span>
           <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-emerald-400 group-hover:w-full transition-all duration-300 ease-out"></span>
-        </a>
+        </Link>
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-7">
@@ -102,7 +113,7 @@ export function Navbar() {
               key={link.name}
               href={link.href}
               onClick={(e) => {
-                if (link.href === '#resume') {
+                if (link.href === '#resume' || link.name === 'Resume') {
                   e.preventDefault();
                   window.dispatchEvent(new CustomEvent('open-resume-modal'));
                 }
@@ -127,14 +138,16 @@ export function Navbar() {
 
           {mounted && (
             <button
+              type="button"
               onClick={handleThemeToggle}
-              className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500/50 cursor-pointer"
+              className="relative p-2.5 rounded-full hover:bg-black/5 dark:hover:bg-white/10 active:scale-90 transition-all outline-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 cursor-pointer group"
               aria-label="Toggle theme"
+              title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
             >
               {theme === 'dark' ? (
-                <Sun className="w-5 h-5 text-yellow-300" />
+                <Sun className="w-5 h-5 text-yellow-300 transition-transform duration-300 group-hover:rotate-45" />
               ) : (
-                <Moon className="w-5 h-5 text-slate-700" />
+                <Moon className="w-5 h-5 text-slate-700 transition-transform duration-300 group-hover:-rotate-12" />
               )}
             </button>
           )}
@@ -144,13 +157,16 @@ export function Navbar() {
         <div className="flex items-center gap-4 md:hidden">
           {mounted && (
             <button
+              type="button"
               onClick={handleThemeToggle}
-              className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
+              className="relative p-2.5 rounded-full hover:bg-black/5 dark:hover:bg-white/10 active:scale-90 transition-all outline-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 cursor-pointer group"
+              aria-label="Toggle theme"
+              title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
             >
               {theme === 'dark' ? (
-                <Sun className="w-5 h-5 text-yellow-300" />
+                <Sun className="w-5 h-5 text-yellow-300 transition-transform duration-300 group-hover:rotate-45" />
               ) : (
-                <Moon className="w-5 h-5 text-slate-700" />
+                <Moon className="w-5 h-5 text-slate-700 transition-transform duration-300 group-hover:-rotate-12" />
               )}
             </button>
           )}

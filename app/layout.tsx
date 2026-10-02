@@ -1,6 +1,8 @@
 import type {Metadata} from 'next';
 import './globals.css';
 import { ThemeProvider } from '@/components/ThemeProvider';
+import { ResumeModal } from '@/components/ResumeModal';
+import { HireModal } from '@/components/HireModal';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://shamimahmedrobin.vercel.app';
 
@@ -48,11 +50,11 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
-      { url: '/favicon.jpg', type: 'image/jpeg' },
-      { url: '/icon.jpg', type: 'image/jpeg' },
+      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.png', type: 'image/png' },
     ],
     shortcut: '/favicon.ico',
-    apple: '/favicon.jpg',
+    apple: '/apple-touch-icon.png',
   },
   openGraph: {
     title: 'Shamim Ahmed Robin',
@@ -203,8 +205,9 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
         <meta name="google-site-verification" content="hFFhFaZW2On7_i9Jni_sMqIqs4Fh0Fw1EQzHu7rc4Q0" />
         <meta name="google-site-verification" content="tnZQpj_TOyPq9gguuHLmJL1D_2iiMPOXVzWTBupOHAo" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/favicon.jpg" type="image/jpeg" />
-        <link rel="apple-touch-icon" href="/favicon.jpg" />
+        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+        <link rel="icon" href="/favicon.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -218,6 +221,8 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
           disableTransitionOnChange
         >
           {children}
+          <ResumeModal />
+          <HireModal />
         </ThemeProvider>
       </body>
     </html>

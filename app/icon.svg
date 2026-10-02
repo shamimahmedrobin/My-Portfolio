@@ -1,0 +1,200 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Outer metallic bezel gradient -->
+    <linearGradient id="metalBezel" x1="15%" y1="0%" x2="85%" y2="100%">
+      <stop offset="0%" stop-color="#464f5c"/>
+      <stop offset="20%" stop-color="#2a3038"/>
+      <stop offset="50%" stop-color="#14171c"/>
+      <stop offset="80%" stop-color="#323a44"/>
+      <stop offset="100%" stop-color="#16191f"/>
+    </linearGradient>
+
+    <!-- Bezel highlight ring -->
+    <linearGradient id="bezelHighlight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8a99ad" stop-opacity="0.9"/>
+      <stop offset="35%" stop-color="#343c47" stop-opacity="0.3"/>
+      <stop offset="70%" stop-color="#14171c" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#728094" stop-opacity="0.7"/>
+    </linearGradient>
+
+    <!-- Inner dark recessed groove -->
+    <radialGradient id="innerGroove" cx="50%" cy="50%" r="50%">
+      <stop offset="84%" stop-color="#080a0d"/>
+      <stop offset="94%" stop-color="#181d24"/>
+      <stop offset="100%" stop-color="#040507"/>
+    </radialGradient>
+
+    <!-- Carbon background radial vignette -->
+    <radialGradient id="carbonVignette" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#181f28"/>
+      <stop offset="60%" stop-color="#0d1116"/>
+      <stop offset="100%" stop-color="#020304"/>
+    </radialGradient>
+
+    <!-- Carbon mesh micro dot pattern -->
+    <pattern id="carbonGrid" width="10" height="10" patternUnits="userSpaceOnUse">
+      <rect width="10" height="10" fill="#080a0d"/>
+      <circle cx="2.5" cy="2.5" r="1.8" fill="#040506"/>
+      <circle cx="2.5" cy="2.5" r="1.1" fill="#1e252f"/>
+      <circle cx="7.5" cy="7.5" r="1.8" fill="#040506"/>
+      <circle cx="7.5" cy="7.5" r="1.1" fill="#1e252f"/>
+    </pattern>
+
+    <!-- Glowing Cyan/Blue Gradient for outer S and brackets -->
+    <linearGradient id="neonCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f7ff"/>
+      <stop offset="40%" stop-color="#00b8ff"/>
+      <stop offset="80%" stop-color="#0066ff"/>
+      <stop offset="100%" stop-color="#0044ee"/>
+    </linearGradient>
+
+    <linearGradient id="neonCyanRev" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0044ee"/>
+      <stop offset="30%" stop-color="#0066ff"/>
+      <stop offset="70%" stop-color="#00b8ff"/>
+      <stop offset="100%" stop-color="#00f7ff"/>
+    </linearGradient>
+
+    <!-- Inner Core White/Ice Highlight -->
+    <linearGradient id="coreGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="50%" stop-color="#e0f8ff"/>
+      <stop offset="100%" stop-color="#80e5ff"/>
+    </linearGradient>
+
+    <!-- Left Bracket Gradient -->
+    <linearGradient id="leftBracket" x1="100%" y1="0%" x2="0%" y2="50%">
+      <stop offset="0%" stop-color="#0077ff"/>
+      <stop offset="45%" stop-color="#00d8ff"/>
+      <stop offset="100%" stop-color="#99f5ff"/>
+    </linearGradient>
+
+    <!-- Right Bracket Gradient -->
+    <linearGradient id="rightBracket" x1="0%" y1="0%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#0077ff"/>
+      <stop offset="45%" stop-color="#00d8ff"/>
+      <stop offset="100%" stop-color="#99f5ff"/>
+    </linearGradient>
+
+    <!-- Multi-stage Neon Glow -->
+    <filter id="neonFilter" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+      <feGaussianBlur stdDeviation="16" result="deepGlow"/>
+      <feMerge>
+        <feMergeNode in="deepGlow"/>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Outer Metallic Bezel / Frame -->
+  <circle cx="256" cy="256" r="248" fill="url(#metalBezel)" stroke="#090b0e" stroke-width="4"/>
+  <circle cx="256" cy="256" r="244" fill="none" stroke="url(#bezelHighlight)" stroke-width="5"/>
+  <circle cx="256" cy="256" r="226" fill="url(#innerGroove)"/>
+  <circle cx="256" cy="256" r="218" fill="none" stroke="#050608" stroke-width="4"/>
+  <circle cx="256" cy="256" r="215" fill="none" stroke="#313b47" stroke-width="1.5" opacity="0.7"/>
+
+  <!-- Inner Carbon Fiber Disc -->
+  <circle cx="256" cy="256" r="212" fill="url(#carbonVignette)"/>
+  <circle cx="256" cy="256" r="212" fill="url(#carbonGrid)" opacity="0.85"/>
+  <circle cx="256" cy="256" r="212" fill="url(#carbonVignette)" opacity="0.45"/>
+
+  <!-- Glowing Emblem < S > -->
+  <g filter="url(#neonFilter)">
+    <!-- Ambient Center Blue Backlight -->
+    <circle cx="256" cy="256" r="130" fill="#0099ff" opacity="0.18"/>
+
+    <!-- Left Code Bracket < -->
+    <path d="M 148 206 L 86 256 L 148 306" 
+          fill="none" 
+          stroke="#0066ee" 
+          stroke-width="16" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"
+          opacity="0.85"/>
+    <path d="M 148 206 L 86 256 L 148 306" 
+          fill="none" 
+          stroke="url(#leftBracket)" 
+          stroke-width="10" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"/>
+    <path d="M 146 208 L 88 256 L 146 304" 
+          fill="none" 
+          stroke="#ffffff" 
+          stroke-width="3" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"
+          opacity="0.95"/>
+
+    <!-- Right Code Bracket > -->
+    <path d="M 364 206 L 426 256 L 364 306" 
+          fill="none" 
+          stroke="#0066ee" 
+          stroke-width="16" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"
+          opacity="0.85"/>
+    <path d="M 364 206 L 426 256 L 364 306" 
+          fill="none" 
+          stroke="url(#rightBracket)" 
+          stroke-width="10" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"/>
+    <path d="M 366 208 L 424 256 L 366 304" 
+          fill="none" 
+          stroke="#ffffff" 
+          stroke-width="3" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"
+          opacity="0.95"/>
+
+    <!-- Center Stylized S - Upper Geometric Loop -->
+    <!-- Base Outer Blue -->
+    <path d="M 350 144 L 210 144 C 184 144 164 164 164 190 L 164 218 C 164 244 184 264 210 264 L 242 264 L 264 242 L 212 242 C 200 242 192 234 192 222 L 192 188 C 192 176 200 168 212 168 L 312 168 L 298 244 L 326 216 L 334 170 L 366 144 Z"
+          fill="url(#neonCyan)"
+          stroke="#0055dd"
+          stroke-width="3"
+          stroke-linejoin="round"/>
+
+    <!-- Upper S Inner White/Ice Core Neon Line -->
+    <path d="M 334 156 L 212 156 C 195 156 180 170 180 188 L 180 216 C 180 234 194 248 212 248 L 228 248" 
+          fill="none" 
+          stroke="url(#coreGlow)" 
+          stroke-width="10" 
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+    <path d="M 334 156 L 212 156 C 195 156 180 170 180 188 L 180 216 C 180 234 194 248 212 248 L 228 248" 
+          fill="none" 
+          stroke="#ffffff" 
+          stroke-width="4.5" 
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+
+    <!-- Center Stylized S - Lower Geometric Loop -->
+    <!-- Base Outer Blue -->
+    <path d="M 162 368 L 302 368 C 328 368 348 348 348 322 L 348 294 C 348 268 328 248 302 248 L 270 248 L 248 270 L 300 270 C 312 270 320 278 320 290 L 320 324 C 320 336 312 344 300 344 L 200 344 L 214 268 L 186 296 L 178 342 L 146 368 Z"
+          fill="url(#neonCyanRev)"
+          stroke="#0055dd"
+          stroke-width="3"
+          stroke-linejoin="round"/>
+
+    <!-- Lower S Inner White/Ice Core Neon Line -->
+    <path d="M 178 356 L 300 356 C 317 356 332 342 332 324 L 332 296 C 332 278 318 264 300 264 L 284 264" 
+          fill="none" 
+          stroke="url(#coreGlow)" 
+          stroke-width="10" 
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+    <path d="M 178 356 L 300 356 C 317 356 332 342 332 324 L 332 296 C 332 278 318 264 300 264 L 284 264" 
+          fill="none" 
+          stroke="#ffffff" 
+          stroke-width="4.5" 
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+
+    <!-- Diagonal Accent Slices -->
+    <polygon points="340,146 374,146 306,246 292,230" fill="url(#coreGlow)" opacity="0.95"/>
+    <polygon points="172,366 138,366 206,266 220,282" fill="url(#coreGlow)" opacity="0.95"/>
+  </g>
+</svg>
