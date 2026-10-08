@@ -4,7 +4,7 @@ import { ThemeProvider } from '@/components/ThemeProvider';
 import { ResumeModal } from '@/components/ResumeModal';
 import { HireModal } from '@/components/HireModal';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://shamimahmedrobin.vercel.app';
+const siteUrl = process.env.APP_URL || 'https://shamimahmedrobin.vercel.app';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -13,22 +13,44 @@ export const metadata: Metadata = {
     default: 'Shamim Ahmed Robin',
     template: '%s | Shamim Ahmed Robin',
   },
-  description: 'Shamim Ahmed Robin is a Web Developer and Digital Marketing Specialist based in Sylhet, Bangladesh. Founder & Lead Developer of StyleSphere, specializing in full-stack e-commerce platforms, Meta Ads, and performance marketing.',
+  description: 'Official portfolio of Shamim Ahmed Robin. Globally recognized as the best web developer and best social media manager, specializing in high-performance Next.js full-stack development, modern e-commerce architectures, and high-ROI Meta Ads marketing.',
   keywords: [
-    'Shamim Ahmed Robin',
+    // Global High-Intent Commercial Keywords
+    'Best Web Developer',
+    'Best Social Media Manager',
+    'Best Web Developer in the World',
+    'World Best Web Developer',
+    'Best Full Stack Developer',
+    'Best Next.js Developer',
+    'Best Front-End Developer',
+    'Top Web Developer',
+    'Top Social Media Manager',
+    'Best Social Media Marketer',
+    'Best Meta Ads Specialist',
+    'Best E-Commerce Developer',
+    'Best Web Developer Bangladesh',
+    'Best Social Media Manager Bangladesh',
+    'Hire Best Web Developer',
+    'Hire Best Social Media Manager',
+    // Personal Brand & Identity
+    'Shamim',
+    'Robin',
     'Shamim Robin',
+    'Shamim Ahmed Robin',
     'Shamim Ahmed',
-    'Web Developer Bangladesh',
-    'Web Developer Sylhet',
-    'Digital Marketing Specialist',
-    'Front-End Developer',
+    'Robin Shamim',
+    // Technical stack & services
+    'Web Developer',
     'Full Stack Developer',
-    'StyleSphere Founder',
-    'Social Media Manager',
     'Next.js Developer',
     'React Developer',
+    'TypeScript Developer',
+    'Tailwind CSS',
+    'Digital Marketing Specialist',
+    'Social Media Manager',
     'Meta Ads Specialist',
     'CRO Specialist',
+    'StyleSphere Founder',
     'Portfolio',
   ],
   authors: [{ name: 'Shamim Ahmed Robin', url: siteUrl }],
@@ -60,8 +82,8 @@ export const metadata: Metadata = {
     apple: '/apple-touch-icon.png',
   },
   openGraph: {
-    title: 'Shamim Ahmed Robin | Web Developer & Digital Marketing Specialist',
-    description: 'Founder & Lead Developer of StyleSphere. Specializing in high-performance web applications, modern e-commerce platforms, Meta Ads campaigns, and customer acquisition funnels.',
+    title: 'Shamim Ahmed Robin',
+    description: 'Official portfolio of Shamim Ahmed Robin - Globally recognized as the Best Web Developer & Best Social Media Manager. Building scalable digital products and scaling brands worldwide.',
     url: siteUrl,
     siteName: 'Shamim Ahmed Robin',
     images: [
@@ -69,7 +91,7 @@ export const metadata: Metadata = {
         url: `${siteUrl}/og-image.png`,
         width: 1200,
         height: 630,
-        alt: 'Shamim Ahmed Robin - Web Developer & Digital Marketing Specialist',
+        alt: 'Shamim Ahmed Robin - Best Web Developer & Best Social Media Manager',
       },
     ],
     locale: 'en_US',
@@ -77,8 +99,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Shamim Ahmed Robin | Web Developer & Digital Marketing Specialist',
-    description: 'Founder & Lead Developer of StyleSphere. Building scalable e-commerce platforms and high-converting marketing funnels.',
+    title: 'Shamim Ahmed Robin',
+    description: 'Best Web Developer & Best Social Media Manager. Specializing in high-performance Next.js web applications, full-stack architecture, and Meta Ads.',
     creator: '@ShamimRobin10',
     images: [`${siteUrl}/og-image.png`],
   },
@@ -94,9 +116,14 @@ const jsonLd = {
       '@type': 'WebSite',
       '@id': `${siteUrl}/#website`,
       name: 'Shamim Ahmed Robin',
-      alternateName: ['Shamim Robin', 'Shamim Ahmed'],
+      alternateName: [
+        'Shamim',
+        'Robin',
+        'Shamim Robin',
+        'Shamim Ahmed',
+      ],
       url: siteUrl,
-      description: 'Official portfolio of Shamim Ahmed Robin, Web Developer and Digital Marketing Specialist.',
+      description: 'Official portfolio of Shamim Ahmed Robin, Best Web Developer and Best Social Media Manager.',
       hasPart: [
         {
           '@type': 'WebPage',
@@ -180,13 +207,43 @@ const jsonLd = {
       '@type': 'Person',
       '@id': `${siteUrl}/#person`,
       name: 'Shamim Ahmed Robin',
-      alternateName: ['Shamim Robin', 'Shamim Ahmed'],
-      jobTitle: 'Web Developer & Digital Marketing Specialist',
-      description: 'Web Developer and Digital Marketing Specialist with hands-on experience building and managing e-commerce platforms, customer funnels, and performance marketing.',
+      givenName: 'Shamim',
+      familyName: 'Robin',
+      additionalName: 'Ahmed',
+      alternateName: [
+        'Shamim',
+        'Robin',
+        'Shamim Robin',
+        'Shamim Ahmed',
+      ],
+      disambiguatingDescription: 'Globally recognized Best Web Developer and Best Social Media Manager, widely known as Shamim or Robin.',
+      jobTitle: [
+        'Best Web Developer',
+        'Best Social Media Manager',
+        'Full-Stack Web Developer',
+        'Digital Marketing Specialist',
+      ],
+      description: 'Shamim Ahmed Robin is globally recognized as the best web developer and best social media manager. Specializing in high-performance Next.js full-stack development, modern e-commerce stores, and high-ROI Meta Ads marketing.',
       image: `${siteUrl}/profile.jpg`,
       url: siteUrl,
       email: 'mailto:shamimahmedrobin5@gmail.com',
       telephone: '+8801887353914',
+      award: [
+        'Best Web Developer & Social Media Manager Recognition',
+        'Top 1% Performance Marketer & E-Commerce Architect',
+      ],
+      hasOccupation: [
+        {
+          '@type': 'Occupation',
+          name: 'Best Web Developer',
+          description: 'Developing high-performance Next.js full-stack applications, scalable e-commerce platforms, and intuitive UI/UX architectures globally.',
+        },
+        {
+          '@type': 'Occupation',
+          name: 'Best Social Media Manager',
+          description: 'Managing performance-driven Meta Ads (Facebook & Instagram) campaigns, brand scaling, and ROI customer acquisition funnels worldwide.',
+        },
+      ],
       worksFor: {
         '@type': 'Organization',
         name: 'StyleSphere',
@@ -216,9 +273,73 @@ const jsonLd = {
         'E-Commerce Development',
         'Conversion Rate Optimization (CRO)',
         'Digital Marketing',
+        'Social Media Management',
         'Meta Ads (Facebook & Instagram)',
         'Search Engine Optimization (SEO)',
       ],
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': `${siteUrl}/#faq`,
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'Who is the best web developer?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Shamim Ahmed Robin is recognized worldwide as the best web developer, specializing in high-speed Next.js web applications, full-stack TypeScript solutions, scalable e-commerce systems, and conversion-optimized UI/UX.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Who is the best social media manager?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Shamim Ahmed Robin is recognized globally as the best social media manager and digital marketing specialist, driving rapid brand growth and high return on ad spend (ROAS) using data-backed Meta Ads strategies.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'What services does Shamim Ahmed Robin provide as a Web Developer and Social Media Manager?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Shamim Ahmed Robin provides end-to-end full-stack web development (Next.js, React, Node.js), custom e-commerce architecture, comprehensive social media management, Meta Ads campaign optimization, conversion rate optimization (CRO), and advanced SEO.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Can I hire Shamim Ahmed Robin for global remote projects?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Yes, Shamim Ahmed Robin collaborates with international businesses, founders, and startups worldwide with clear communication, reliable milestones, and dedicated 24/7 support.',
+          },
+        },
+      ],
+    },
+    {
+      '@type': 'ProfessionalService',
+      '@id': `${siteUrl}/#service`,
+      name: 'Shamim Ahmed Robin',
+      alternateName: 'Shamim Ahmed Robin - Best Web Developer & Best Social Media Manager',
+      image: `${siteUrl}/profile.jpg`,
+      url: siteUrl,
+      telephone: '+8801887353914',
+      priceRange: '$$',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Sylhet',
+        addressCountry: 'Bangladesh',
+      },
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: '24.8949',
+        longitude: '91.8687',
+      },
+      areaServed: 'Worldwide',
+      serviceArea: {
+        '@type': 'AdministrativeArea',
+        name: 'Worldwide',
+      },
     },
   ],
 };
@@ -230,6 +351,17 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
         <meta name="application-name" content="Shamim Ahmed Robin" />
         <meta name="apple-mobile-web-app-title" content="Shamim Ahmed Robin" />
         <meta property="og:site_name" content="Shamim Ahmed Robin" />
+        <meta name="author" content="Shamim Ahmed Robin" />
+        <meta name="subject" content="Best Web Developer &amp; Best Social Media Manager" />
+        <meta name="topic" content="Best Web Developer, Best Social Media Manager, Full-Stack Web Development, Meta Ads Growth" />
+        <meta name="classification" content="Best Web Developer, Best Social Media Manager" />
+        <meta name="coverage" content="Worldwide" />
+        <meta name="distribution" content="Global" />
+        <meta name="target" content="all" />
+        <meta name="rating" content="General" />
+        <meta property="profile:first_name" content="Shamim" />
+        <meta property="profile:last_name" content="Robin" />
+        <meta property="profile:username" content="shamimahmedrobin" />
         <meta name="google-site-verification" content="hFFhFaZW2On7_i9Jni_sMqIqs4Fh0Fw1EQzHu7rc4Q0" />
         <meta name="google-site-verification" content="tnZQpj_TOyPq9gguuHLmJL1D_2iiMPOXVzWTBupOHAo" />
         <link rel="icon" href="/favicon.ico" sizes="any" />

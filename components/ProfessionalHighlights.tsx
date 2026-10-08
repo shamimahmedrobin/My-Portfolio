@@ -157,13 +157,14 @@ export function ProfessionalHighlights() {
         >
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-600 dark:text-blue-400 text-xs font-semibold mb-3">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Proven Track Record</span>
+            <span>Proven Track Record &amp; Excellence</span>
+            <span className="sr-only"> - Best Web Developer &amp; Best Social Media Manager Globally</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-black dark:text-white">
-            Professional Highlights
+            Professional Highlights &amp; Milestones
           </h2>
           <p className="text-sm sm:text-base text-black/60 dark:text-white/60 max-w-2xl mx-auto">
-            Tangible milestones and quality benchmarks achieved across software engineering and digital marketing journeys.
+            Tangible benchmarks and high-impact results delivered across modern web development and digital marketing journeys.
           </p>
           <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-emerald-500 mx-auto rounded-full mt-4"></div>
         </motion.div>

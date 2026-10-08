@@ -87,14 +87,14 @@ export async function POST(req: NextRequest) {
 NEW ${isHireMe ? 'HIRE ME INQUIRY' : 'CONTACT MESSAGE'}
 =========================================
 
-Sender Full Name (সম্পূর্ণ নাম): ${fullName}
+Sender Full Name: ${fullName}
 Email Address: ${userEmail}
-Phone Number (ফোন নম্বর): ${userPhone || 'Not provided'}
-Subject (বিষয়): ${userSubject || (isHireMe ? 'Project Inquiry' : 'General Message')}
+Phone Number: ${userPhone || 'Not provided'}
+Subject: ${userSubject || (isHireMe ? 'Project Inquiry' : 'General Message')}
 Form Type: ${isHireMe ? 'Hire Me Modal' : 'Contact Section'}
 Date & Time: ${formattedTimestamp} (BST)
 
-Message / Project Details (বিস্তারিত):
+Message / Project Details:
 -----------------------------------------
 ${content}
 =========================================

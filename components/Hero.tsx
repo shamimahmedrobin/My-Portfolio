@@ -27,7 +27,8 @@ export function Hero() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
-            Available for new opportunities
+            <span>Available for Global Opportunities</span>
+            <span className="sr-only">Best Web Developer and Best Social Media Manager</span>
           </motion.div>
 
           <motion.h1
@@ -48,7 +49,8 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
             className="text-lg sm:text-xl lg:text-2xl font-semibold text-black/80 dark:text-white/80 mb-6 max-w-md md:max-w-none"
           >
-            Building Digital Products & Scaling Brands
+            Building Digital Products &amp; Scaling Brands
+            <span className="sr-only"> - Best Web Developer &amp; Best Social Media Manager Globally</span>
           </motion.h2>
 
           <motion.p
@@ -57,7 +59,7 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.3, ease: 'easeOut' }}
             className="max-w-xl text-base sm:text-lg text-black/70 dark:text-white/60 mb-10 font-light leading-relaxed"
           >
-            A Professional Web Developer and Social Media Manager bridging the gap between elegant technical architecture and high-converting marketing strategies.
+            A Professional Web Developer and Social Media Manager bridging the gap between elegant technical architecture and high-converting marketing strategies worldwide.
           </motion.p>
 
           <motion.div

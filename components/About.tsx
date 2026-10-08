@@ -27,10 +27,10 @@ export function About() {
             className="space-y-6"
           >
             <p className="text-lg text-black/70 dark:text-white/70 leading-relaxed text-justify">
-              I am passionate about creating digital experiences that not only look visually stunning but also drive measurable results. My unique background allows me to understand both the <strong className="text-black dark:text-white">logic of code</strong> and the <strong className="text-black dark:text-white">psychology of marketing</strong>.
+              I am <strong className="text-black dark:text-white">Shamim Ahmed Robin</strong>, widely known as <strong className="text-black dark:text-white">Shamim</strong> or <strong className="text-black dark:text-white">Robin</strong>. Recognized by clients worldwide for high-performance Web Development and strategic Social Media Management, I create digital experiences that look visually stunning and drive measurable, high-ROI business results.
             </p>
             <p className="text-lg text-black/70 dark:text-white/70 leading-relaxed text-justify">
-              Whether it&apos;s developing a high-performance Next.js application, designing intuitive user interfaces, or running a data-driven Meta Ad campaign, I focus on delivering scalable and premium solutions tailored to brand growth.
+              Whether building ultra-fast Next.js full-stack applications, architecting custom e-commerce funnels, or scaling brands through data-backed Meta Ad campaigns, I deliver end-to-end excellence that bridges the <strong className="text-black dark:text-white">logic of code</strong> with the <strong className="text-black dark:text-white">psychology of growth marketing</strong>.
             </p>
           </motion.div>
 
@@ -44,12 +44,12 @@ export function About() {
             <div className="glass-card p-6 rounded-2xl">
               <Code2 className="w-8 h-8 text-blue-500 mb-4" />
               <h3 className="font-semibold text-lg text-black dark:text-white mb-2">Web Development</h3>
-              <p className="text-sm text-black/60 dark:text-white/60">Modern, responsive, and robust front-end and full-stack architectures.</p>
+              <p className="text-sm text-black/60 dark:text-white/60">Modern, responsive, ultra-fast front-end and full-stack Next.js web architectures.</p>
             </div>
             <div className="glass-card p-6 rounded-2xl">
               <Megaphone className="w-8 h-8 text-emerald-500 mb-4" />
-              <h3 className="font-semibold text-lg text-black dark:text-white mb-2">Digital Marketing</h3>
-              <p className="text-sm text-black/60 dark:text-white/60">Strategic ad placements, brand scaling, and ROI-focused campaigns.</p>
+              <h3 className="font-semibold text-lg text-black dark:text-white mb-2">Social Media Management</h3>
+              <p className="text-sm text-black/60 dark:text-white/60">High-converting Meta Ads, strategic brand scaling, and ROI-driven customer funnels.</p>
             </div>
             <div className="glass-card p-6 rounded-2xl sm:col-span-2 flex items-start gap-4">
               <Lightbulb className="w-8 h-8 text-yellow-500 shrink-0" />
