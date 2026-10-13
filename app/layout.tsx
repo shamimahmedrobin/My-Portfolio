@@ -279,44 +279,6 @@ const jsonLd = {
       ],
     },
     {
-      '@type': 'FAQPage',
-      '@id': `${siteUrl}/#faq`,
-      mainEntity: [
-        {
-          '@type': 'Question',
-          name: 'Who is the best web developer?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'Shamim Ahmed Robin is recognized worldwide as the best web developer, specializing in high-speed Next.js web applications, full-stack TypeScript solutions, scalable e-commerce systems, and conversion-optimized UI/UX.',
-          },
-        },
-        {
-          '@type': 'Question',
-          name: 'Who is the best social media manager?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'Shamim Ahmed Robin is recognized globally as the best social media manager and digital marketing specialist, driving rapid brand growth and high return on ad spend (ROAS) using data-backed Meta Ads strategies.',
-          },
-        },
-        {
-          '@type': 'Question',
-          name: 'What services does Shamim Ahmed Robin provide as a Web Developer and Social Media Manager?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'Shamim Ahmed Robin provides end-to-end full-stack web development (Next.js, React, Node.js), custom e-commerce architecture, comprehensive social media management, Meta Ads campaign optimization, conversion rate optimization (CRO), and advanced SEO.',
-          },
-        },
-        {
-          '@type': 'Question',
-          name: 'Can I hire Shamim Ahmed Robin for global remote projects?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'Yes, Shamim Ahmed Robin collaborates with international businesses, founders, and startups worldwide with clear communication, reliable milestones, and dedicated 24/7 support.',
-          },
-        },
-      ],
-    },
-    {
       '@type': 'ProfessionalService',
       '@id': `${siteUrl}/#service`,
       name: 'Shamim Ahmed Robin',

@@ -27,7 +27,7 @@ export function About() {
             className="space-y-6"
           >
             <p className="text-lg text-black/70 dark:text-white/70 leading-relaxed text-justify">
-              I am <strong className="text-black dark:text-white">Shamim Ahmed Robin</strong>, widely known as <strong className="text-black dark:text-white">Shamim</strong> or <strong className="text-black dark:text-white">Robin</strong>. Recognized by clients worldwide for high-performance Web Development and strategic Social Media Management, I create digital experiences that look visually stunning and drive measurable, high-ROI business results.
+              I am <strong className="text-black dark:text-white">Shamim Ahmed Robin</strong><span className="sr-only">, widely known as Shamim or Robin</span>. Recognized by clients worldwide for high-performance Web Development and strategic Social Media Management, I create digital experiences that look visually stunning and drive measurable, high-ROI business results.
             </p>
             <p className="text-lg text-black/70 dark:text-white/70 leading-relaxed text-justify">
               Whether building ultra-fast Next.js full-stack applications, architecting custom e-commerce funnels, or scaling brands through data-backed Meta Ad campaigns, I deliver end-to-end excellence that bridges the <strong className="text-black dark:text-white">logic of code</strong> with the <strong className="text-black dark:text-white">psychology of growth marketing</strong>.

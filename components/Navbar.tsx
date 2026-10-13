@@ -97,11 +97,32 @@ export function Navbar() {
     });
   };
 
+  const handleScrollToTop = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (typeof window !== 'undefined') {
+      if (window.location.pathname === '/' || window.location.pathname === '') {
+        e.preventDefault();
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: 'smooth',
+        });
+        if (window.location.hash) {
+          window.history.pushState(null, '', '/');
+        }
+      }
+    }
+  };
+
   return (
     <header className="fixed top-0 w-full z-50 py-4 bg-white/70 dark:bg-black/40 backdrop-blur-xl border-b border-black/5 dark:border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
         {/* Logo */}
-        <Link href="/" className="relative group flex items-center gap-2.5">
+        <Link
+          href="/"
+          onClick={handleScrollToTop}
+          className="relative group flex items-center gap-2.5 cursor-pointer"
+          aria-label="Shamim - Scroll to top"
+        >
           <div className="relative w-8 h-8 sm:w-9 sm:h-9 shrink-0">
             <Image
               src="/logo.png"
@@ -230,8 +251,12 @@ export function Navbar() {
             <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-black/5 dark:border-white/10 shrink-0">
               <Link
                 href="/"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center gap-2.5 group"
+                onClick={(e) => {
+                  setMobileMenuOpen(false);
+                  handleScrollToTop(e);
+                }}
+                className="flex items-center gap-2.5 group cursor-pointer"
+                aria-label="Shamim - Scroll to top"
               >
                 <div className="relative w-7 h-7 shrink-0">
                   <Image
