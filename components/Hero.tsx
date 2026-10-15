@@ -28,7 +28,6 @@ export function Hero() {
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
             <span>Available for Global Opportunities</span>
-            <span className="sr-only">Best Web Developer and Best Social Media Manager</span>
           </motion.div>
 
           <motion.h1
@@ -50,7 +49,6 @@ export function Hero() {
             className="text-lg sm:text-xl lg:text-2xl font-semibold text-black/80 dark:text-white/80 mb-6 max-w-md md:max-w-none"
           >
             Building Digital Products &amp; Scaling Brands
-            <span className="sr-only"> - Best Web Developer &amp; Best Social Media Manager Globally</span>
           </motion.h2>
 
           <motion.p

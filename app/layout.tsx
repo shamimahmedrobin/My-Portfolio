@@ -13,43 +13,22 @@ export const metadata: Metadata = {
     default: 'Shamim Ahmed Robin',
     template: '%s | Shamim Ahmed Robin',
   },
-  description: 'Official portfolio of Shamim Ahmed Robin. Globally recognized as the best web developer and best social media manager, specializing in high-performance Next.js full-stack development, modern e-commerce architectures, and high-ROI Meta Ads marketing.',
+  description: 'Official portfolio of Shamim Ahmed Robin — Full-Stack Web Developer and Social Media Manager specializing in high-performance Next.js development, modern e-commerce, and high-ROI Meta Ads marketing.',
   keywords: [
-    // Global High-Intent Commercial Keywords
-    'Best Web Developer',
-    'Best Social Media Manager',
-    'Best Web Developer in the World',
-    'World Best Web Developer',
-    'Best Full Stack Developer',
-    'Best Next.js Developer',
-    'Best Front-End Developer',
-    'Top Web Developer',
-    'Top Social Media Manager',
-    'Best Social Media Marketer',
-    'Best Meta Ads Specialist',
-    'Best E-Commerce Developer',
-    'Best Web Developer Bangladesh',
-    'Best Social Media Manager Bangladesh',
-    'Hire Best Web Developer',
-    'Hire Best Social Media Manager',
-    // Personal Brand & Identity
-    'Shamim',
-    'Robin',
-    'Shamim Robin',
     'Shamim Ahmed Robin',
+    'Shamim Robin',
     'Shamim Ahmed',
-    'Robin Shamim',
-    // Technical stack & services
     'Web Developer',
     'Full Stack Developer',
     'Next.js Developer',
     'React Developer',
     'TypeScript Developer',
     'Tailwind CSS',
-    'Digital Marketing Specialist',
     'Social Media Manager',
     'Meta Ads Specialist',
-    'CRO Specialist',
+    'E-Commerce Developer',
+    'Digital Marketing Specialist',
+    'SEO Specialist',
     'StyleSphere Founder',
     'Portfolio',
   ],
@@ -83,7 +62,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Shamim Ahmed Robin',
-    description: 'Official portfolio of Shamim Ahmed Robin - Globally recognized as the Best Web Developer & Best Social Media Manager. Building scalable digital products and scaling brands worldwide.',
+    description: 'Official portfolio of Shamim Ahmed Robin — Full-Stack Web Developer & Social Media Manager building scalable digital products and scaling brands worldwide.',
     url: siteUrl,
     siteName: 'Shamim Ahmed Robin',
     images: [
@@ -91,7 +70,7 @@ export const metadata: Metadata = {
         url: `${siteUrl}/og-image.png`,
         width: 1200,
         height: 630,
-        alt: 'Shamim Ahmed Robin - Best Web Developer & Best Social Media Manager',
+        alt: 'Shamim Ahmed Robin - Full-Stack Web Developer & Social Media Manager',
       },
     ],
     locale: 'en_US',
@@ -100,12 +79,9 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Shamim Ahmed Robin',
-    description: 'Best Web Developer & Best Social Media Manager. Specializing in high-performance Next.js web applications, full-stack architecture, and Meta Ads.',
+    description: 'Full-Stack Web Developer & Social Media Manager specializing in high-performance Next.js web applications and Meta Ads.',
     creator: '@ShamimRobin10',
     images: [`${siteUrl}/og-image.png`],
-  },
-  verification: {
-    google: 'hFFhFaZW2On7_i9Jni_sMqIqs4Fh0Fw1EQzHu7rc4Q0',
   },
 };
 
@@ -123,7 +99,7 @@ const jsonLd = {
         'Shamim Ahmed',
       ],
       url: siteUrl,
-      description: 'Official portfolio of Shamim Ahmed Robin, Best Web Developer and Best Social Media Manager.',
+      description: 'Official portfolio of Shamim Ahmed Robin — Full-Stack Web Developer and Social Media Manager.',
       hasPart: [
         {
           '@type': 'WebPage',
@@ -216,31 +192,26 @@ const jsonLd = {
         'Shamim Robin',
         'Shamim Ahmed',
       ],
-      disambiguatingDescription: 'Globally recognized Best Web Developer and Best Social Media Manager, widely known as Shamim or Robin.',
+      disambiguatingDescription: 'Full-Stack Web Developer and Social Media Manager, widely known as Shamim or Robin.',
       jobTitle: [
-        'Best Web Developer',
-        'Best Social Media Manager',
         'Full-Stack Web Developer',
+        'Social Media Manager',
         'Digital Marketing Specialist',
       ],
-      description: 'Shamim Ahmed Robin is globally recognized as the best web developer and best social media manager. Specializing in high-performance Next.js full-stack development, modern e-commerce stores, and high-ROI Meta Ads marketing.',
+      description: 'Shamim Ahmed Robin is a Full-Stack Web Developer and Social Media Manager specializing in high-performance Next.js development, modern e-commerce stores, and high-ROI Meta Ads marketing.',
       image: `${siteUrl}/profile.jpg`,
       url: siteUrl,
       email: 'mailto:shamimahmedrobin5@gmail.com',
       telephone: '+8801887353914',
-      award: [
-        'Best Web Developer & Social Media Manager Recognition',
-        'Top 1% Performance Marketer & E-Commerce Architect',
-      ],
       hasOccupation: [
         {
           '@type': 'Occupation',
-          name: 'Best Web Developer',
+          name: 'Web Developer',
           description: 'Developing high-performance Next.js full-stack applications, scalable e-commerce platforms, and intuitive UI/UX architectures globally.',
         },
         {
           '@type': 'Occupation',
-          name: 'Best Social Media Manager',
+          name: 'Social Media Manager',
           description: 'Managing performance-driven Meta Ads (Facebook & Instagram) campaigns, brand scaling, and ROI customer acquisition funnels worldwide.',
         },
       ],
@@ -282,7 +253,7 @@ const jsonLd = {
       '@type': 'ProfessionalService',
       '@id': `${siteUrl}/#service`,
       name: 'Shamim Ahmed Robin',
-      alternateName: 'Shamim Ahmed Robin - Best Web Developer & Best Social Media Manager',
+      alternateName: 'Shamim Ahmed Robin - Full-Stack Web Developer & Social Media Manager',
       image: `${siteUrl}/profile.jpg`,
       url: siteUrl,
       telephone: '+8801887353914',
@@ -314,9 +285,9 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
         <meta name="apple-mobile-web-app-title" content="Shamim Ahmed Robin" />
         <meta property="og:site_name" content="Shamim Ahmed Robin" />
         <meta name="author" content="Shamim Ahmed Robin" />
-        <meta name="subject" content="Best Web Developer &amp; Best Social Media Manager" />
-        <meta name="topic" content="Best Web Developer, Best Social Media Manager, Full-Stack Web Development, Meta Ads Growth" />
-        <meta name="classification" content="Best Web Developer, Best Social Media Manager" />
+        <meta name="subject" content="Full-Stack Web Developer &amp; Social Media Manager" />
+        <meta name="topic" content="Full-Stack Web Development, Social Media Management, E-commerce, Meta Ads Growth" />
+        <meta name="classification" content="Web Development, Social Media Management" />
         <meta name="coverage" content="Worldwide" />
         <meta name="distribution" content="Global" />
         <meta name="target" content="all" />
