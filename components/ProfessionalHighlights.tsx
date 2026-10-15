@@ -158,7 +158,6 @@ export function ProfessionalHighlights() {
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-600 dark:text-blue-400 text-xs font-semibold mb-3">
             <Sparkles className="w-3.5 h-3.5" />
             <span>Proven Track Record &amp; Excellence</span>
-            <span className="sr-only"> - Best Web Developer &amp; Best Social Media Manager Globally</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-black dark:text-white">
             Professional Highlights &amp; Milestones

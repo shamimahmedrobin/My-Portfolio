@@ -29,6 +29,7 @@ export function Contact() {
     phone: '',
     subject: '',
     message: '',
+    website: '', // honeypot: hidden from humans, catches spam bots
   });
   const [submittedName, setSubmittedName] = React.useState('');
   const [isSubmitting, setIsSubmitting] = React.useState(false);
@@ -69,6 +70,7 @@ export function Contact() {
       phone: '',
       subject: '',
       message: '',
+      website: '',
     });
     setSubmittedName('');
     setIsSuccess(false);
@@ -87,6 +89,7 @@ export function Contact() {
       phone: formData.phone.trim(),
       subject: formData.subject.trim(),
       message: formData.message.trim(),
+      website: formData.website,
       type: 'contact',
     };
     
@@ -108,6 +111,7 @@ export function Contact() {
           phone: '',
           subject: '',
           message: '',
+          website: '',
         });
       } else {
         const resData = await response.json().catch(() => ({}));
@@ -271,6 +275,17 @@ export function Contact() {
                   </div>
 
                   <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
+                    {/* Honeypot field: invisible to humans, bots fill it and get silently rejected */}
+                    <input
+                      type="text"
+                      name="website"
+                      value={formData.website}
+                      onChange={handleChange}
+                      tabIndex={-1}
+                      autoComplete="off"
+                      aria-hidden="true"
+                      className="hidden"
+                    />
                     {/* Row 1: Name and Email */}
                     <div className="grid sm:grid-cols-2 gap-4">
                       {/* Name */}

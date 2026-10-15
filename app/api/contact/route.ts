@@ -24,7 +24,12 @@ function createMailTransporter(emailUser: string, emailPass: string) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { name, email, phone, subject, details, message, type } = body;
+    const { name, email, phone, subject, details, message, type, website } = body;
+
+    // Honeypot: hidden field only bots fill. Silently "succeed" so bots can't tell.
+    if (website && String(website).trim() !== '') {
+      return NextResponse.json({ success: true, message: 'Inquiry sent successfully' }, { status: 200 });
+    }
 
     // Support both 'details' (from HireModal) and 'message' (from Contact form)
     const content = (details || message || '').trim();
@@ -37,6 +42,13 @@ export async function POST(req: NextRequest) {
     if (!fullName || !userEmail || !content) {
       return NextResponse.json(
         { error: 'Name, email, and message details are required' },
+        { status: 400 }
+      );
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userEmail)) {
+      return NextResponse.json(
+        { error: 'Please enter a valid email address' },
         { status: 400 }
       );
     }
@@ -57,7 +69,7 @@ export async function POST(req: NextRequest) {
     const emailPass = process.env.EMAIL_APP_PASSWORD;
 
     if (!emailUser || !emailPass) {
-      console.warn('EMAIL_USER or EMAIL_APP_PASSWORD is not configured in environment variables. Inquiry recorded safely:', {
+      console.error('EMAIL_USER or EMAIL_APP_PASSWORD is not configured. Inquiry NOT delivered:', {
         fullName,
         userEmail,
         userPhone,
@@ -66,12 +78,10 @@ export async function POST(req: NextRequest) {
         timestamp: formattedTimestamp,
       });
       return NextResponse.json(
-        { 
-          success: true, 
-          message: 'Inquiry received successfully! Note: Configure EMAIL_USER and EMAIL_APP_PASSWORD to deliver to Gmail.',
-          id: `demo-${Date.now()}` 
+        {
+          error: 'Message service is temporarily unavailable. Please email me directly at shamimahmedrobin5@gmail.com or WhatsApp +880 1887-353914.',
         },
-        { status: 200 }
+        { status: 503 }
       );
     }
 
@@ -248,7 +258,7 @@ ${content}
             <!-- Footer -->
             <tr>
               <td style="background-color: #f8fafc; padding: 14px 20px; border-top: 1px solid #e2e8f0; text-align: center; font-size: 12px; color: #94a3b8; line-height: 1.5;">
-                This notification was generated from your personal portfolio: <a href="https://shamimahmedrobin.com" style="color: #64748b; font-weight: 600; text-decoration: none;">shamimahmedrobin.com</a>
+                This notification was generated from your personal portfolio: <a href="https://shamimahmedrobin.vercel.app" style="color: #64748b; font-weight: 600; text-decoration: none;">shamimahmedrobin.vercel.app</a>
               </td>
             </tr>
           </table>

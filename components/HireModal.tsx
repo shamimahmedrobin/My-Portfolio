@@ -34,6 +34,7 @@ export function HireModal() {
     email: '',
     subject: '',
     details: '',
+    website: '', // honeypot: hidden from humans, catches spam bots
   });
 
   // Restore draft from localStorage if within 10 minutes
@@ -52,7 +53,7 @@ export function HireModal() {
             (val) => typeof val === 'string' && val.trim().length > 0
           );
           if (hasContent) {
-            setFormData(parsed.data);
+            setFormData({ name: '', phone: '', email: '', subject: '', details: '', website: '', ...parsed.data });
             setHasRestoredDraft(true);
             return;
           }
@@ -169,6 +170,7 @@ export function HireModal() {
       email: '',
       subject: '',
       details: '',
+      website: '',
     });
     setErrorMessage(null);
     setHasRestoredDraft(false);
@@ -196,6 +198,7 @@ export function HireModal() {
           email: formData.email.trim(),
           subject: formData.subject.trim(),
           details: formData.details.trim(),
+          website: formData.website || '',
           type: 'hire',
         }),
       });
@@ -296,6 +299,17 @@ export function HireModal() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
+                  {/* Honeypot field: invisible to humans, bots fill it and get silently rejected */}
+                  <input
+                    type="text"
+                    name="website"
+                    value={formData.website}
+                    onChange={handleChange}
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                    className="hidden"
+                  />
                   {/* Status Banner / Clear Form Bar - only shown when returning with an existing unsubmitted draft */}
                   {hasRestoredDraft && (
                     <div className="flex items-center justify-between pb-2 border-b border-black/10 dark:border-white/10">
