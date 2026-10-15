@@ -96,7 +96,7 @@ export function Experience() {
   const activeExp = experiences.find((e) => e.id === selectedId) || experiences[0];
 
   return (
-    <section id="experience" className="py-10 sm:py-14 relative scroll-mt-30 sm:scroll-mt-34">
+    <section id="experience" className="py-10 scroll-mt-10 relative">
       {/* Background radial accent */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-7xl h-96 bg-blue-500/[0.03] dark:bg-blue-500/[0.02] blur-3xl pointer-events-none rounded-full" />
 

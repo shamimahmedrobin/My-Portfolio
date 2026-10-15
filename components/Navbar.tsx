@@ -5,25 +5,32 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { flushSync } from 'react-dom';
 import { useTheme } from 'next-themes';
-import { Moon, Sun, Menu, X, Github, Linkedin, Facebook, Twitter, Sparkles } from 'lucide-react';
+import { Moon, Sun, Menu, X, Github, Linkedin, Facebook, Twitter, Sparkles, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 const navLinks = [
   { name: 'About', href: '/#about' },
+  { name: 'Resume', href: '#resume' },
   { name: 'Highlights', href: '/#highlights' },
   { name: 'Experience', href: '/#experience' },
   { name: 'Skills', href: '/#skills' },
   { name: 'Projects', href: '/#projects' },
   { name: 'Reviews', href: '/#testimonials' },
-  { name: 'Resume', href: '#resume' },
   { name: 'Contact', href: '/#contact' },
 ];
+
+// Desktop shows a compact nav: primary links + a "More" dropdown.
+// Mobile menu keeps the full flat list.
+const desktopPrimaryNames = ['About', 'Resume', 'Contact'];
+const primaryLinks = navLinks.filter((link) => desktopPrimaryNames.includes(link.name));
+const moreLinks = navLinks.filter((link) => !desktopPrimaryNames.includes(link.name));
 
 const emptySubscribe = () => () => {};
 
 export function Navbar() {
   const { theme, setTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const [moreOpen, setMoreOpen] = React.useState(false);
   const mounted = React.useSyncExternalStore(
     emptySubscribe,
     () => true,
@@ -143,7 +150,7 @@ export function Navbar() {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-7">
-          {navLinks.map((link) => (
+          {primaryLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
@@ -158,6 +165,48 @@ export function Navbar() {
               {link.name}
             </a>
           ))}
+
+          {/* More Dropdown (Desktop) */}
+          <div
+            className="relative"
+            onMouseEnter={() => setMoreOpen(true)}
+            onMouseLeave={() => setMoreOpen(false)}
+          >
+            <button
+              type="button"
+              onClick={() => setMoreOpen((v) => !v)}
+              aria-expanded={moreOpen}
+              aria-haspopup="true"
+              className="inline-flex items-center gap-1 text-sm font-medium text-black/70 hover:text-black dark:text-white/70 dark:hover:text-white transition-colors cursor-pointer"
+            >
+              More
+              <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${moreOpen ? 'rotate-180' : ''}`} />
+            </button>
+            <AnimatePresence>
+              {moreOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 6 }}
+                  transition={{ duration: 0.18 }}
+                  className="absolute right-0 top-full pt-2 z-50"
+                >
+                  <div className="min-w-[180px] rounded-2xl glass border border-black/10 dark:border-white/10 shadow-xl p-2 flex flex-col">
+                    {moreLinks.map((link) => (
+                      <a
+                        key={link.name}
+                        href={link.href}
+                        onClick={() => setMoreOpen(false)}
+                        className="px-4 py-2.5 rounded-xl text-sm font-medium text-black/70 hover:text-black hover:bg-black/5 dark:text-white/70 dark:hover:text-white dark:hover:bg-white/10 transition-colors cursor-pointer text-left whitespace-nowrap"
+                      >
+                        {link.name}
+                      </a>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
 
           {/* Desktop Hire Me CTA */}
           <button
