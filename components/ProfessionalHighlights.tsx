@@ -144,7 +144,7 @@ export function ProfessionalHighlights() {
     <section 
       id="highlights" 
       ref={sectionRef}
-      className="py-20 relative z-10 overflow-hidden"
+      className="py-10 scroll-mt-10 relative z-10 overflow-hidden"
       aria-label="Professional Highlights"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
