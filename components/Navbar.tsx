@@ -10,12 +10,12 @@ import { motion, AnimatePresence } from 'motion/react';
 
 const navLinks = [
   { name: 'About', href: '/#about' },
+  { name: 'Resume', href: '#resume' },
   { name: 'Highlights', href: '/#highlights' },
   { name: 'Experience', href: '/#experience' },
   { name: 'Skills', href: '/#skills' },
   { name: 'Projects', href: '/#projects' },
   { name: 'Reviews', href: '/#testimonials' },
-  { name: 'Resume', href: '#resume' },
   { name: 'Contact', href: '/#contact' },
 ];
 
