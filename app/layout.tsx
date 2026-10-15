@@ -8,6 +8,9 @@ const siteUrl = process.env.APP_URL || 'https://shamimahmedrobin.vercel.app';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  alternates: {
+    canonical: siteUrl,
+  },
   applicationName: 'Shamim Ahmed Robin',
   title: {
     default: 'Shamim Ahmed Robin',
@@ -100,6 +103,7 @@ const jsonLd = {
       ],
       url: siteUrl,
       description: 'Official portfolio of Shamim Ahmed Robin — Full-Stack Web Developer and Social Media Manager.',
+      mainEntity: { '@id': `${siteUrl}/#person` },
       hasPart: [
         {
           '@type': 'WebPage',
@@ -140,42 +144,42 @@ const jsonLd = {
     },
     {
       '@type': 'ItemList',
-      name: 'Navigation Sitelinks',
+      name: 'Key Sections',
       itemListElement: [
         {
           '@type': 'SiteNavigationElement',
           position: 1,
           name: 'About',
-          description: 'About Shamim Ahmed Robin',
-          url: `${siteUrl}/#about`,
+          description: 'About Shamim Ahmed Robin — web developer and social media manager',
+          url: `${siteUrl}/about`,
         },
         {
           '@type': 'SiteNavigationElement',
           position: 2,
-          name: 'Experience',
-          description: 'Career Timeline & Roles',
-          url: `${siteUrl}/#experience`,
+          name: 'Resume',
+          description: 'Download the resume of Shamim Ahmed Robin (PDF)',
+          url: `${siteUrl}/Shamim-Ahmed-Robin-Resume.pdf`,
         },
         {
           '@type': 'SiteNavigationElement',
           position: 3,
-          name: 'Skills',
-          description: 'Technical and Marketing Skills',
-          url: `${siteUrl}/#skills`,
+          name: 'Projects',
+          description: 'Featured web development projects and live websites',
+          url: `${siteUrl}/projects`,
         },
         {
           '@type': 'SiteNavigationElement',
           position: 4,
-          name: 'Projects',
-          description: 'Featured Web Development Projects',
-          url: `${siteUrl}/#projects`,
+          name: 'Hire Me',
+          description: 'Hire Shamim Ahmed Robin for your next project',
+          url: `${siteUrl}/#hire`,
         },
         {
           '@type': 'SiteNavigationElement',
           position: 5,
           name: 'Contact',
-          description: 'Get In Touch',
-          url: `${siteUrl}/#contact`,
+          description: 'Contact Shamim Ahmed Robin',
+          url: `${siteUrl}/contact`,
         },
       ],
     },
