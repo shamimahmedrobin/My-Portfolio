@@ -256,7 +256,7 @@ export function HireModal() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="relative w-full max-w-lg max-h-[90vh] sm:max-h-[92vh] bg-white dark:bg-[#0e1117] rounded-2xl sm:rounded-3xl shadow-2xl border border-black/10 dark:border-white/10 flex flex-col z-10 overflow-hidden"
+            className="relative w-full max-w-lg sm:max-w-2xl max-h-[90vh] sm:max-h-[92vh] bg-white dark:bg-[#0e1117] rounded-2xl sm:rounded-3xl shadow-2xl border border-black/10 dark:border-white/10 flex flex-col z-10 overflow-hidden"
           >
             {/* Modal Header */}
             <div className="flex items-center justify-between gap-2 px-4 sm:px-6 py-3.5 sm:py-4 border-b border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02]">
@@ -346,6 +346,8 @@ export function HireModal() {
                     </div>
                   )}
 
+                  {/* Name + Phone: stacked on mobile, side-by-side on desktop */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   {/* Your Name */}
                   <div>
                     <label htmlFor="hire-name" className="block text-xs font-semibold uppercase tracking-wider text-black/70 dark:text-white/70 mb-1">
@@ -390,6 +392,9 @@ export function HireModal() {
                     </div>
                   </div>
 
+                  </div>
+                  {/* Email + Subject: stacked on mobile, side-by-side on desktop */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   {/* Your Email */}
                   <div>
                     <label htmlFor="hire-email" className="block text-xs font-semibold uppercase tracking-wider text-black/70 dark:text-white/70 mb-1">
@@ -434,6 +439,7 @@ export function HireModal() {
                     </div>
                   </div>
 
+                  </div>
                   {/* Details */}
                   <div>
                     <label htmlFor="hire-details" className="block text-xs font-semibold uppercase tracking-wider text-black/70 dark:text-white/70 mb-1">
