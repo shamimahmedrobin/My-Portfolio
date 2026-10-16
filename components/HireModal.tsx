@@ -231,7 +231,7 @@ export function HireModal() {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+        <div className="fixed inset-0 z-50 overflow-y-auto overscroll-contain">
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -242,6 +242,14 @@ export function HireModal() {
             aria-hidden="true"
           />
 
+          {/* Centering wrapper: min-h-full lets tall content scroll on short screens without clipping the top */}
+          <div
+            onClick={(e) => {
+              if (e.target === e.currentTarget) closeModal();
+            }}
+            className="relative z-10 flex min-h-full items-center justify-center p-4 pt-[max(1rem,env(safe-area-inset-top))] pr-[max(1rem,env(safe-area-inset-right))] pb-[max(1rem,env(safe-area-inset-bottom))] pl-[max(1rem,env(safe-area-inset-left))] sm:p-6"
+          >
+
           {/* Modal Dialog Card */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -251,18 +259,18 @@ export function HireModal() {
             className="relative w-full max-w-lg max-h-[90vh] sm:max-h-[92vh] bg-white dark:bg-[#0e1117] rounded-2xl sm:rounded-3xl shadow-2xl border border-black/10 dark:border-white/10 flex flex-col z-10 overflow-hidden"
           >
             {/* Modal Header */}
-            <div className="flex items-center justify-between px-4 sm:px-6 py-3.5 sm:py-4 border-b border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02]">
-              <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                <h3 className="text-sm sm:text-base font-bold text-black dark:text-white flex items-center gap-1.5">
-                  <Sparkles className="w-4 h-4 text-emerald-500" />
-                  Hire Me / Project Inquiry
+            <div className="flex items-center justify-between gap-2 px-4 sm:px-6 py-3.5 sm:py-4 border-b border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02]">
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="w-2.5 h-2.5 shrink-0 rounded-full bg-emerald-500 animate-pulse"></span>
+                <h3 className="text-sm sm:text-base font-bold text-black dark:text-white flex items-center gap-1.5 truncate">
+                  <Sparkles className="w-4 h-4 shrink-0 text-emerald-500" />
+                  <span className="truncate">Hire Me / Project Inquiry</span>
                 </h3>
               </div>
               <button
                 type="button"
                 onClick={closeModal}
-                className="p-1.5 sm:p-2 rounded-xl text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
+                className="p-1.5 sm:p-2 shrink-0 rounded-xl text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
                 aria-label="Close dialog"
               >
                 <X className="w-5 h-5" />
@@ -355,7 +363,7 @@ export function HireModal() {
                         value={formData.name}
                         onChange={handleChange}
                         placeholder="e.g. Shamim Ahmed Robin"
-                        className="w-full pl-10 pr-4 py-2 sm:py-2.5 rounded-xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 text-black dark:text-white placeholder-black/40 dark:placeholder-white/40 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+                        className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 text-black dark:text-white placeholder-black/40 dark:placeholder-white/40 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
                       />
                     </div>
                   </div>
@@ -377,7 +385,7 @@ export function HireModal() {
                         value={formData.phone}
                         onChange={handleChange}
                         placeholder="e.g. +880 1887-353914"
-                        className="w-full pl-10 pr-4 py-2 sm:py-2.5 rounded-xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 text-black dark:text-white placeholder-black/40 dark:placeholder-white/40 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+                        className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 text-black dark:text-white placeholder-black/40 dark:placeholder-white/40 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
                       />
                     </div>
                   </div>
@@ -399,7 +407,7 @@ export function HireModal() {
                         value={formData.email}
                         onChange={handleChange}
                         placeholder="e.g. client@example.com"
-                        className="w-full pl-10 pr-4 py-2 sm:py-2.5 rounded-xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 text-black dark:text-white placeholder-black/40 dark:placeholder-white/40 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+                        className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 text-black dark:text-white placeholder-black/40 dark:placeholder-white/40 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
                       />
                     </div>
                   </div>
@@ -421,7 +429,7 @@ export function HireModal() {
                         value={formData.subject}
                         onChange={handleChange}
                         placeholder="e.g. Full-Stack Web Application"
-                        className="w-full pl-10 pr-4 py-2 sm:py-2.5 rounded-xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 text-black dark:text-white placeholder-black/40 dark:placeholder-white/40 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+                        className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 text-black dark:text-white placeholder-black/40 dark:placeholder-white/40 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
                       />
                     </div>
                   </div>
@@ -443,7 +451,7 @@ export function HireModal() {
                         value={formData.details}
                         onChange={handleChange}
                         placeholder="Briefly describe your project requirements, goals, budget, or timeline..."
-                        className="w-full pl-10 pr-4 py-2 sm:py-2.5 rounded-xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 text-black dark:text-white placeholder-black/40 dark:placeholder-white/40 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all resize-none"
+                        className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 text-black dark:text-white placeholder-black/40 dark:placeholder-white/40 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all resize-none"
                       />
                     </div>
                   </div>
@@ -472,6 +480,7 @@ export function HireModal() {
               )}
             </div>
           </motion.div>
+          </div>
         </div>
       )}
     </AnimatePresence>
