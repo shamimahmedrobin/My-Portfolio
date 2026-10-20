@@ -5,9 +5,9 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ExternalLink, ArrowUpRight, Globe } from 'lucide-react';
 import Image from 'next/image';
 
-type Category = 'All' | 'E-commerce' | 'Landing Pages';
+type Category = 'All' | 'E-commerce' | 'Landing Pages' | 'Websites';
 
-const categories: Category[] = ['All', 'E-commerce', 'Landing Pages'];
+const categories: Category[] = ['All', 'E-commerce', 'Landing Pages', 'Websites'];
 
 const projects = [
   {
@@ -34,11 +34,21 @@ const projects = [
     id: 3,
     title: 'StyleSphere Boxer',
     description:
-      'Bengali single-product landing page for premium men\u2019s boxer underwear (3-piece combo offer) with cash-on-delivery ordering across Bangladesh.',
+      'Bengali single-product landing page for premium men’s boxer underwear (3-piece combo offer) with cash-on-delivery ordering across Bangladesh.',
     category: 'Landing Pages',
     tags: ['E-commerce', 'Landing Page', 'CRO'],
     liveUrl: 'https://boxer.stylesphere.com.bd/',
     image: '/images/projects/boxer.webp',
+  },
+  {
+    id: 4,
+    title: 'Mannanghat Cable Network',
+    description:
+      'A fast, framework-free website for a local fiber internet provider — package pricing, bKash bill payment, a built-in speed test and a WhatsApp-powered new-connection form.',
+    category: 'Websites',
+    tags: ['HTML/CSS', 'JavaScript', 'Web Design'],
+    liveUrl: 'https://mcnetwork.online/',
+    image: '/images/projects/mcnetwork.webp',
   },
 ];
 
