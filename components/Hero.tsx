@@ -119,19 +119,25 @@ export function Hero() {
               className="object-cover hover:scale-105 transition-transform duration-700"
             />
             
-            {/* Floating Badge overlay */}
+            {/* Founder Strip (bottom, inside photo) */}
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.8 }}
-              className="absolute bottom-6 left-0 sm:-left-6 glass-card px-4 py-3 rounded-2xl shadow-xl border border-white/20 flex items-center gap-3 backdrop-blur-md"
+              className="absolute left-3 right-3 bottom-3 sm:left-4 sm:right-4 sm:bottom-4 flex items-center gap-3 px-3.5 py-3 rounded-2xl bg-white/70 dark:bg-black/45 backdrop-blur-md shadow-xl border border-black/10 dark:border-white/25 ring-1 ring-white/50 dark:ring-white/10"
             >
-              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-600 to-emerald-500 flex items-center justify-center text-white font-bold text-lg">
-                🚀
+              <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden bg-white shrink-0 ring-1 ring-black/10 dark:ring-white/25">
+                <Image
+                  src="/images/stylesphere-logo.png"
+                  alt="StyleSphere logo"
+                  fill
+                  sizes="44px"
+                  className="object-cover"
+                />
               </div>
-              <div className="text-sm text-left">
-                <p className="font-bold text-black dark:text-white leading-tight">Web &</p>
-                <p className="text-black/80 dark:text-white/80 leading-tight">Marketing</p>
+              <div className="text-sm text-left min-w-0">
+                <p className="font-bold text-black dark:text-white leading-tight truncate">Founder, StyleSphere</p>
+                <p className="text-black/70 dark:text-white/70 leading-tight truncate">Web Developer & Marketer</p>
               </div>
             </motion.div>
           </div>
