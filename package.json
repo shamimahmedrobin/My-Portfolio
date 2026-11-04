@@ -1,5 +1,5 @@
 {
-  "name": "ai-studio-applet",
+  "name": "my-portfolio",
   "version": "0.1.0",
   "private": true,
   "engines": {
@@ -13,7 +13,6 @@
     "clean": "next clean"
   },
   "dependencies": {
-    "@google/genai": "^2.4.0",
     "@hookform/resolvers": "^5.2.1",
     "@supabase/supabase-js": "^2.116.0",
     "autoprefixer": "^10.4.21",
