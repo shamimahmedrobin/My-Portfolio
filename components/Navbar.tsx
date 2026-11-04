@@ -7,6 +7,7 @@ import { flushSync } from 'react-dom';
 import { useTheme } from 'next-themes';
 import { Moon, Sun, Menu, X, Github, Linkedin, Facebook, Twitter, Sparkles, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { UpworkIcon } from './UpworkIcon';
 
 const navLinks = [
   { name: 'About', href: '/#about' },
@@ -396,6 +397,7 @@ export function Navbar() {
                 {[
                   { icon: Github, href: 'https://github.com/shamimahmedrobin', label: 'GitHub' },
                   { icon: Linkedin, href: 'https://www.linkedin.com/in/shamimahmedrobin', label: 'LinkedIn' },
+                  { icon: UpworkIcon, href: 'https://www.upwork.com/freelancers/~01e3a92dde34be0904?mp_source=share', label: 'Upwork' },
                   { icon: Facebook, href: 'https://www.facebook.com/shamimahmedrobin2', label: 'Facebook' },
                   { icon: Twitter, href: 'https://x.com/ShamimRobin10', label: 'X (Twitter)' },
                 ].map((social, index) => (
