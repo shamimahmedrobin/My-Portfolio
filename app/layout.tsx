@@ -4,7 +4,7 @@ import { ThemeProvider } from '@/components/ThemeProvider';
 import { ResumeModal } from '@/components/ResumeModal';
 import { HireModal } from '@/components/HireModal';
 
-const siteUrl = process.env.APP_URL || 'https://shamimahmedrobin.vercel.app';
+const siteUrl = process.env.APP_URL || 'https://shamimahmedrobin.is-a.dev';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

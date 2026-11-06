@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: 'About | Shamim Ahmed Robin',
   description: 'Learn about Shamim Ahmed Robin, background, career journey in web development and social media management.',
   alternates: {
-    canonical: 'https://shamimahmedrobin.vercel.app/about',
+    canonical: '/about',
   },
 };
 

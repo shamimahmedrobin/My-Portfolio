@@ -6,7 +6,7 @@ import type { MetadataRoute } from 'next';
 const lastModified = new Date('2026-10-15');
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.APP_URL || 'https://shamimahmedrobin.vercel.app';
+  const baseUrl = process.env.APP_URL || 'https://shamimahmedrobin.is-a.dev';
 
   return [
     {

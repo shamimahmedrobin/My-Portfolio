@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: 'Skills | Shamim Ahmed Robin',
   description: 'Technical and digital marketing skills of Shamim Ahmed Robin, including React, Next.js, TypeScript, Tailwind CSS, and Meta Ads.',
   alternates: {
-    canonical: 'https://shamimahmedrobin.vercel.app/skills',
+    canonical: '/skills',
   },
 };
 
