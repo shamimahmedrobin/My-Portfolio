@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: 'Projects | Shamim Ahmed Robin',
   description: 'Featured projects and live web applications built by Shamim Ahmed Robin, Professional Web Developer.',
   alternates: {
-    canonical: 'https://shamimahmedrobin.vercel.app/projects',
+    canonical: '/projects',
   },
 };
 
